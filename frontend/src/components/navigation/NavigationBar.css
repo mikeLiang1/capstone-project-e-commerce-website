@@ -1,0 +1,37 @@
+.nav-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-height: 70px;
+}
+
+.nav-links-left {
+    padding-left: 0;
+    width: 400px;
+    text-align: left;
+}
+
+.nav-links-right {
+    padding-left: 0;
+    width: 400px;
+    text-align: right;
+}
+
+.nav-link {
+    list-style: none;
+    text-decoration: none;
+    color: var(--primary-colour-black);
+    padding: 0px 10px;
+    display: inline-block;
+}
+
+.nav-link:hover {
+    color: var(--secondary-colour-orange);
+}
+
+.brand-name {
+    font-family: var(--brand-font);
+    font-size: var(--title-font-size);
+    font-weight: var(--bold-font-weight);
+    text-align: center;
+}

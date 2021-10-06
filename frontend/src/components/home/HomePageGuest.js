@@ -1,6 +1,6 @@
 import React from 'react'
 
-import "./HomeGuest.css"
+import "./HomePageGuest.css"
 
 const HomeGuest = () => {
     return (

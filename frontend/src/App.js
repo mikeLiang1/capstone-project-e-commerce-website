@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import HomePageGuest from './components/home/HomePageGuest';
 import NavigationBar from './components/navigation/NavigationBar';
+import AddProductPage from './components/add-products/AddProductPage';
 import LoginPage from './components/user-account/LoginPage';
 import RegisterPage from './components/user-account/RegisterPage';
 
@@ -10,11 +11,12 @@ function App() {
   return (
     <div>
       <Router>
-        <NavigationBar/>
+        <NavigationBar />
         <Switch>
-          <Route path="/" exact component={HomePageGuest}/>
-          <Route path="/login" exact component={LoginPage}/>
-          <Route path="/register" exact component={RegisterPage}/>
+          <Route path='/addproduct' exact component={AddProductPage} />
+          <Route path='/' exact component={HomePageGuest} />
+          <Route path='/login' exact component={LoginPage} />
+          <Route path='/register' exact component={RegisterPage} />
         </Switch>
       </Router>
     </div>

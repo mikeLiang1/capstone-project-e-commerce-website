@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import "./NavigationBar.css"
 
-const NavigationBar = () => {
+function NavigationBar() {
     return (
         <div class="nav-menu">
             <ul class="nav-links-left">

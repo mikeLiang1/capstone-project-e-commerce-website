@@ -4,7 +4,7 @@ import TextButton from "../buttons-and-sections/TextButton.js"
 
 import './LoginPage.css';
 
-const Login = () => {
+function Login() {
   return (
     <div class='login-register-section'>
       <form class='login-section' method='POST'>

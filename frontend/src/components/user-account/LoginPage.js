@@ -1,8 +1,8 @@
 import React from 'react';
-// import Button from '../buttons-and-sections/Button';
-import { Button } from '@material-ui/core';
 
-import './Login.css';
+import TextButton from "../buttons-and-sections/TextButton.js"
+
+import './LoginPage.css';
 
 const Login = () => {
   return (
@@ -34,10 +34,7 @@ const Login = () => {
           />
         </div>
         <br />
-        <Button variant='outlined'>Outlined</Button>
-        <button type='submit' class='btn btn-primary'>
-          Log In
-        </button>
+        <TextButton buttonName="Sign In" buttonType="submit"/>
       </form>
       <div class='register-section'>
         <h2>REGISTER</h2>

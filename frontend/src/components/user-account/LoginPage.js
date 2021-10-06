@@ -1,7 +1,8 @@
 import React from 'react';
 
+import TextButton from "../buttons-and-sections/TextButton.js"
+
 import './LoginPage.css';
-import TextButton from '../buttons-and-sections/TextButton.js';
 
 const Login = () => {
   return (
@@ -33,7 +34,7 @@ const Login = () => {
           />
         </div>
         <br />
-        <TextButton buttonName="Sign In"/>
+        <TextButton buttonName="Sign In" buttonType="submit"/>
       </form>
       <div class='register-section'>
         <h2>REGISTER</h2>

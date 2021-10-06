@@ -5,16 +5,18 @@ import HomeGuest from './components/home/HomeGuest';
 import NavigationBar from './components/navigation/NavigationBar';
 import Login from './components/user-account/Login';
 import Register from './components/user-account/Register';
+import AddProductPage from './components/add-products/AddProductPage';
 
 function App() {
   return (
     <div>
       <Router>
-        <NavigationBar/>
+        <NavigationBar />
         <Switch>
-          <Route path="/" exact component={HomeGuest}/>
-          <Route path="/login" exact component={Login}/>
-          <Route path="/register" exact component={Register}/>
+          <Route path='/' exact component={HomeGuest} />
+          <Route path='/login' exact component={Login} />
+          <Route path='/register' exact component={Register} />
+          <Route path='/addproduct' exact component={AddProductPage} />
         </Switch>
       </Router>
     </div>

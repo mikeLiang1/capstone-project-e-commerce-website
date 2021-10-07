@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_restful import Api, Resource, reqparse
 from firebase_admin import credentials, firestore, initialize_app
+from firebase_admin import auth
 
 from modules.HelloWorld import HelloWorld
 
@@ -96,7 +97,22 @@ registerParser.add_argument('password', type=str, help='Password required', requ
 class Register(Resource):
     def post(self):
         args = registerParser.parse_args()
-        return {"message" : args}
+        
+        # Verify inputs are valid
+        
+        user = auth.create_user(email = args.email, password = args.password, display_name = args.fname)
+        
+        # Put user information into database
+        doc_ref = db.collection(u'users').document(user.uid)
+        doc_ref.set({
+            u'first': args.fname,
+            u'last': args.lname,
+            u'address': None,
+            u'purchase history': [],
+            u'admin': False
+        })
+        
+        return {"message" : "User created succesffuly : {0}".format(user.uid)}
 
 api.add_resource(HelloWorld, "/helloworld/<string:name>")
 api.add_resource(FireTest, "/firetest")

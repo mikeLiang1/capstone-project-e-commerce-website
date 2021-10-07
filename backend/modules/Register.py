@@ -3,6 +3,8 @@ from flask_restful import Api, Resource, reqparse
 from firebase_admin import credentials, firestore, initialize_app
 from firebase_admin import auth
 
+import re
+
 # Initialize Firestore DB
 cred = credentials.Certificate('key.json')
 default_app = initialize_app(cred, name='register')
@@ -15,10 +17,16 @@ registerParser.add_argument('email', type=str, help='Email required', required=T
 registerParser.add_argument('password', type=str, help='Password required', required=True)
 
 class Register(Resource):
+    
+    # Sign in with email, password, first name and last name
+    # Returns a token 
     def post(self):
         args = registerParser.parse_args()
         
-        # TODO: Verify valid inputs
+        # Check if email has @
+        
+        if not re.match(r"[^@]+@[^@]+\.[^@]+", args.email):
+            return {"message": "Email is not valid"}, 400
         
         user = auth.create_user(email = args.email, password = args.password, display_name = args.fname)
         
@@ -34,4 +42,7 @@ class Register(Resource):
             u'admin': False
         })
         
-        return {"message" : "User created succesffuly : {0}".format(user.uid)}
+        # When registered, you are signed in
+        token = auth.create_custom_token(user.uid)
+        
+        return {"message" : "User created succesffuly", "id" : user.uid, "token": token.decode("utf-8")}

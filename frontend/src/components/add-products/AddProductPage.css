@@ -1,0 +1,8 @@
+#AddProductPage {
+  margin: 10px;
+}
+
+#AddProductPage-flexbox {
+  display: flex;
+  flex-direction: column;
+}

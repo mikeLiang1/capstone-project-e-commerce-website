@@ -1,14 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import TextButton from '../buttons-and-sections/TextButton.js';
 
-import "./LoginPage.css"
+import './LoginPage.css';
 
 function LoginPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const loginRequest = (e) => {
+    // Prevents the default action of the page refreshing
+    e.preventDefault();
+    const loginDetails = { email, password };
+  };
+
   return (
     <div className='LoginPage'>
-      <form className='LoginPage-login-section' method='POST'>
+      <form className='LoginPage-login-section' onSubmit={loginRequest}>
         <h2>LOGIN</h2>
         <div className='LoginPage-form-group'>
           <label className='LoginPage-form-label' for='email'>
@@ -17,9 +26,9 @@ function LoginPage() {
           <input
             className='LoginPage-form-control'
             type='email'
-            id='email'
-            name='email'
             placeholder='Enter Email'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className='LoginPage-form-group'>
@@ -29,9 +38,9 @@ function LoginPage() {
           <input
             className='LoginPage-form-control'
             type='password'
-            id='password'
-            name='password'
             placeholder='Enter Password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <br />

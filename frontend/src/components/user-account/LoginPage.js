@@ -7,27 +7,27 @@ import "./LoginPage.css"
 
 function LoginPage() {
   return (
-    <div className='login-page'>
-      <form className='login-section' method='POST'>
+    <div className='LoginPage'>
+      <form className='LoginPage-login-section' method='POST'>
         <h2>LOGIN</h2>
-        <div className='form-group'>
-          <label className='form-label' for='email'>
+        <div className='LoginPage-form-group'>
+          <label className='LoginPage-form-label' for='email'>
             Email Address
           </label>
           <input
-            className='form-control'
+            className='LoginPage-form-control'
             type='email'
             id='email'
             name='email'
             placeholder='Enter Email'
           />
         </div>
-        <div className='form-group'>
-          <label className='form-label' for='password'>
+        <div className='LoginPage-form-group'>
+          <label className='LoginPage-form-label' for='password'>
             Password
           </label>
           <input
-            className='form-control'
+            className='LoginPage-form-control'
             type='password'
             id='password'
             name='password'
@@ -37,14 +37,14 @@ function LoginPage() {
         <br />
         <TextButton buttonName='Sign In' buttonType='submit' />
       </form>
-      <div className='register-section'>
+      <div className='LoginPage-register-section'>
         <h2>REGISTER</h2>
         <p>
           Register an account with{' '}
           <span style={{ color: '#FF7A00' }}>NOCTA TECHNOLOGY</span> for a more
           personalised experience.
         </p>
-        <Link to='/register' className='link'>
+        <Link to='/register' className='LoginPage-register-link'>
           <TextButton buttonName='Register' buttonType='button' />
         </Link>
       </div>

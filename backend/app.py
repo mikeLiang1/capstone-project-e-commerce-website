@@ -2,7 +2,7 @@ from flask import Flask
 from flask_restful import Api, Resource, reqparse, abort
 from firebase_admin import credentials, firestore, initialize_app
 
-from modules.HelloWorld import HelloWorld
+from modules.Product import Product
 
 app = Flask(__name__)
 api = Api(app)
@@ -99,45 +99,6 @@ class Register(Resource):
         return {"message" : args}
 
 
-productParser = reqparse.RequestParser()
-productParser.add_argument('name', type=str, help='Product name required', required=True)
-productParser.add_argument('image', type=str, help='Product image required', required=True)
-productParser.add_argument('price', type=float, help='Product price required', required=True)
-productParser.add_argument('reviews', type=list)
-productParser.add_argument('description', type=str, help='Product description required', required=True)
-productParser.add_argument('tags', type=list) #required? or can just pass empty list?
-productParser.add_argument('original_stock', type=int, help='Product original stock required', required=True)
-productParser.add_argument('current_stock', type=int) #required?
-
-class Product(Resource):
-    # add product
-    def post(self, product_id):
-        # make abort_if_product_exists
-        doc_ref = db.collection(u'products').document(product_id)   #?
-        args = productParser.parse_args()
-        doc_ref.set({
-            u'name': args['name'],
-            u'image': args['image'],
-            u'price': args['price'],
-            u'reviews': args['reviews'],
-            u'description': args['description'],
-            u'tags': args['tags'],
-            u'original_stock': args['original_stock'],
-            u'current_stock': args['current_stock']
-        })
-
-        return {"message" : "Success"}
-    
-    # edit product
-    # def put
-
-    # get product info
-    # def get
-
-
-
-
-api.add_resource(HelloWorld, "/helloworld/<string:name>")
 api.add_resource(FireTest, "/firetest")
 api.add_resource(Register, "/auth/register")
 api.add_resource(Product, "/product/<string:product_id>")

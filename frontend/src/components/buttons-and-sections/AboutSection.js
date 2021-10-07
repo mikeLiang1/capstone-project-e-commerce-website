@@ -6,9 +6,10 @@ function AboutSection() {
     return (
         <div class="AboutSection">
             <h1>EST. 2021</h1>
+            <br></br>
             <p><span style={{color: "#FF7A00"}}>NOCTA TECHNOLOGY</span> is a brand dedicated to offering the highest quality
             technology software and hardware from a variety of partnered brands, including Apple, Microsoft, Samsung, Sony,
-            LG, and more... </p>
+            LG, and more...</p>
         </div>
     )
 }

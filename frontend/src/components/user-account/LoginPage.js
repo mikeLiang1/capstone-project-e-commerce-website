@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import TextButton from "../buttons-and-sections/TextButton.js"
 
-import login from './LoginPage.css';
+import "./LoginPage.css"
 
 function LoginPage() {
   return (

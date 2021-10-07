@@ -8,7 +8,7 @@ function HomePageGuest() {
     return (
         <div class="HomePageGuest">
             <div class="HomePageGuest-image-container">
-                <img src={HomePageImage} class="HomePageGuest-image"></img>
+                <img src={HomePageImage} class="HomePageGuest-image" alt="Nocta Technology Background Image"></img>
             </div>
             <AboutSection/>
         </div>

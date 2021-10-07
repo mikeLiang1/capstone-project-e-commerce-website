@@ -30,7 +30,7 @@ function RegisterPage() {
                 <TextButton buttonName="Register" buttonType="submit"/>
             </form>
             <div>
-                <img class="RegisterPage-image" src={RegisterPageImage}></img>
+                <img class="RegisterPage-image" src={RegisterPageImage} alt="Nocta Technology Register Page Image"></img>
             </div>
         </div>
     )

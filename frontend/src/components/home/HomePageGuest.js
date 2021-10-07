@@ -1,11 +1,12 @@
 import React from 'react'
 
 import "./HomePageGuest.css"
+import HomePageImage from "../../images/HomePageImage.png"
 
 function HomeGuest() {
     return (
-        <div>
-            <p class="center">This is the home page of a guest</p>
+        <div class="home-page-guest">
+            <img src={HomePageImage} class="home-page-image"></img>
         </div>
     )
 }

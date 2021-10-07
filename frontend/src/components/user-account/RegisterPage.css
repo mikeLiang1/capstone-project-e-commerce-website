@@ -4,6 +4,22 @@
     padding-top: 150px;
 }
 
+.register-page-form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.register-page-form-label {
+    padding: 8px 0;
+}
+
+.register-page-form-control {
+    align-items: center;
+    height: 24px;
+    border-radius: 8px;
+    width: 350px;
+}
+
 .register-page-image {
     height: 400px;
     border-radius: 16px;

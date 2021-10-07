@@ -4,35 +4,32 @@
     padding-top: 150px;
 }
 
-.login-section {
+.login-page-login-section {
     width: 500px;
     padding: 8px 8px;
 }
 
-.register-section {
+.login-page-register-section {
     width: 500px;
     padding: 8px 8px;
 }
 
-.form-group {
+.login-page-form-group {
     display: flex;
     flex-direction: column;
 }
 
-.form-label {
+.login-page-form-label {
     padding: 8px 0;
 }
 
-.form-control {
+.login-page-form-control {
+    align-items: center;
     height: 24px;
     border-radius: 8px;
     width: 350px;
 }
 
-.form-control {
-    align-items: center;
-}
-
-.link {
+.login-page-register-link {
     text-decoration: none;
 }

@@ -1,12 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import TextButton from "../buttons-and-sections/TextButton.js"
 
 import './LoginPage.css';
 
-const Login = () => {
+function Login() {
   return (
-    <div class='login-register-section'>
+    <div class='login-page'>
       <form class='login-section' method='POST'>
         <h2>LOGIN</h2>
         <div class='form-group'>
@@ -43,6 +44,9 @@ const Login = () => {
           <span style={{ color: '#FF7A00' }}>NOCTA TECHNOLOGY</span> for a more
           personalised experience.
         </p>
+        <Link to="/register" class="link">
+          <TextButton buttonName="Register" buttonType="button"/>
+        </Link>
       </div>
     </div>
   );

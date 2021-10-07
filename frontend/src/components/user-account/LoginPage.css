@@ -1,4 +1,4 @@
-.login-register-section {
+.login-page {
     display: flex;
     justify-content: space-evenly;
     padding-top: 150px;
@@ -31,4 +31,8 @@
 
 .form-control {
     align-items: center;
+}
+
+.link {
+    text-decoration: none;
 }

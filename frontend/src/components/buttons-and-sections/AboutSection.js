@@ -4,7 +4,7 @@ import "./AboutSection.css"
 
 function AboutSection() {
     return (
-        <div class="about-section">
+        <div class="AboutSection">
             <h1>EST. 2021</h1>
             <p><span style={{color: "#FF7A00"}}>NOCTA TECHNOLOGY</span></p>
         </div>

@@ -1,35 +1,35 @@
-.login-page {
+.LoginPage {
     display: flex;
     justify-content: space-evenly;
     padding-top: 150px;
 }
 
-.login-page-login-section {
+.LoginPage-login-section {
     width: 500px;
     padding: 8px 8px;
 }
 
-.login-page-register-section {
+.LoginPage-register-section {
     width: 500px;
     padding: 8px 8px;
 }
 
-.login-page-form-group {
+.LoginPage-form-group {
     display: flex;
     flex-direction: column;
 }
 
-.login-page-form-label {
+.LoginPage-form-label {
     padding: 8px 0;
 }
 
-.login-page-form-control {
+.LoginPage-form-control {
     align-items: center;
     height: 24px;
     border-radius: 8px;
     width: 350px;
 }
 
-.login-page-register-link {
+.LoginPage-register-link {
     text-decoration: none;
 }

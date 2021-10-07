@@ -1,23 +1,23 @@
-.navigation-bar-menu {
+.NavigationBar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     max-height: 70px;
 }
 
-.navigation-bar-links-left {
+.NavigationBar-links-left {
     padding-left: 0;
     width: 400px;
     text-align: left;
 }
 
-.navigation-bar-links-right {
+.NavigationBar-links-right {
     padding-left: 0;
     width: 400px;
     text-align: right;
 }
 
-.navigation-bar-link {
+.NavigationBar-link {
     list-style: none;
     text-decoration: none;
     color: var(--primary-colour-black);
@@ -25,11 +25,11 @@
     display: inline-block;
 }
 
-.navigation-bar-link:hover {
+.NavigationBar-link:hover {
     color: var(--secondary-colour-orange);
 }
 
-.navigation-bar-brand-name {
+.NavigationBar-brand-name {
     font-family: var(--brand-font);
     font-size: var(--title-font-size);
     font-weight: var(--bold-font-weight);

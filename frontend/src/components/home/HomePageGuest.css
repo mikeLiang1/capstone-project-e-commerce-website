@@ -1,9 +1,9 @@
-.home-page-image-container {
+.HomePageGuest-image-container {
     overflow: hidden;
     display: flex;
 }
 
-.home-page-image {
+.HomePageGuest-image {
     width: 100%;
     align-self: center;
 }

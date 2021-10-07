@@ -5,21 +5,24 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-export default function BasicSelect() {
-  const [category, setCategory] = React.useState('');
+export default function BasicSelect({ list }) {
+  const [choice, setChoice] = React.useState('');
 
   const handleChange = (event) => {
-    setCategory(event.target.value);
+    console.log(event.target.value);
+    setChoice(event.target.value);
   };
 
   return (
     <Box sx={{ maxWidth: 130 }}>
       <FormControl fullWidth>
         <InputLabel>Category</InputLabel>
-        <Select value={category} label='category' onChange={handleChange}>
-          <MenuItem value={1}>Phone</MenuItem>
-          <MenuItem value={2}>Computer</MenuItem>
-          <MenuItem value={3}>Pheripheral</MenuItem>
+        <Select value={choice} label='category' onChange={handleChange}>
+          <div>
+            {list.map((val, key) => {
+              return <MenuItem value={val}>{val}</MenuItem>;
+            })}
+          </div>
         </Select>
       </FormControl>
     </Box>

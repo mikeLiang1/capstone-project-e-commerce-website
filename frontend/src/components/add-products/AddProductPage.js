@@ -9,7 +9,7 @@ function AddProductPage() {
 
   return (
     <div id='AddProductPage'>
-      <BasicSelect list={categoryList} />
+      <BasicSelect name='Category' list={categoryList} />
       <div id='AddProductPage-flexbox'>
         <div>hello</div>
         <div>world</div>

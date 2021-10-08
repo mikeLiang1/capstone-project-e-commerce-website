@@ -13,12 +13,19 @@ function LoginPage() {
     // Prevents the default action of the page refreshing
     e.preventDefault();
     const loginDetails = { email, password };
+
+    // Send request to backend
+    fetch('http://127.0.0.1:5000/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(loginDetails),
+    });
   };
 
   return (
     <div className='LoginPage'>
       <form className='LoginPage-login-section' onSubmit={loginRequest}>
-        <h2>LOGIN</h2>
+        <h3>LOGIN</h3>
         <div className='LoginPage-form-group'>
           <label className='LoginPage-form-label' for='email'>
             Email Address
@@ -47,7 +54,7 @@ function LoginPage() {
         <TextButton buttonName='Sign In' buttonType='submit' />
       </form>
       <div className='LoginPage-register-section'>
-        <h2>REGISTER</h2>
+        <h3>REGISTER</h3>
         <p>
           Register an account with{' '}
           <span style={{ color: '#FF7A00' }}>NOCTA TECHNOLOGY</span> for a more

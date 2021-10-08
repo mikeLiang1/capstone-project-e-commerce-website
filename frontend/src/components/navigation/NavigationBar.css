@@ -1,37 +1,37 @@
 .NavigationBar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-height: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-height: 70px;
 }
 
 .NavigationBar-links-left {
-    padding-left: 0;
-    width: 400px;
-    text-align: left;
+  padding-left: 0;
+  width: 400px;
+  text-align: left;
 }
 
 .NavigationBar-links-right {
-    padding-left: 0;
-    width: 400px;
-    text-align: right;
+  padding-left: 0;
+  width: 400px;
+  text-align: right;
 }
 
 .NavigationBar-link {
-    list-style: none;
-    text-decoration: none;
-    color: var(--primary-colour-black);
-    padding: 0px 10px;
-    display: inline-block;
+  list-style: none;
+  text-decoration: none;
+  color: var(--primary-colour-black);
+  padding: 0px 10px;
+  display: inline-block;
 }
 
 .NavigationBar-link:hover {
-    color: var(--secondary-colour-orange);
+  color: var(--secondary-colour-orange);
 }
 
 .NavigationBar-brand-name {
-    font-family: var(--brand-font);
-    font-size: var(--title-font-size);
-    font-weight: var(--bold-font-weight);
-    text-align: center;
+  font-family: var(--brand-font);
+  font-size: var(--title-font-size);
+  font-weight: var(--bold-font-weight);
+  text-align: center;
 }

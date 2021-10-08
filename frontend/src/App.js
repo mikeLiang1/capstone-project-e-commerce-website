@@ -6,6 +6,7 @@ import NavigationBar from './components/navigation/NavigationBar';
 import AddProductPage from './components/add-products/AddProductPage';
 import LoginPage from './components/user-account/LoginPage';
 import RegisterPage from './components/user-account/RegisterPage';
+import Footer from './components/footer/Footer';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path='/login' exact component={LoginPage} />
           <Route path='/register' exact component={RegisterPage} />
         </Switch>
+        {/* <Footer /> */}
       </Router>
     </div>
   );

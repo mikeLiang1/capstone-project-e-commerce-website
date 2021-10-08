@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import './RegisterPage.css';
 import TextButton from '../buttons-and-sections/TextButton.js';
@@ -6,20 +6,39 @@ import TextButton from '../buttons-and-sections/TextButton.js';
 import RegisterPageImage from '../../images/RegisterPageImage.png';
 
 function RegisterPage() {
+  const [email, setEmail] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [password, setPassword] = useState('');
+
+  const registerRequest = (e) => {
+    // Prevents the default action of the page refreshing
+    e.preventDefault();
+
+    // Send request to the backend
+    const registerDetails = { email, firstName, lastName, password };
+
+    fetch('http://127.0.0.1:5000/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(registerDetails),
+    }).then();
+  };
+
   return (
     <div className='RegisterPage'>
-      <form action='http://127.0.0.1:5000/sign-up' method='POST'>
-        <h2 align='center'>REGISTER</h2>
+      <form onSubmit={registerRequest}>
+        <h3>REGISTER</h3>
         <div className='RegisterPage-form-group'>
           <label className='RegisterPage-form-label' for='email'>
             Email Address
           </label>
           <input
-            type='email'
             className='RegisterPage-form-control'
-            id='email'
-            name='email'
+            type='email'
             placeholder='Enter Email'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className='RegisterPage-form-group'>
@@ -27,11 +46,23 @@ function RegisterPage() {
             First Name
           </label>
           <input
-            type='text'
             className='RegisterPage-form-control'
-            id='firstName'
-            name='firstName'
+            type='text'
             placeholder='Enter First Name'
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+        </div>
+        <div className='RegisterPage-form-group'>
+          <label className='RegisterPage-form-label' for='firstName'>
+            Last Name
+          </label>
+          <input
+            className='RegisterPage-form-control'
+            type='text'
+            placeholder='Enter Last Name'
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
           />
         </div>
         <div className='RegisterPage-form-group'>
@@ -39,23 +70,11 @@ function RegisterPage() {
             Password
           </label>
           <input
-            type='password'
             className='RegisterPage-form-control'
-            id='password1'
-            name='password1'
+            type='password'
             placeholder='Enter Password'
-          />
-        </div>
-        <div className='RegisterPage-form-group'>
-          <label className='RegisterPage-form-label' for='password2'>
-            Password (Confirm)
-          </label>
-          <input
-            type='password'
-            className='RegisterPage-form-control'
-            id='password2'
-            nam--e='password2'
-            placeholder='Enter Password Again'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <br />

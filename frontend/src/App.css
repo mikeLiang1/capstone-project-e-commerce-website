@@ -19,20 +19,27 @@
 
   /*========== COLOURS ==========*/
   --primary-colour-black: #000000;
-  --primary-colour-white: #FFFFFF;
-  --secondary-colour-orange: #FF7A00;
+  --primary-colour-white: #ffffff;
+  --secondary-colour-orange: #ff7a00;
 }
 
 /*==================== BASE ====================*/
 
 h1 {
   font-family: var(--body-font);
-  font-size: var(--heading-font-size);
+  font-size: var(--title-font-size);
   font-weight: var(--bold-font-weight);
   text-align: center;
 }
 
 h2 {
+  font-family: var(--body-font);
+  font-size: var(--heading-font-size);
+  font-weight: var(--bold-font-weight);
+  text-align: center;
+}
+
+h3 {
   font-family: var(--body-font);
   font-size: var(--heading-font-size);
   font-weight: var(--bold-font-weight);

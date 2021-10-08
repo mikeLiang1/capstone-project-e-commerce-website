@@ -22,7 +22,7 @@ export default function BasicTextFields({ textName }) {
         id='outlined-multiline-flexible'
         label={textName}
         multiline
-        maxRows={4}
+        maxRows={8}
         value={value}
         onChange={handleChange}
       />

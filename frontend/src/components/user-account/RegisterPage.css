@@ -1,26 +1,15 @@
 .RegisterPage {
-    display: flex;
-    justify-content: space-evenly;
-    padding-top: 150px;
+  display: flex;
+  justify-content: space-evenly;
+  padding-top: 150px;
 }
 
 .RegisterPage-form-group {
-    display: flex;
-    flex-direction: column;
-}
-
-.RegisterPage-form-label {
-    padding: 8px 0;
-}
-
-.RegisterPage-form-control {
-    align-items: center;
-    height: 24px;
-    border-radius: 8px;
-    width: 350px;
+  display: flex;
+  flex-direction: column;
 }
 
 .RegisterPage-image {
-    height: 400px;
-    border-radius: 16px;
+  height: 400px;
+  border-radius: 16px;
 }

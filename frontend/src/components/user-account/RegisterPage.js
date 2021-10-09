@@ -40,56 +40,31 @@ function RegisterPage() {
       <form onSubmit={registerRequest}>
         <h3>REGISTER</h3>
         <div className='RegisterPage-form-group'>
-          <label className='RegisterPage-form-label' for='email'>
-            Email Address
-          </label>
           <BasicTextField
             textName='Email'
             value={email}
             handleChange={(e) => setEmail(e.target.value)}
           />
-          {/* <input
-            className='RegisterPage-form-control'
-            type='email'
-            placeholder='Enter Email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          /> */}
         </div>
         <div className='RegisterPage-form-group'>
-          <label className='RegisterPage-form-label' for='firstName'>
-            First Name
-          </label>
-          <input
-            className='RegisterPage-form-control'
-            type='text'
-            placeholder='Enter First Name'
+          <BasicTextField
+            textName='First Name'
             value={fname}
-            onChange={(e) => setFirstName(e.target.value)}
+            handleChange={(e) => setFirstName(e.target.value)}
           />
         </div>
         <div className='RegisterPage-form-group'>
-          <label className='RegisterPage-form-label' for='firstName'>
-            Last Name
-          </label>
-          <input
-            className='RegisterPage-form-control'
-            type='text'
-            placeholder='Enter Last Name'
+          <BasicTextField
+            textName='Last Name'
             value={lname}
-            onChange={(e) => setLastName(e.target.value)}
+            handleChange={(e) => setLastName(e.target.value)}
           />
         </div>
         <div className='RegisterPage-form-group'>
-          <label className='RegisterPage-form-label' for='password1'>
-            Password
-          </label>
-          <input
-            className='RegisterPage-form-control'
-            type='password'
-            placeholder='Enter Password'
+          <BasicTextField
+            textName='Password'
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            handleChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <br />

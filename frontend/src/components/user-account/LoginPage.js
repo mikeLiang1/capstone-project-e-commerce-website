@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import BasicTextField from '../buttons-and-sections/BasicTextField.js';
 
 import TextButton from '../buttons-and-sections/TextButton.js';
 
@@ -27,27 +28,17 @@ function LoginPage() {
       <form className='LoginPage-login-section' onSubmit={loginRequest}>
         <h3>LOGIN</h3>
         <div className='LoginPage-form-group'>
-          <label className='LoginPage-form-label' for='email'>
-            Email Address
-          </label>
-          <input
-            className='LoginPage-form-control'
-            type='email'
-            placeholder='Enter Email'
+          <BasicTextField
+            textName='Email'
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            handleChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className='LoginPage-form-group'>
-          <label className='LoginPage-form-label' for='password'>
-            Password
-          </label>
-          <input
-            className='LoginPage-form-control'
-            type='password'
-            placeholder='Enter Password'
+          <BasicTextField
+            textName='Password'
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            handleChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <br />

@@ -1,7 +1,6 @@
 from flask import Flask, app
 from flask_restful import Api, Resource, reqparse
 from firebase_admin import credentials, firestore, initialize_app
-from firebase_admin import auth
 
 # Initialize Firestore DB
 cred = credentials.Certificate('key.json')
@@ -22,4 +21,5 @@ class User(Resource):
             return doc.to_dict()
         else:
             return {"message": "User ID is not valid"}, 400
-        
+    
+    

@@ -6,6 +6,7 @@ import NavigationBar from './components/navigation/NavigationBar';
 import AddProductPage from './components/add-products/AddProductPage';
 import LoginPage from './components/user-account/LoginPage';
 import RegisterPage from './components/user-account/RegisterPage';
+import AdminDashboardPage from './components/admin-dashboard/AdminDashboardPage';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <NavigationBar />
         <Switch>
           <Route path='/addproduct' exact component={AddProductPage} />
+          <Route path='/admindash' exact component={AdminDashboardPage} />
           <Route path='/' exact component={HomePageGuest} />
           <Route path='/login' exact component={LoginPage} />
           <Route path='/register' exact component={RegisterPage} />

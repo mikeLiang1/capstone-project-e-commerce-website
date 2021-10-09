@@ -24,13 +24,14 @@ class Register(Resource):
         args = registerParser.parse_args()
         
         # Check if email has @
-        
         if not re.match(r"[^@]+@[^@]+\.[^@]+", args.email):
             return {"message": "Email is not valid"}, 400
         
-        user = auth.create_user(email = args.email, password = args.password, display_name = args.fname)
+        try:
+            user = auth.create_user(email = args.email, password = args.password, display_name = args.fname)
+        except Exception as exc:
+            return {"message": exc.code}, 400
         
-        # TODO: error handling
         
         # Put user information into database
         doc_ref = db.collection(u'users').document(user.uid)

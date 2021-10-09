@@ -4,6 +4,7 @@ import './RegisterPage.css';
 import TextButton from '../buttons-and-sections/TextButton.js';
 
 import RegisterPageImage from '../../images/RegisterPageImage.png';
+import BasicTextField from '../buttons-and-sections/BasicTextField';
 
 function RegisterPage() {
   const [email, setEmail] = useState('');
@@ -42,13 +43,18 @@ function RegisterPage() {
           <label className='RegisterPage-form-label' for='email'>
             Email Address
           </label>
-          <input
+          <BasicTextField
+            textName='Email'
+            value={email}
+            handleChange={(e) => setEmail(e.target.value)}
+          />
+          {/* <input
             className='RegisterPage-form-control'
             type='email'
             placeholder='Enter Email'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-          />
+          /> */}
         </div>
         <div className='RegisterPage-form-group'>
           <label className='RegisterPage-form-label' for='firstName'>

@@ -2,13 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
-export default function BasicTextFields({ textName }) {
-  const [value, setValue] = React.useState('');
-
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
-
+export default function BasicTextField({ textName, value, handleChange }) {
   return (
     <Box
       component='form'

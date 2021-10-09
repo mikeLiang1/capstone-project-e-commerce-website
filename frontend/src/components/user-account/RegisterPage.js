@@ -7,8 +7,8 @@ import RegisterPageImage from '../../images/RegisterPageImage.png';
 
 function RegisterPage() {
   const [email, setEmail] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [fname, setFirstName] = useState('');
+  const [lname, setLastName] = useState('');
   const [password, setPassword] = useState('');
 
   const registerRequest = (e) => {
@@ -16,13 +16,22 @@ function RegisterPage() {
     e.preventDefault();
 
     // Send request to the backend
-    const registerDetails = { email, firstName, lastName, password };
+    const registerDetails = { email, fname, lname, password };
 
-    fetch('http://127.0.0.1:5000/register', {
+    fetch('/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(registerDetails),
-    }).then();
+    })
+      .then((res) => {
+        if (res.ok) {
+          console.log('Okay');
+        } else {
+          console.log('Not Successful');
+        }
+        res.json();
+      })
+      .then((data) => console.log(data));
   };
 
   return (
@@ -49,7 +58,7 @@ function RegisterPage() {
             className='RegisterPage-form-control'
             type='text'
             placeholder='Enter First Name'
-            value={firstName}
+            value={fname}
             onChange={(e) => setFirstName(e.target.value)}
           />
         </div>
@@ -61,7 +70,7 @@ function RegisterPage() {
             className='RegisterPage-form-control'
             type='text'
             placeholder='Enter Last Name'
-            value={lastName}
+            value={lname}
             onChange={(e) => setLastName(e.target.value)}
           />
         </div>

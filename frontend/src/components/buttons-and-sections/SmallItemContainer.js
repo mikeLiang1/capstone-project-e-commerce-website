@@ -17,7 +17,7 @@ function SmallItemContainer({ itemName, imageUrl }) {
           backgroundColor: '#E8E8E8',
         }}
       >
-        <div class='SmallItemContainer-image-container'>
+        <div className='SmallItemContainer-image-container'>
           <img
             className='SmallItemContainer-image'
             src={imageUrl}

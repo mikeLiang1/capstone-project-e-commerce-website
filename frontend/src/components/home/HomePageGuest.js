@@ -7,11 +7,11 @@ import TrendingSection from '../buttons-and-sections/TrendingSection';
 
 function HomePageGuest() {
   return (
-    <div class='HomePageGuest'>
-      <div class='HomePageGuest-image-container'>
+    <div className='HomePageGuest'>
+      <div className='HomePageGuest-image-container'>
         <img
           src={HomePageImage}
-          class='HomePageGuest-image'
+          className='HomePageGuest-image'
           alt='Nocta Technology Background Image'
         ></img>
       </div>

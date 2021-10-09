@@ -16,7 +16,7 @@ function LargeItemContainer({ itemName, imageUrl }) {
           backgroundColor: '#E8E8E8',
         }}
       >
-        <div class='LargeItemContainer-image-container'>
+        <div className='LargeItemContainer-image-container'>
           <img
             className='LargeItemContainer-image'
             src={imageUrl}

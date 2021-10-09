@@ -4,6 +4,7 @@ from firebase_admin import credentials, firestore, initialize_app
 
 from modules.Register import Register
 from modules.User import User
+from modules.SignIn import SignIn
 
 app = Flask(__name__)
 api = Api(app)
@@ -34,7 +35,6 @@ api = Api(app)
         buy/product --> probably sprint 2
         
         auth/user 
-            post -> add user
             put -> edit user
             get -> get user info 
             
@@ -77,7 +77,8 @@ default_app = initialize_app(cred)
 db = firestore.client()
 
 api.add_resource(Register, "/auth/register")
-api.add_resource(User, "/user")
+api.add_resource(User, "/auth/user")
+api.add_resource(SignIn, "/auth/signin")
 
 
 if __name__ == "__main__":

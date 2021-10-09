@@ -19,6 +19,7 @@ config = {
   "storageBucket": "nocta-tech.appspot.com",
   "serviceAccount": "key.json"
 }
+
 firebase = pyrebase.initialize_app(config)
 authP = firebase.auth()
 
@@ -30,7 +31,7 @@ registerParser.add_argument('password', type=str, help='Password required', requ
 
 class Register(Resource):
     
-    # Sign in with email, password, first name and last name
+    # Register with email, password, first name and last name
     # Returns a token 
     def post(self):
         args = registerParser.parse_args()

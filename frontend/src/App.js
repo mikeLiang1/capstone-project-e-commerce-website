@@ -1,20 +1,22 @@
 import './App.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import HomeGuest from './components/home/HomeGuest';
+import HomePageGuest from './components/home/HomePageGuest';
 import NavigationBar from './components/navigation/NavigationBar';
-import Login from './components/user-account/Login';
-import Register from './components/user-account/Register';
+import AddProductPage from './components/add-products/AddProductPage';
+import LoginPage from './components/user-account/LoginPage';
+import RegisterPage from './components/user-account/RegisterPage';
 
 function App() {
   return (
     <div>
       <Router>
-        <NavigationBar/>
+        <NavigationBar />
         <Switch>
-          <Route path="/" exact component={HomeGuest}/>
-          <Route path="/login" exact component={Login}/>
-          <Route path="/register" exact component={Register}/>
+          <Route path='/addproduct' exact component={AddProductPage} />
+          <Route path='/' exact component={HomePageGuest} />
+          <Route path='/login' exact component={LoginPage} />
+          <Route path='/register' exact component={RegisterPage} />
         </Switch>
       </Router>
     </div>

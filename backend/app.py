@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_restful import Api, Resource, reqparse
 from firebase_admin import credentials, firestore, initialize_app
-from firebase_admin import auth
 
 from modules.Register import Register
 from modules.User import User

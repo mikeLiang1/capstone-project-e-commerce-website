@@ -1,6 +1,6 @@
 import React from 'react'
 
-const HomeUser = () => {
+function HomeUser() {
     return (
         <div>
             <p>This is the home page of a user</p>

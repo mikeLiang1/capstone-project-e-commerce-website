@@ -1,0 +1,10 @@
+.register-page {
+    display: flex;
+    justify-content: space-evenly;
+    padding-top: 150px;
+}
+
+.register-page-image {
+    height: 400px;
+    border-radius: 16px;
+}

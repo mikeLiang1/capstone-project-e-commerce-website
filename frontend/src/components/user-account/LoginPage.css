@@ -1,38 +1,38 @@
 .login-page {
-    display: flex;
-    justify-content: space-evenly;
-    padding-top: 150px;
+  display: flex;
+  justify-content: space-evenly;
+  padding-top: 150px;
 }
 
 .login-section {
-    width: 500px;
-    padding: 8px 8px;
+  width: 500px;
+  padding: 8px 8px;
 }
 
 .register-section {
-    width: 500px;
-    padding: 8px 8px;
+  width: 500px;
+  padding: 8px 8px;
 }
 
 .form-group {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .form-label {
-    padding: 8px 0;
+  padding: 8px 0;
 }
 
 .form-control {
-    height: 24px;
-    border-radius: 8px;
-    width: 350px;
+  height: 24px;
+  border-radius: 8px;
+  width: 350px;
 }
 
 .form-control {
-    align-items: center;
+  align-items: center;
 }
 
 .link {
-    text-decoration: none;
+  text-decoration: none;
 }

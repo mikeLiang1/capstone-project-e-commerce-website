@@ -5,11 +5,21 @@ import { Button } from '@material-ui/core';
 
 import './TextButton.css';
 
-function TextButton({buttonName, buttonType}) {
+function TextButton({ buttonName, buttonType }) {
   return (
-    <Button type={`${buttonType}`} style={{backgroundColor: '#000000', color: '#FFFFFF', borderRadius: '16px'}} variant="contained">{buttonName}</Button>
+    <Button
+      type={`${buttonType}`}
+      style={{
+        backgroundColor: '#000000',
+        color: '#FFFFFF',
+        borderRadius: '16px',
+      }}
+      variant='contained'
+    >
+      {buttonName}
+    </Button>
   );
-};
+}
 
 export default TextButton;
 

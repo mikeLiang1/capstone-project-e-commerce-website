@@ -7,7 +7,7 @@ export default function BasicTextField({ textName, value, handleChange }) {
     <Box
       component='form'
       sx={{
-        '& .MuiTextField-root': { m: 1, width: '25ch' },
+        '& .MuiTextField-root': { mt: 1, mb: 1, width: '35ch' },
       }}
       noValidate
       autoComplete='off'
@@ -16,6 +16,7 @@ export default function BasicTextField({ textName, value, handleChange }) {
         id='outlined-multiline-flexible'
         label={textName}
         multiline
+        size='small'
         maxRows={4}
         value={value}
         onChange={handleChange}

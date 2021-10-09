@@ -3,8 +3,8 @@ from flask_restful import Api, Resource, reqparse
 from firebase_admin import credentials, firestore, initialize_app
 from firebase_admin import auth
 
-from modules.HelloWorld import HelloWorld
 from modules.Register import Register
+from modules.User import User
 
 app = Flask(__name__)
 api = Api(app)
@@ -78,6 +78,7 @@ default_app = initialize_app(cred)
 db = firestore.client()
 
 api.add_resource(Register, "/auth/register")
+api.add_resource(User, "/user")
 
 
 if __name__ == "__main__":

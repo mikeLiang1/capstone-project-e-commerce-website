@@ -1,3 +1,9 @@
-.center {
-    text-align: center;
+.HomePageGuest-image-container {
+    overflow: hidden;
+    display: flex;
+}
+
+.HomePageGuest-image {
+    width: 100%;
+    align-self: center;
 }

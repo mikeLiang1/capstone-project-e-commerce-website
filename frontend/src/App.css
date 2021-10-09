@@ -27,12 +27,19 @@
 
 h1 {
   font-family: var(--body-font);
-  font-size: var(--heading-font-size);
+  font-size: var(--title-font-size);
   font-weight: var(--bold-font-weight);
   text-align: center;
 }
 
 h2 {
+  font-family: var(--body-font);
+  font-size: var(--heading-font-size);
+  font-weight: var(--bold-font-weight);
+  text-align: center;
+}
+
+h3 {
   font-family: var(--body-font);
   font-size: var(--heading-font-size);
   font-weight: var(--bold-font-weight);

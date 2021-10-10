@@ -16,10 +16,27 @@ class User(Resource):
         args = parser.parse_args()
         doc_ref = db.collection(u'users').document(args.uid)
 
-        doc = doc_ref.get()
-        if doc.exists:
-            return doc.to_dict()
+
+        if user_exists(doc_ref):
+            return doc_ref.get().to_dict()
         else:
             return {"message": "User ID is not valid"}, 400
     
-    
+class User_add_productID(Resource):
+    # given a productid, add to users purchase history
+    def post(self, productID):
+        args = parser.parse_args()
+        doc_ref = db.collection(u'users').document(args.uid)
+
+        if user_exists(doc_ref):
+            doc_ref.update({u'purchase_history': firestore.ArrayUnion([productID])})
+
+            return {"message": "Success"}
+
+        else:
+            return {"message": "User ID is not valid"}, 400
+
+
+def user_exists(doc_ref):
+    doc = doc_ref.get()
+    return doc.exists

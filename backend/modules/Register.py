@@ -51,7 +51,7 @@ class Register(Resource):
             u'first': args.fname,
             u'last': args.lname,
             u'address': None,
-            u'purchase history': [],
+            u'purchase_history': [],
             u'admin': False
         })
         

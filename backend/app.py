@@ -4,7 +4,7 @@ from firebase_admin import credentials, firestore, initialize_app
 
 from modules.Product import *
 from modules.Register import Register
-from modules.User import User
+from modules.User import User, User_add_productID
 from modules.SignIn import SignIn
 
 app = Flask(__name__)
@@ -82,7 +82,7 @@ api.add_resource(Product, "/product")
 api.add_resource(User, "/auth/user")
 api.add_resource(SignIn, "/auth/signin")
 api.add_resource(Product_range, "/product/<int:min>/<int:max>")
-
+api.add_resource(User_add_productID, "/user/<string:productID>")
 
 if __name__ == "__main__":
     app.run(debug=True)

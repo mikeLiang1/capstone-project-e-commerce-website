@@ -13,15 +13,16 @@ import AdminHomePage from './components/admin-home/AdminHomePage';
 import Cookies from 'js-cookie';
 
 function App() {
-  const [user, setUser] = useState(Cookies.get('admin'));
+  const [admin, setAdmin] = useState(Cookies.get('admin'));
+  const [user, setUser] = useState(Cookies.get(''));
 
   const makeAdmin = () => {
-    setUser('true');
+    setAdmin('true');
     Cookies.set('admin', 'true');
   };
 
   const removeAdmin = () => {
-    setUser('false');
+    setAdmin('false');
     Cookies.remove('admin');
   };
 
@@ -30,7 +31,7 @@ function App() {
       <button onClick={makeAdmin}>Make Admin</button>
       <button onClick={removeAdmin}>Remove Admin</button>
       <Router>
-        <NavigationBar user={user} />
+        <NavigationBar admin={admin} />
         <Switch>
           <Route path='/adminhome' exact component={AdminHomePage} />
           <Route path='/addproduct' exact component={AddProductPage} />

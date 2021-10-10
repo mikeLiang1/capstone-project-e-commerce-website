@@ -74,3 +74,16 @@ class Product(Resource):
             return {'message': 'product deleted successfully'}
         else:
             return {'error': 'product doesn\'t exist'}, 400
+
+# given a range (min, max), return a list of product id 
+class Product_range(Resource):
+    def get(self, min, max):
+        product_list = []
+        doc_ref = db.collection(u'products')
+        first_query = doc_ref.limit(max-min)
+
+        docs = first_query.stream()
+        for doc in docs:
+            product_list.append(doc.to_dict())        
+
+        return {'products': product_list}

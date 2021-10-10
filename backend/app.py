@@ -2,7 +2,7 @@ from flask import Flask
 from flask_restful import Api, Resource, reqparse, abort
 from firebase_admin import credentials, firestore, initialize_app
 
-from modules.Product import Product
+from modules.Product import *
 from modules.Register import Register
 from modules.User import User
 from modules.SignIn import SignIn
@@ -81,6 +81,7 @@ api.add_resource(Register, "/auth/register")
 api.add_resource(Product, "/product/<string:product_id>")
 api.add_resource(User, "/auth/user")
 api.add_resource(SignIn, "/auth/signin")
+api.add_resource(Product_range, "/product/<int:min>/<int:max>")
 
 
 if __name__ == "__main__":

@@ -2,9 +2,9 @@ import React from 'react';
 
 import { Link } from 'react-router-dom';
 
-import './NavigationBar.css';
+import './NavigationBarGuest.css';
 
-function NavigationBar() {
+function NavigationBarGuest() {
   return (
     <div className='NavigationBar'>
       <ul className='NavigationBar-links-left'>
@@ -36,4 +36,4 @@ function NavigationBar() {
   );
 }
 
-export default NavigationBar;
+export default NavigationBarGuest;

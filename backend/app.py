@@ -1,18 +1,12 @@
 from flask import Flask
 from flask_restful import Api, Resource, reqparse
-<<<<<<< HEAD
 from firebase_admin import credentials, firestore, initialize_app
 
 from modules.Register import Register
 from modules.User import User
 from modules.SignIn import SignIn
-=======
-from firebase_admin import credentials, firestore, initialize_app, storage
-
-from modules.Register import Register
 from modules.mystery_box import *
 
->>>>>>> mystery-backend
 
 app = Flask(__name__)
 api = Api(app)

@@ -1,0 +1,18 @@
+.RecommendedSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 64px 0;
+}
+
+.RecommendedSection-information {
+  padding: 32px 0;
+}
+
+.RecommendedSection-products-section {
+  display: flex;
+  width: 60%;
+  height: 350px;
+  overflow: auto;
+}

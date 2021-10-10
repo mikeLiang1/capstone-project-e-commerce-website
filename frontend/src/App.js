@@ -9,6 +9,7 @@ import RegisterPage from './components/user-account/RegisterPage';
 import AdminDashboardPage from './components/admin-dashboard/AdminDashboardPage';
 import Footer from './components/footer/Footer';
 import NavigationBarUser from './components/navigation/NavigationBarUser';
+import HomePageUser from './components/home/HomePageUser';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path='/' exact component={HomePageGuest} />
           <Route path='/login' exact component={LoginPage} />
           <Route path='/register' exact component={RegisterPage} />
+          <Route path='/userhome' exact component={HomePageUser} />
         </Switch>
         {/* <Footer /> */}
         {/* <NavigationBarUser /> */}

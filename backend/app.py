@@ -1,7 +1,8 @@
 from flask import Flask
-from flask_restful import Api, Resource, reqparse
+from flask_restful import Api, Resource, reqparse, abort
 from firebase_admin import credentials, firestore, initialize_app
 
+from modules.Product import *
 from modules.Register import Register
 from modules.User import User
 from modules.SignIn import SignIn
@@ -76,10 +77,12 @@ default_app = initialize_app(cred)
 db = firestore.client(default_app)
 
 api.add_resource(Register, "/auth/register")
+api.add_resource(Product, "/product")
 api.add_resource(User, "/auth/user")
 api.add_resource(SignIn, "/auth/signin")
 api.add_resource(mystery_box, "/mystery_box/<string:box_name>")
 api.add_resource(mystery_box_open, "/mystery_box/<string:box_name>/open")
+api.add_resource(Product_range, "/product/<int:min>/<int:max>")
 
 
 if __name__ == "__main__":

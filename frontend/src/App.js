@@ -15,6 +15,12 @@ import Cookies from 'js-cookie';
 function App() {
   const [admin, setAdmin] = useState(Cookies.get('admin'));
   const [user, setUser] = useState(Cookies.get(''));
+  const [token, setToken] = useState('Default Token');
+
+  useEffect(() => {
+    console.log('Changed token');
+    console.log(token);
+  }, [token]);
 
   const makeAdmin = () => {
     setAdmin('true');
@@ -24,6 +30,10 @@ function App() {
   const removeAdmin = () => {
     setAdmin('false');
     Cookies.remove('admin');
+  };
+
+  const handleLogin = (token) => {
+    setToken(token);
   };
 
   return (
@@ -38,7 +48,13 @@ function App() {
           <Route path='/admindash' exact component={AdminDashboardPage} />
           <Route path='/' exact component={HomePageGuest} />
           <Route path='/login' exact component={LoginPage} />
-          <Route path='/register' exact component={RegisterPage} />
+          <Route
+            path='/register'
+            exact
+            component={() => (
+              <RegisterPage token={token} handleLogin={handleLogin} />
+            )}
+          />
           <Route path='/userhome' exact component={HomePageUser} />
         </Switch>
         {/* <Footer /> */}

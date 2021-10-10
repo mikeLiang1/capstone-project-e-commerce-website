@@ -7,7 +7,7 @@ import TextButton from '../buttons-and-sections/TextButton.js';
 import RegisterPageImage from '../../images/RegisterPageImage.png';
 import BasicTextField from '../buttons-and-sections/BasicTextField';
 
-function RegisterPage() {
+function RegisterPage({ token, handleLogin }) {
   const [email, setEmail] = useState('');
   const [fname, setFirstName] = useState('');
   const [lname, setLastName] = useState('');
@@ -36,6 +36,8 @@ function RegisterPage() {
       console.log('Not Successful');
     } else if (response.status === 200) {
       const data = await response.json();
+      token = data.idToken;
+      handleLogin(token);
       console.log('Successful');
       console.log(data);
       // If account registration is successful, direct the user to the home page

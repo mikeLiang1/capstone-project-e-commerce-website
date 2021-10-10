@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import './NavigationBar.css';
 
-function NavigationBarGuest() {
+function NavigationBarUser() {
   return (
     <div className='NavigationBar'>
       <ul className='NavigationBar-links-left'>
@@ -22,11 +22,11 @@ function NavigationBarGuest() {
         <p className='NavigationBar-brand-name'>NOCTA TECH</p>
       </Link>
       <ul className='NavigationBar-links-right'>
-        <Link to='/login' className='NavigationBar-link'>
-          <li>LOGIN</li>
+        <Link to='/account' className='NavigationBar-link'>
+          <li>ACCOUNT</li>
         </Link>
-        <Link to='/register' className='NavigationBar-link'>
-          <li>REGISTER</li>
+        <Link to='/' className='NavigationBar-link'>
+          <li>LOGOUT</li>
         </Link>
         <Link to='/cart' className='NavigationBar-link'>
           <li>CART</li>
@@ -36,4 +36,4 @@ function NavigationBarGuest() {
   );
 }
 
-export default NavigationBarGuest;
+export default NavigationBarUser;

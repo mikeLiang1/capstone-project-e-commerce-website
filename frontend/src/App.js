@@ -8,6 +8,7 @@ import LoginPage from './components/user-account/LoginPage';
 import RegisterPage from './components/user-account/RegisterPage';
 import AdminDashboardPage from './components/admin-dashboard/AdminDashboardPage';
 import Footer from './components/footer/Footer';
+import NavigationBarUser from './components/navigation/NavigationBarUser';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path='/register' exact component={RegisterPage} />
         </Switch>
         {/* <Footer /> */}
+        {/* <NavigationBarUser /> */}
       </Router>
     </div>
   );

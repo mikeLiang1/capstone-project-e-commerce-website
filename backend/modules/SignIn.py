@@ -17,6 +17,7 @@ config = {
 
 firebase = pyrebase.initialize_app(config)
 authP = firebase.auth()
+db = firebase.database()
 
 parser = reqparse.RequestParser()
 parser.add_argument('email', type=str, help='Email required', required=True)
@@ -29,6 +30,7 @@ class SignIn(Resource):
     def post(self):
         args = parser.parse_args()
         
+        
         try:
             user = authP.sign_in_with_email_and_password(args.email, args.password)
         except:
@@ -36,3 +38,4 @@ class SignIn(Resource):
             return {"message" : "Sign in failed"}, 400
         
         return {"message" : "User signed in successfully", "idToken" : user['idToken']}
+    

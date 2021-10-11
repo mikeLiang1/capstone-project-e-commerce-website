@@ -6,6 +6,7 @@ import pyrebase
 
 import re
 
+
 # Initialize Firestore DB
 cred = credentials.Certificate('key.json')
 default_app = initialize_app(cred, name='register')
@@ -24,7 +25,7 @@ firebase = pyrebase.initialize_app(config)
 authP = firebase.auth()
 
 registerParser = reqparse.RequestParser()
-registerParser.add_argument('fname', type=str, help='First name required', required=True)
+registerParser.add_argument('fname', type=str, help='First name required')
 registerParser.add_argument('lname', type=str, help='Last name required', required=True)
 registerParser.add_argument('email', type=str, help='Email required', required=True)
 registerParser.add_argument('password', type=str, help='Password required', required=True)

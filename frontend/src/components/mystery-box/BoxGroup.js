@@ -6,19 +6,41 @@ import './MysteryBoxPage.css';
 import SmallItemContainer from '../buttons-and-sections/SmallItemContainer';
 
 function BoxGroup({boxName}) {
-
-    // Function calls to the backend to retrieve name, price, image, and product ids
-    
     // Dummy data
-    let title = 'NOCTA MYSTERY BOX'
-    let price = '999.99'
+    let title = boxName
+    const [price, setPrice] = useState('999.99')
+    
+    // Function calls to the backend to retrieve name, price, image, and product ids
+    async function boxRequest() {
+        // Send request to the backend        
+        const requestOptions = {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            }
+          };
+          
+        const response = await fetch('/mystery_box/' + boxName, requestOptions);
+      
+        if (response.status !== 200) {
+            console.log('Not Successful')
+        } else {
+            const data = await response.json()
+            console.log('Successful')
+            console.log(data.box_data.Price)
+            setPrice(data.box_data.Price)
+        }
+    }
+    
+    boxRequest()
     
     const [items, setItems] = useState([
-        { id: 1, content: <SmallItemContainer /> },
-        { id: 2, content: <SmallItemContainer /> },
-        { id: 3, content: <SmallItemContainer /> },
-        { id: 4, content: <SmallItemContainer /> },
-        { id: 5, content: <SmallItemContainer /> }
+      { id: 1, content: <SmallItemContainer /> },
+      { id: 2, content: <SmallItemContainer /> },
+      { id: 3, content: <SmallItemContainer /> },
+      { id: 4, content: <SmallItemContainer /> },
+      { id: 5, content: <SmallItemContainer /> }
     ]);
     
     

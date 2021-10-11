@@ -7,8 +7,10 @@ import SmallItemContainer from '../buttons-and-sections/SmallItemContainer';
 
 function BoxGroup({boxName}) {
     // Dummy data
-    let title = boxName
+    let title = boxName.toUpperCase()
+    title = title.replace("_", " MYSTERY ")
     const [price, setPrice] = useState('999.99')
+    const [img, setIMG] = useState('')
     
     // Function calls to the backend to retrieve name, price, image, and product ids
     async function boxRequest() {
@@ -28,8 +30,9 @@ function BoxGroup({boxName}) {
         } else {
             const data = await response.json()
             console.log('Successful')
-            console.log(data.box_data.Price)
+            console.log(data.box_data)
             setPrice(data.box_data.Price)
+            setIMG(data.box_data.Image)
         }
     }
     
@@ -53,12 +56,12 @@ function BoxGroup({boxName}) {
                 <b className>{title}</b><br/>
                 <b>${price}</b>
             </div>
-            <img height="300" width="300" src= 'https://static.cdn.packhelp.com/wp-content/uploads/2019/06/06153013/plain-shipping-boxes-packhelp-kva.jpg'/>
+            <img height="200" width="200" src= {img}/>
             <TextButton buttonName='Add to cart' buttonType='submit' />
         </div>
         <div className='boxContents'>
             <p>Prize Pool:</p>
-            <div style={{ display:'flex' }}>
+            <div style={{ display:'flex', overflow:'auto'}}>
                 {items.map((item) => (
                     <div className='outline'>
                         <div key={item.id}>{item.content}</div>

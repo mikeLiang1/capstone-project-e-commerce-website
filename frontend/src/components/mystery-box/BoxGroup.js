@@ -20,6 +20,9 @@ function BoxGroup({boxName}) {
         { id: 4, content: <SmallItemContainer /> },
         { id: 5, content: <SmallItemContainer /> }
     ]);
+    
+    
+    // Need to route add to cart with product id
       
     return (
       <div className='boxGroup'>

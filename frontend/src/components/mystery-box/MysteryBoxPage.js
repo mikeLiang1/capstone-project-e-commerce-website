@@ -17,6 +17,7 @@ function MysteryBoxPage() {
         </p>  
       </div>
       <BoxGroup/>
+      <BoxGroup/>
     </div>
   );
 }

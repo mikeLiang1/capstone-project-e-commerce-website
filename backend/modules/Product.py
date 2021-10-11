@@ -11,7 +11,7 @@ productParser.add_argument('product_id', type=str)
 productParser.add_argument('name', type=str, help='Product name required')
 productParser.add_argument('category', type=str)
 # productParser.add_argument('sub-category', type=str)
-productParser.add_argument('image', type=str)    # List because there can be multiple images
+productParser.add_argument('image', type=str)
 productParser.add_argument('price', type=float)
 productParser.add_argument('reviews', type=list)
 productParser.add_argument('description', type=str)

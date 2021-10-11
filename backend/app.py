@@ -79,6 +79,7 @@ db = firestore.client()
 
 api.add_resource(Register, "/auth/register")
 api.add_resource(Product, "/product")
+api.add_resource(Product_get, "/product/<string:productID>")
 api.add_resource(User, "/auth/user")
 api.add_resource(SignIn, "/auth/signin")
 api.add_resource(Product_range, "/product/<int:min>/<int:max>")

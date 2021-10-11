@@ -11,7 +11,7 @@ productParser.add_argument('product_id', type=str)
 productParser.add_argument('name', type=str, help='Product name required')
 productParser.add_argument('category', type=str)
 # productParser.add_argument('sub-category', type=str)
-productParser.add_argument('image', type=list)    # List because there can be multiple images
+productParser.add_argument('image', type=str)    # List because there can be multiple images
 productParser.add_argument('price', type=float)
 productParser.add_argument('reviews', type=list)
 productParser.add_argument('description', type=str)
@@ -33,18 +33,18 @@ def checkArgs(args):
         return {'error': 'product tag required'}
     return
 
-class Product(Resource):
-    def get(self):  # GET PRODUCT INFO
-        args = productParser.parse_args()
-        if args.product_id is None:
-            return {'error': 'product id required'}
+class Product_get(Resource):
+    def get(self, productID):  # GET PRODUCT INFO
 
-        doc_ref = db.collection(u'products').document(args.product_id)
+        doc_ref = db.collection(u'products').document(productID)
         doc = doc_ref.get()
         if doc.exists:
             return {'data': doc.to_dict()}
         else:
             return {'error': 'product doesn\'t exist'}, 400
+
+
+class Product(Resource):
 
     def post(self): # ADD PRODUCT
         doc_ref = db.collection(u'products')

@@ -4,8 +4,15 @@ import './HomePageGuest.css';
 import HomePageImage from '../../images/HomePageImage.png';
 import AboutSection from '../buttons-and-sections/AboutSection';
 import TrendingSection from '../buttons-and-sections/TrendingSection';
+import RecommendedSection from '../buttons-and-sections/RecommendedSection';
 
-function HomePageGuest() {
+function HomePageGuest({ user }) {
+  let recommendedSection = <div></div>;
+  // If the user is logged in, display their recommended section
+  if (user) {
+    recommendedSection = <RecommendedSection />;
+  }
+
   return (
     <div className='HomePageGuest'>
       <div className='HomePageGuest-image-container'>
@@ -17,6 +24,7 @@ function HomePageGuest() {
       </div>
       <AboutSection />
       <TrendingSection />
+      {recommendedSection}
     </div>
   );
 }

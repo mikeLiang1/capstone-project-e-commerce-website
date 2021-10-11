@@ -1,26 +1,44 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import BasicTextField from '../buttons-and-sections/BasicTextField.js';
 
 import TextButton from '../buttons-and-sections/TextButton.js';
 
 import './LoginPage.css';
 
-function LoginPage() {
+function LoginPage({ token, handleLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  let history = useHistory();
 
-  const loginRequest = (e) => {
+  const loginRequest = async (e) => {
     // Prevents the default action of the page refreshing
     e.preventDefault();
     const loginDetails = { email, password };
 
     // Send request to backend
-    fetch('http://127.0.0.1:5000/login', {
+    const requestOptions = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
       body: JSON.stringify(loginDetails),
-    });
+    };
+
+    const response = await fetch('/auth/signin', requestOptions);
+
+    if (response.status === 500) {
+      console.log('Not Successful');
+    } else if (response.status === 200) {
+      const data = await response.json();
+      token = data.idToken;
+      handleLogin(token);
+      console.log('Successful');
+      console.log(data);
+      // If login is successful, direct the user to the home page
+      history.push('/');
+    }
   };
 
   return (

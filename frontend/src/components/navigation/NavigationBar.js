@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import './NavigationBar.css';
 
-function NavigationBar({ user, admin }) {
+function NavigationBar({ user, admin, handleLogout }) {
   // Default values of the following variables are for a "Guest"
   // Refers to the name of the Links on the "Right Side" of the Navigation Bar
   var link_name_left = 'LOGIN';
@@ -19,11 +19,11 @@ function NavigationBar({ user, admin }) {
     link_name_left = 'ACCOUNT';
     link_name_middle = 'LOGOUT';
     link_route_left = '/account';
-    link_route_middle = '/';
+    link_route_middle = '/login';
   } else if (admin === 'true') {
     link_name_left = 'SALES';
     link_name_middle = 'ADD PRODUCT';
-    link_name_right = 'LOGIN/LOGOUT';
+    link_name_right = 'LOGOUT';
     link_route_left = '/sales';
     link_route_middle = '/addproduct';
     link_route_right = '/login';

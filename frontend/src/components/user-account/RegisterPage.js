@@ -14,7 +14,7 @@ function RegisterPage({ token, handleLogin }) {
   const [password, setPassword] = useState('');
   let history = useHistory();
 
-  async function registerRequest(e) {
+  const registerRequest = async (e) => {
     // Prevents the default action of the page refreshing
     e.preventDefault();
 
@@ -43,7 +43,7 @@ function RegisterPage({ token, handleLogin }) {
       // If account registration is successful, direct the user to the home page
       history.push('/');
     }
-  }
+  };
 
   return (
     <div className='RegisterPage'>

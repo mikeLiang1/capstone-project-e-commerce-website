@@ -1,9 +1,0 @@
-.HomePageUser-image-container {
-  overflow: hidden;
-  display: flex;
-}
-
-.HomePageUser-image {
-  width: 100%;
-  align-self: center;
-}

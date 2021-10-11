@@ -1,13 +1,24 @@
-import React from 'react'
+import React from 'react';
 
-import "./HomePageGuest.css"
+import './HomePageGuest.css';
+import HomePageImage from '../../images/HomePageImage.png';
+import AboutSection from '../buttons-and-sections/AboutSection';
+import TrendingSection from '../buttons-and-sections/TrendingSection';
 
-function HomeGuest() {
-    return (
-        <div>
-            <p class="center">This is the home page of a guest</p>
-        </div>
-    )
+function HomePageGuest() {
+  return (
+    <div className='HomePageGuest'>
+      <div className='HomePageGuest-image-container'>
+        <img
+          src={HomePageImage}
+          className='HomePageGuest-image'
+          alt='Nocta Technology Background Image'
+        ></img>
+      </div>
+      <AboutSection />
+      <TrendingSection />
+    </div>
+  );
 }
 
-export default HomeGuest
+export default HomePageGuest;

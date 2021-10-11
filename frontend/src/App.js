@@ -7,6 +7,7 @@ import AddProductPage from './components/add-products/AddProductPage';
 import LoginPage from './components/user-account/LoginPage';
 import RegisterPage from './components/user-account/RegisterPage';
 import AdminDashboardPage from './components/admin-dashboard/AdminDashboardPage';
+import ItemPage from './components/item-page/ItemPage';
 import Footer from './components/footer/Footer';
 import AdminHomePage from './components/admin-home/AdminHomePage';
 import Cookies from 'js-cookie';
@@ -32,7 +33,7 @@ function App() {
       <Router>
         <NavigationBar user={user} />
         <Switch>
-          <Route path='/product/:itemId' exact component={AdminHomePage} />
+          <Route path='/product/:itemId' exact component={ItemPage} />
           <Route path='/adminhome' exact component={AdminHomePage} />
           <Route path='/addproduct' exact component={AddProductPage} />
           <Route path='/admindash' exact component={AdminDashboardPage} />

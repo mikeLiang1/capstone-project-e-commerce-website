@@ -2,32 +2,22 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
-export default function BasicTextFields(props) {
-  const [value, setValue] = React.useState('');
-  const [details, setDetails] = React.useState(props);
-
-  const handleChange = (e) => {
-    setValue(e.target.value);
-  };
-
-  // React.useEffect(() => {
-  //   setDetails({ ...details, category: 'e' });
-  // }, [props]);
-
+export default function BasicTextField({ textName, value, handleChange }) {
   return (
     <Box
       component='form'
       sx={{
-        '& .MuiTextField-root': { m: 1, width: '25ch' },
+        '& .MuiTextField-root': { mt: 1, mb: 1, width: '35ch' },
       }}
       noValidate
       autoComplete='off'
     >
       <TextField
         id='outlined-multiline-flexible'
-        label={props.textName}
+        label={textName}
         multiline
         maxRows={8}
+        size='small'
         value={value}
         onChange={handleChange}
       />

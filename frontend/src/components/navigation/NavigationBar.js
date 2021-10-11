@@ -6,29 +6,29 @@ import './NavigationBar.css';
 
 function NavigationBar() {
   return (
-    <div className='nav-menu'>
-      <ul className='nav-links-left'>
-        <Link to='/search' className='nav-link'>
+    <div className='NavigationBar'>
+      <ul className='NavigationBar-links-left'>
+        <Link to='/search' className='NavigationBar-link'>
           <li>SEARCH</li>
         </Link>
-        <Link to='/explore' className='nav-link'>
+        <Link to='/explore' className='NavigationBar-link'>
           <li>EXPLORE</li>
         </Link>
-        <Link to='/mysterybox' className='nav-link'>
+        <Link to='/mysterybox' className='NavigationBar-link'>
           <li>MYSTERY BOX</li>
         </Link>
       </ul>
-      <Link to='/' className='nav-link'>
-        <p className='brand-name'>NOCTA TECH</p>
+      <Link to='/' className='NavigationBar-link'>
+        <p className='NavigationBar-brand-name'>NOCTA TECH</p>
       </Link>
-      <ul className='nav-links-right'>
-        <Link to='/login' className='nav-link'>
+      <ul className='NavigationBar-links-right'>
+        <Link to='/login' className='NavigationBar-link'>
           <li>LOGIN</li>
         </Link>
-        <Link to='/register' className='nav-link'>
+        <Link to='/register' className='NavigationBar-link'>
           <li>REGISTER</li>
         </Link>
-        <Link to='/cart' className='nav-link'>
+        <Link to='/cart' className='NavigationBar-link'>
           <li>CART</li>
         </Link>
       </ul>

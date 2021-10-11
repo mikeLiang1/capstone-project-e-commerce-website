@@ -15,6 +15,7 @@ function AddProductPage() {
   const [details, setDetails] = useState({
     category: '',
     name: '',
+    img: '',
     price: '',
     tag: '',
     description: '',

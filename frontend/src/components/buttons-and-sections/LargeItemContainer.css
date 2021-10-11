@@ -1,0 +1,15 @@
+.LargeItemContainer {
+  height: 300px;
+  width: 300px;
+  margin: 0 8px;
+}
+
+.LargeItemContainer-image-container {
+  /* Centers the image vertically and horizontally in the div/container */
+  display: block;
+  margin: auto;
+}
+
+.LargeItemContainer-image {
+  width: 120px;
+}

@@ -13,6 +13,7 @@ import Cookies from 'js-cookie';
 
 function App() {
   const [user, setUser] = useState(Cookies.get('admin'));
+  const [itemId, setItemId] = useState('0');
 
   const makeAdmin = () => {
     setUser('true');
@@ -31,6 +32,7 @@ function App() {
       <Router>
         <NavigationBar user={user} />
         <Switch>
+          <Route path='/product/:itemId' exact component={AdminHomePage} />
           <Route path='/adminhome' exact component={AdminHomePage} />
           <Route path='/addproduct' exact component={AddProductPage} />
           <Route path='/admindash' exact component={AdminDashboardPage} />

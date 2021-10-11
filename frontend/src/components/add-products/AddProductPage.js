@@ -22,6 +22,11 @@ function AddProductPage() {
   });
 
   const onSubmit = (data) => {
+    // const storageRef = app.storage().ref();
+    // const fileRef = storageRef.child(data.image[0].name);
+    // fileRef.put(data).then(() => {
+    //   console.log('Uploaded file');
+    // });
     console.log(data);
   };
 

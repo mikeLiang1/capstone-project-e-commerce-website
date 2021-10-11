@@ -6,7 +6,7 @@ from modules.Register import Register
 from modules.User import User, User_add_productID
 from modules.SignIn import SignIn
 from modules.mystery_box import *
-from modules.Product import Product, Product_range
+from modules.Product import *
 
 app = Flask(__name__)
 api = Api(app)
@@ -79,6 +79,8 @@ default_app = initialize_app(cred)
 db = firestore.client()
 
 api.add_resource(Register, "/auth/register")
+api.add_resource(Product, "/product")
+api.add_resource(Product_get, "/product/<string:productID>")
 api.add_resource(User, "/auth/user")
 api.add_resource(SignIn, "/auth/signin")
 api.add_resource(mystery_box, "/mystery_box/<string:box_name>")

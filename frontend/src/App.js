@@ -8,6 +8,7 @@ import LoginPage from './components/user-account/LoginPage';
 import RegisterPage from './components/user-account/RegisterPage';
 import AdminDashboardPage from './components/admin-dashboard/AdminDashboardPage';
 import HomePageUser from './components/home/HomePageUser';
+import MysteryBoxPage from './components/mystery-box/MysteryBoxPage';
 import Footer from './components/footer/Footer';
 import AdminHomePage from './components/admin-home/AdminHomePage';
 import Cookies from 'js-cookie';
@@ -56,6 +57,7 @@ function App() {
             )}
           />
           <Route path='/userhome' exact component={HomePageUser} />
+          <Route path='/mysterybox' exact component={MysteryBoxPage} />
         </Switch>
         {/* <Footer /> */}
         {/* <NavigationBarUser /> */}

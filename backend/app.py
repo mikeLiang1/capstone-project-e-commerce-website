@@ -5,6 +5,7 @@ from firebase_admin import credentials, firestore, initialize_app
 from modules.Register import Register
 from modules.User import User
 from modules.SignIn import SignIn
+from modules.mystery_box import *
 
 app = Flask(__name__)
 api = Api(app)
@@ -79,6 +80,8 @@ db = firestore.client()
 api.add_resource(Register, "/auth/register")
 api.add_resource(User, "/auth/user")
 api.add_resource(SignIn, "/auth/signin")
+api.add_resource(mystery_box, "/mystery_box/<string:box_name>")
+api.add_resource(mystery_box_open, "/mystery_box/<string:box_name>/open")
 
 
 if __name__ == "__main__":

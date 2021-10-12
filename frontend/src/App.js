@@ -12,22 +12,29 @@ import MysteryBoxPage from './components/mystery-box/MysteryBoxPage';
 import AdminHomePage from './components/admin-home/AdminHomePage';
 import AccountPage from './components/account/AccountPage';
 import Cookies from 'js-cookie';
+import NavigationBarUser from './components/navigation/NavigationBarUser';
+import { render } from '@testing-library/react';
 
 function App() {
   const [admin, setAdmin] = useState(Cookies.get('admin'));
-  const [user, setUser] = useState(Cookies.get('user'));
-  const [token, setToken] = useState('Default Token');
+  const [token, setToken] = useState(Cookies.get('user'));
+  const [itemId, setItemId] = useState('0');
+  const [navigationBar, setNavigationBar] = useState('');
 
   useEffect(() => {
-    console.log('Changed token');
-    console.log(token);
+    if (token === Cookies.get('user') && token != undefined) {
+      setNavigationBar(<NavigationBarUser />);
+    } else if (admin == 'true') {
+      setNavigationBar(<div>Admin Nav Bar</div>);
+    } else {
+      setNavigationBar(<NavigationBar />);
+    }
     // Logouts out a user if the user's token no longer exists (e.g. if the user clears their cookies)
     // User must refresh the page in order for this to take effect
     if (Cookies.get('user') == '') {
-      setUser('false');
+      setToken('');
     }
-  }, [token]);
-  const [itemId, setItemId] = useState('0');
+  }, [token, admin]);
 
   const makeAdmin = () => {
     setAdmin('true');
@@ -41,14 +48,13 @@ function App() {
 
   const handleLogin = (token) => {
     setToken(token);
-    setUser('true');
     Cookies.set('user', token);
   };
 
   const handleLogout = () => {
     // TO DO: Check that the token in the Cookie belongs to the user
     // TO DO: Logout a user from firebase
-    setUser('false');
+    setToken('');
     Cookies.remove('user');
   };
 
@@ -57,7 +63,9 @@ function App() {
       <button onClick={makeAdmin}>Make Admin</button>
       <button onClick={removeAdmin}>Remove Admin</button>
       <Router>
-        <NavigationBar admin={admin} user={user} />
+        {}
+        {navigationBar}
+        {/* <NavigationBar admin={admin} token={token} /> */}
         <Switch>
           <Route path='/product/:itemId' exact component={ItemPage} />
           <Route path='/adminhome' exact component={AdminHomePage} />
@@ -66,7 +74,7 @@ function App() {
           <Route
             path='/'
             exact
-            component={() => <HomePageGuest user={user} />}
+            component={() => <HomePageGuest token={token} />}
           />
           <Route
             path='/login'

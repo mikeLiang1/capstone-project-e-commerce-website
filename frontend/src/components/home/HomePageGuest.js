@@ -6,12 +6,13 @@ import AboutSection from '../buttons-and-sections/AboutSection';
 import TrendingSection from '../buttons-and-sections/TrendingSection';
 import RecommendedSection from '../buttons-and-sections/RecommendedSection';
 import RecommendMeProductsSection from '../buttons-and-sections/RecommendMeProductsSection';
+import Cookies from 'js-cookie';
 
-function HomePageGuest({ user }) {
+function HomePageGuest({ token }) {
   let recommendedProductsSection = <div></div>;
   let recommendMeProductsSection = <div></div>;
   // If the user is logged in, display their recommended section
-  if (user) {
+  if (token === Cookies.get('user')) {
     recommendedProductsSection = <RecommendedSection />;
     recommendMeProductsSection = <RecommendMeProductsSection />;
   }

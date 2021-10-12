@@ -46,6 +46,7 @@ function App() {
 
   const handleLogout = () => {
     // TO DO: Check that the token in the Cookie belongs to the user
+    // TO DO: Logout a user from firebase
     setUser('false');
     Cookies.remove('user');
   };
@@ -55,7 +56,7 @@ function App() {
       <button onClick={makeAdmin}>Make Admin</button>
       <button onClick={removeAdmin}>Remove Admin</button>
       <Router>
-        <NavigationBar admin={admin} user={user} handleLogout={handleLogout} />
+        <NavigationBar admin={admin} user={user} />
         <Switch>
           <Route path='/adminhome' exact component={AdminHomePage} />
           <Route path='/addproduct' exact component={AddProductPage} />

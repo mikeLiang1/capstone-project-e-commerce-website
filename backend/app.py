@@ -3,7 +3,7 @@ from flask_restful import Api, Resource, reqparse
 from firebase_admin import credentials, firestore, initialize_app
 
 from modules.Register import Register
-from modules.User import User, User_add_productID
+from modules.User import User, User_add_productID, User_Get
 from modules.SignIn import SignIn
 from modules.mystery_box import *
 from modules.User import User
@@ -83,6 +83,7 @@ api.add_resource(Register, "/auth/register")
 api.add_resource(Product, "/product")
 api.add_resource(Product_get, "/product/<string:productID>")
 api.add_resource(User, "/auth/user")
+api.add_resource(User, "/user/<string:uid>")
 api.add_resource(SignIn, "/auth/signin")
 api.add_resource(mystery_box, "/mystery_box/<string:box_name>")
 api.add_resource(mystery_box_open, "/mystery_box/<string:box_name>/open")

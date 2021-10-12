@@ -1,7 +1,28 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
+import './AccountPage.css';
+
+import TextButton from '../buttons-and-sections/TextButton';
+import RecommendMeProductsSection from '../buttons-and-sections/RecommendMeProductsSection';
+import RecommendedSection from '../buttons-and-sections/RecommendedSection';
 
 function AccountPage() {
-  return <div></div>;
+  return (
+    <div className='AccountPage'>
+      <h2>MY ACCOUNT</h2>
+      <Link to='/myorders' className='AccountPage-link'>
+        <TextButton buttonName='My Orders' buttonType='button' />
+      </Link>
+      <Link to='/accountdetails' className='AccountPage-link'>
+        <TextButton buttonName='Account Details' buttonType='button' />
+      </Link>
+      <RecommendMeProductsSection />
+      <div className='AccountPage-recommended'>
+        <RecommendedSection />
+      </div>
+    </div>
+  );
 }
 
 export default AccountPage;

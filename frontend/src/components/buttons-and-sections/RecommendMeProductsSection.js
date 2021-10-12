@@ -6,10 +6,10 @@ import './RecommendMeProductsSection.css';
 
 function RecommendMeProductsSection() {
   return (
-    <div class='RecommendMeProductsSection'>
+    <div className='RecommendMeProductsSection'>
       <h2>RECOMMEND ME PRODUCTS</h2>
-      <div class='RecommendMeProductsSection-section'>
-        <Link to='/survey' class='RecommendMeProductsSection-link'>
+      <div className='RecommendMeProductsSection-section'>
+        <Link to='/survey' className='RecommendMeProductsSection-link'>
           <TextButton buttonName='Swipe Survey' buttonType='button' />
         </Link>
       </div>

@@ -4,7 +4,6 @@ import TextButton from '../buttons-and-sections/TextButton';
 
 import './MysteryBoxPage.css';
 import SmallItemContainer from '../buttons-and-sections/SmallItemContainer';
-import axios from 'axios'
 
 function BoxGroup({boxName}) {
     // Dummy data
@@ -29,7 +28,7 @@ function BoxGroup({boxName}) {
     async function boxRequest() {
         // Send request to the backend        
         
-        var name = "banana"
+        /*var name = "banana"
         var category = "cateog"
         var image = "qowiejq"
         var description = "qwoeijqweoij"
@@ -45,22 +44,13 @@ function BoxGroup({boxName}) {
             }
           };
           
-        const requestsOptions = {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              Accept: 'application/json',
-            },
-            body: JSON.stringify(registerDetails),
-          };
       
-          const testProductPost = await fetch('/auth/register', requestsOptions);
           
-        //const testProductPost = await fetch('/product', requesOptions)
+        const testProductPost = await fetch('/product', requesOptions)
         console.log("PRODUCT TEST")
         console.log(testProductPost)
         const data = await testProductPost.json()
-        console.log(data)
+        console.log(data)*/
         
         const requestOptions = {
             method: 'GET',

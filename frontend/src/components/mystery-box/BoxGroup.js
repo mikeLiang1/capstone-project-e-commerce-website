@@ -11,6 +11,13 @@ function BoxGroup({boxName}) {
     title = title.replace("_", " MYSTERY ")
     const [price, setPrice] = useState('999.99')
     const [img, setIMG] = useState('')
+    const [products, setProducts] = useState([
+        {"itemName" : "", "imageUrl": "", "price" : "99.99"},
+        {"itemName" : "", "imageUrl": "", "price" : "99.99"},
+        {"itemName" : "", "imageUrl": "", "price" : "99.99"},
+        {"itemName" : "", "imageUrl": "", "price" : "99.99"},
+        {"itemName" : "", "imageUrl": "", "price" : "99.99"},
+    ])
     
     // Function calls to the backend to retrieve name, price, image, and product ids
     async function boxRequest() {
@@ -33,18 +40,23 @@ function BoxGroup({boxName}) {
             console.log(data.box_data)
             setPrice(data.box_data.Price)
             setIMG(data.box_data.Image)
+            
+            // Parse products
+            
+            let products = []
+            for (var key of Object.keys(data.box_data.Products)) {
+                // const productResponse = await fetch('/product') have to get product id
+                products.push({"itemName" : key, "imageURL": data.box_data.Image, "price": "99.99"})
+                console.log("Hello item is" + key)
+            }
+            
+            //if data.box_data.length !== 0 {
+            // setProducts(products)
+            //}
         }
     }
     
     boxRequest()
-    
-    const [items, setItems] = useState([
-      { id: 1, content: <SmallItemContainer /> },
-      { id: 2, content: <SmallItemContainer /> },
-      { id: 3, content: <SmallItemContainer /> },
-      { id: 4, content: <SmallItemContainer /> },
-      { id: 5, content: <SmallItemContainer /> }
-    ]);
     
     
     // Need to route add to cart with product id
@@ -62,10 +74,10 @@ function BoxGroup({boxName}) {
         <div className='boxContents'>
             <p>Prize Pool:</p>
             <div style={{ display:'flex', overflow:'auto'}}>
-                {items.map((item) => (
+                {products.map((item, id) => (
                     <div className='outline'>
-                        <div key={item.id}>{item.content}</div>
-                        <b>RRP: ${price}</b>
+                        <SmallItemContainer key = {id} itemName = {item.itemName} imageUrl = {item.imageUrl}/>
+                        <b>RRP: ${item.price}</b>
                     </div>
                 ))}
             </div>

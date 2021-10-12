@@ -1,7 +1,7 @@
 pycache/
 *.pyc
 **/env/
-[10:53 PM]
 pycache/
+__pycache__/
 *.pyc
 **/env/

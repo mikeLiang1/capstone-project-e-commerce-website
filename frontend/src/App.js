@@ -7,8 +7,8 @@ import AddProductPage from './components/add-products/AddProductPage';
 import LoginPage from './components/authentication/LoginPage';
 import RegisterPage from './components/authentication/RegisterPage';
 import AdminDashboardPage from './components/admin-dashboard/AdminDashboardPage';
+import ItemPage from './components/item-page/ItemPage';
 import MysteryBoxPage from './components/mystery-box/MysteryBoxPage';
-import Footer from './components/footer/Footer';
 import AdminHomePage from './components/admin-home/AdminHomePage';
 import AccountPage from './components/account/AccountPage';
 import Cookies from 'js-cookie';
@@ -27,6 +27,7 @@ function App() {
       setUser('false');
     }
   }, [token]);
+  const [itemId, setItemId] = useState('0');
 
   const makeAdmin = () => {
     setAdmin('true');
@@ -58,6 +59,7 @@ function App() {
       <Router>
         <NavigationBar admin={admin} user={user} />
         <Switch>
+          <Route path='/product/:itemId' exact component={ItemPage} />
           <Route path='/adminhome' exact component={AdminHomePage} />
           <Route path='/addproduct' exact component={AddProductPage} />
           <Route path='/admindash' exact component={AdminDashboardPage} />

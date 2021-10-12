@@ -53,7 +53,7 @@ class Register(Resource):
             u'last': args.lname,
             u'email': args.email,
             u'address': None,
-            u'purchase history': [],
+            u'purchase_history': [],
             u'admin': False
         })
         

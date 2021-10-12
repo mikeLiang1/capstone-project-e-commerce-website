@@ -10,12 +10,19 @@
 }
 
 .ItemPage-box-img {
-  width: 40%;
+  overflow: auto;
 }
 
 .ItemPage-box-info {
   width: 70%;
   margin: auto;
+  align-items: center;
+}
+
+.ItemPage-box-add {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
 }
 

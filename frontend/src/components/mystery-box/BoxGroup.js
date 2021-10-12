@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 
 import TextButton from '../buttons-and-sections/TextButton';
 
@@ -43,11 +43,29 @@ function BoxGroup({boxName}) {
             
             // Parse products
             
-            let products = []
-            for (var key of Object.keys(data.box_data.Products)) {
-                // const productResponse = await fetch('/product') have to get product id
-                products.push({"itemName" : key, "imageURL": data.box_data.Image, "price": "99.99"})
-                console.log("Hello item is" + key)
+            if (boxName === 'deluxe_box') {
+                console.log("PRINTING FOR " + boxName)
+                let products = []
+                for (var ID of Object.keys(data.box_data.Products)) {
+                    const productOptions = {
+                        method: 'GET',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        }
+                    }
+                    console.log(ID)
+                    ID = ID.substring(1);
+                    console.log(ID)
+                    const productResponse = await fetch(`/product/${ID}`, productOptions)
+                    
+                    //console.log("Response")
+                    
+                    const data = await productResponse.json()
+                    
+                    products.push({"itemName" : data.data.name, "imageUrl": data.data.image, "price": data.data.price})
+                    console.log(data.data.image)
+                }
+                setProducts(products)
             }
             
             //if data.box_data.length !== 0 {
@@ -56,8 +74,10 @@ function BoxGroup({boxName}) {
         }
     }
     
-    boxRequest()
-    
+    useEffect(() => {
+        boxRequest()    
+    }, [])
+
     
     // Need to route add to cart with product id
       

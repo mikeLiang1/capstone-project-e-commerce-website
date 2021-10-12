@@ -7,7 +7,7 @@ import Select from '@mui/material/Select';
 
 export default function BasicSelect({ name, list, selected, handleChange }) {
   return (
-    <Box sx={{ maxWidth: 130 }}>
+    <Box sx={{ width: 110 }}>
       <FormControl fullWidth>
         <InputLabel>{name}</InputLabel>
         <Select value={selected} label={name} onChange={handleChange}>

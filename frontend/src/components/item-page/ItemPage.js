@@ -6,7 +6,7 @@ import './ItemPage.css';
 
 function ItemPage() {
   // pass in item id
-  const productId = 'aChvKCMFhjFLyJ32153r';
+  const productId = 'B0Si9HGHqL0IQ7EzItpK';
   const [category, setCategory] = useState('');
   const [desc, setDesc] = useState('');
   const [img, setImg] = useState('');
@@ -51,7 +51,7 @@ function ItemPage() {
       </div>
       <div id='ItemPage-flex'>
         <div className='ItemPage-box-img'>
-          <img src={img} alt={img} />
+          <img src={img} alt={img} width='200' height='200' />
         </div>
         <div className='ItemPage-flex-vert'>
           <div className='ItemPage-box-info'>
@@ -63,7 +63,7 @@ function ItemPage() {
             <h2>$ {price}</h2>
           </div>
           <div className='ItemPage-box-info'>Tag: {tag}</div>
-          <div className='ItemPage-box-info'>
+          <div className='ItemPage-box-add'>
             <div>
               <BasicSelect
                 name='Quantity'
@@ -71,6 +71,8 @@ function ItemPage() {
                 selected={quantity}
                 handleChange={(e) => setQuantity(e.target.value)}
               />
+            </div>
+            <div>
               <Button
                 onClick={() => {
                   console.log('add');

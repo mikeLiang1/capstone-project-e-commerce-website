@@ -4,12 +4,13 @@ import React, { useState, useEffect } from 'react';
 import HomePageGuest from './components/home/HomePageGuest';
 import NavigationBar from './components/navigation/NavigationBar';
 import AddProductPage from './components/add-products/AddProductPage';
-import LoginPage from './components/user-account/LoginPage';
-import RegisterPage from './components/user-account/RegisterPage';
+import LoginPage from './components/authentication/LoginPage';
+import RegisterPage from './components/authentication/RegisterPage';
 import AdminDashboardPage from './components/admin-dashboard/AdminDashboardPage';
 import MysteryBoxPage from './components/mystery-box/MysteryBoxPage';
 import Footer from './components/footer/Footer';
 import AdminHomePage from './components/admin-home/AdminHomePage';
+import AccountPage from './components/account/AccountPage';
 import Cookies from 'js-cookie';
 
 function App() {
@@ -79,6 +80,7 @@ function App() {
             )}
           />
           <Route path='/mysterybox' exact component={MysteryBoxPage} />
+          <Route path='/account' exact component={AccountPage} />
         </Switch>
         {/* <Footer /> */}
         {/* <NavigationBarUser /> */}

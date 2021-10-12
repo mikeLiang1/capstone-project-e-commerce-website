@@ -1,0 +1,15 @@
+.RecommendMeProductsSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 64px 0;
+}
+
+.RecommendMeProductsSection-section {
+  margin-top: 64px;
+  margin-bottom: 64px;
+}
+
+.RecommendMeProductsSection-link {
+  text-decoration: none;
+}

@@ -5,12 +5,15 @@ import HomePageImage from '../../images/HomePageImage.png';
 import AboutSection from '../buttons-and-sections/AboutSection';
 import TrendingSection from '../buttons-and-sections/TrendingSection';
 import RecommendedSection from '../buttons-and-sections/RecommendedSection';
+import RecommendMeProductsSection from '../buttons-and-sections/RecommendMeProductsSection';
 
 function HomePageGuest({ user }) {
-  let recommendedSection = <div></div>;
+  let recommendedProductsSection = <div></div>;
+  let recommendMeProductsSection = <div></div>;
   // If the user is logged in, display their recommended section
   if (user) {
-    recommendedSection = <RecommendedSection />;
+    recommendedProductsSection = <RecommendedSection />;
+    recommendMeProductsSection = <RecommendMeProductsSection />;
   }
 
   return (
@@ -24,7 +27,8 @@ function HomePageGuest({ user }) {
       </div>
       <AboutSection />
       <TrendingSection />
-      {recommendedSection}
+      {recommendedProductsSection}
+      {recommendMeProductsSection}
     </div>
   );
 }

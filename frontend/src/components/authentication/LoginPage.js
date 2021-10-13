@@ -11,6 +11,7 @@ function LoginPage({ token, handleLogin, setAdmin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   let history = useHistory();
+  let alertMessage = <div></div>;
 
   const loginRequest = async (e) => {
     // Prevents the default action of the page refreshing
@@ -30,7 +31,7 @@ function LoginPage({ token, handleLogin, setAdmin }) {
     const response = await fetch('/auth/signin', requestOptions);
 
     if (response.status === 500) {
-      console.log('Not Successful');
+      alert('Incorrect details entered! Please try again.');
     } else if (response.status === 200) {
       const data = await response.json();
       if (email === 'admin@admin.com') {
@@ -60,11 +61,13 @@ function LoginPage({ token, handleLogin, setAdmin }) {
         <div className='LoginPage-form-group'>
           <BasicTextField
             textName='Password'
+            type='password'
             value={password}
             handleChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <br />
+        {alertMessage}
         <TextButton buttonName='Sign In' buttonType='submit' />
       </form>
       <div className='LoginPage-register-section'>

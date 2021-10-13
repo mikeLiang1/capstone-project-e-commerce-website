@@ -12,11 +12,11 @@ function BoxGroup({ boxName }) {
   const [price, setPrice] = useState('999.99');
   const [img, setIMG] = useState('');
   const [products, setProducts] = useState([
-    { itemName: '', imageUrl: '', price: '99.99' },
-    { itemName: '', imageUrl: '', price: '99.99' },
-    { itemName: '', imageUrl: '', price: '99.99' },
-    { itemName: '', imageUrl: '', price: '99.99' },
-    { itemName: '', imageUrl: '', price: '99.99' },
+    { itemName: '', imageUrl: '', price: '99.99', routeId: '', chance: 20 },
+    { itemName: '', imageUrl: '', price: '99.99', routeId: '', chance: 20 },
+    { itemName: '', imageUrl: '', price: '99.99', routeId: '', chance: 20 },
+    { itemName: '', imageUrl: '', price: '99.99', routeId: '', chance: 20 },
+    { itemName: '', imageUrl: '', price: '99.99', routeId: '', chance: 20 },
   ]);
 
   const [email, setEmail] = useState('qwewqe@qweoijqweo.com');
@@ -49,7 +49,7 @@ function BoxGroup({ boxName }) {
       // Parse products
 
       if (boxName === 'ultimate_box') {
-        console.log('PRINTING FOR ' + boxName);
+        // console.log('PRINTING FOR ' + boxName);
         let products = [];
         for (var ID of Object.keys(data.box_data.Products)) {
           const productOptions = {
@@ -58,15 +58,28 @@ function BoxGroup({ boxName }) {
               'Content-Type': 'application/json',
             },
           };
-          console.log(ID);
-          console.log('so9joDSbO6U1xJsOMz7x');
 
-          const productResponse = await fetch(`/product/${ID}`, productOptions);
+          const response = await fetch(
+            '/mystery_box/' + boxName,
+            requestOptions
+          );
 
-          //console.log("Response")
+          if (response.status !== 200) {
+            console.log('Not Successful');
+          } else {
+            const data = await response.json();
+            console.log('Successful');
+            console.log(data.box_data);
+            setPrice(data.box_data.Price);
+            setIMG(data.box_data.Image);
 
-          const data = await productResponse.json();
+            if (boxName === 'standard_box') {
+              console.log(img);
+            }
 
+            // Parse products
+
+<<<<<<< HEAD
           products.push({
             itemName: data.data.name,
             imageUrl: data.data.image,
@@ -74,9 +87,44 @@ function BoxGroup({ boxName }) {
             routeId: ID,
           });
           console.log(data.data.image);
+=======
+            console.log('PRINTING FOR ' + boxName);
+            let products = [];
+            for (var ID of Object.keys(data.box_data.Products)) {
+              const chance = data.box_data.Products[ID];
+              console.log(`chance is ${chance}`);
+              const productOptions = {
+                method: 'GET',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              };
+              console.log(ID);
+              console.log('so9joDSbO6U1xJsOMz7x');
+
+              const productResponse = await fetch(
+                `/product/${ID}`,
+                productOptions
+              );
+
+              //console.log("Response")
+
+              const productData = await productResponse.json();
+
+              products.push({
+                itemName: productData.data.name,
+                imageUrl: productData.data.image,
+                price: productData.data.price,
+                chance: chance,
+              });
+              console.log(productData.data);
+            }
+            setProducts(products);
+          }
+>>>>>>> 43df822f154a4e0088c826a135e494bad9d6ca6d
         }
-        setProducts(products);
       }
+<<<<<<< HEAD
 
       //if data.box_data.length !== 0 {
       // setProducts(products)
@@ -119,11 +167,14 @@ function BoxGroup({ boxName }) {
                 setProducts(products)
             }
             */
+=======
+>>>>>>> 43df822f154a4e0088c826a135e494bad9d6ca6d
     }
   }
 
   useEffect(() => {
     boxRequest();
+    console.log('The Products are:', products);
   }, []);
 
   // Need to route add to cart with product id
@@ -136,22 +187,26 @@ function BoxGroup({ boxName }) {
           <br />
           <b>${price}</b>
         </div>
-        <img height='200' width='200' src={img} />
-        <TextButton buttonName='Add to cart' buttonType='submit' />
-      </div>
-      <div className='boxContents'>
-        Prize Pool:
-        <div style={{ display: 'flex', overflow: 'auto' }}>
-          {products.map((item, id) => (
-            <div className='outline'>
-              <SmallItemContainer
-                key={id}
-                itemName={item.itemName}
-                imageUrl={item.imageUrl}
-              />
-              <b>RRP: ${item.price}</b>
-            </div>
-          ))}
+        <div className='boxContents'>
+          Prize Pool:
+          <div style={{ display: 'flex', overflow: 'auto' }}>
+            {products.map((item, id) => (
+              <div className='outline'>
+                <div className='container'>
+                  <SmallItemContainer
+                    key={id}
+                    itemName={item.itemName}
+                    imageUrl={item.imageUrl}
+                    productRouteId={item.routeId}
+                  ></SmallItemContainer>
+                  <div className='chance'>
+                    <p>{item.chance}%</p>
+                  </div>
+                </div>
+                <b>RRP: ${item.price}</b>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

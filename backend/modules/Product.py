@@ -125,6 +125,6 @@ class Product_range(Resource):
 
         docs = first_query.stream()
         for doc in docs:
-            product_list.append(doc.to_dict())        
+            product_list.append({"content": doc.to_dict(), "id": doc.id})        
 
         return {'products': product_list}

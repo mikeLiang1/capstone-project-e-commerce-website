@@ -18,11 +18,7 @@ function TrendingSection() {
     { id: 10, content: <LargeItemContainer /> },
   ]);
 
-  const [products, setProducts] = useState([
-    { name: '', image: '' },
-    { name: '', image: '' },
-    { name: '', image: '' },
-  ]);
+  const [products, setProducts] = useState([]);
 
   const getProducts = async () => {
     const requestOptions = {
@@ -39,14 +35,14 @@ function TrendingSection() {
       alert('Failed to get Trending Products!');
     } else if (response.status === 200) {
       const data = await response.json();
-      // console.log(data.products);
       let items = [];
       for (var i = 0; i < data.products.length; i++) {
         // console.log(data.products[i].image);
         // console.log(data.products[i].name);
         items.push({
-          name: data.products[i].name,
-          image: data.products[i].image,
+          name: data.products[i].content.name,
+          image: data.products[i].content.image,
+          routeId: data.products[i].id,
         });
       }
       setProducts(items);
@@ -65,7 +61,11 @@ function TrendingSection() {
       <div className='TrendingSection-products-section'>
         {products.map((item, id) => (
           <div key={id}>
-            <LargeItemContainer itemName={item.name} imageUrl={item.image} />
+            <LargeItemContainer
+              itemName={item.name}
+              imageUrl={item.image}
+              productRouteId={item.routeId}
+            />
           </div>
         ))}
       </div>

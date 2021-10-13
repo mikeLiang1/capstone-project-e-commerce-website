@@ -1,0 +1,15 @@
+.SmallItemContainer {
+  height: 200px;
+  width: 150px;
+  margin: 0 8px;
+}
+
+.SmallItemContainer-image-container {
+  /* Centers the image vertically and horizontally in the div/container */
+  display: block;
+  margin: auto;
+}
+
+.SmallItemContainer-image {
+  width: 120px;
+}

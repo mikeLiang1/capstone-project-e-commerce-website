@@ -1,71 +1,80 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import './RegisterPage.css';
 import TextButton from '../buttons-and-sections/TextButton.js';
 
 import RegisterPageImage from '../../images/RegisterPageImage.png';
+import BasicTextField from '../buttons-and-sections/BasicTextField';
 
-function Register() {
+function RegisterPage() {
+  const [email, setEmail] = useState('');
+  const [fname, setFirstName] = useState('');
+  const [lname, setLastName] = useState('');
+  const [password, setPassword] = useState('');
+
+  const registerRequest = (e) => {
+    // Prevents the default action of the page refreshing
+    e.preventDefault();
+
+    // Send request to the backend
+    const registerDetails = { email, fname, lname, password };
+
+    fetch('/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(registerDetails),
+    })
+      .then((res) => {
+        if (res.ok) {
+          console.log('Okay');
+        } else {
+          console.log('Not Successful');
+        }
+        res.json();
+      })
+      .then((data) => console.log(data));
+  };
+
   return (
-    <div className='register-page'>
-      <form action='http://127.0.0.1:5000/sign-up' method='POST'>
-        <h2 align='center'>REGISTER</h2>
-        <div className='form-group'>
-          <label className='form-label' for='email'>
-            Email Address
-          </label>
-          <input
-            type='email'
-            className='form-control'
-            id='email'
-            name='email'
-            placeholder='Enter Email'
+    <div className='RegisterPage'>
+      <form onSubmit={registerRequest}>
+        <h3>REGISTER</h3>
+        <div className='RegisterPage-form-group'>
+          <BasicTextField
+            textName='Email'
+            value={email}
+            handleChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div className='form-group'>
-          <label className='form-label' for='firstName'>
-            First Name
-          </label>
-          <input
-            type='text'
-            className='form-control'
-            id='firstName'
-            name='firstName'
-            placeholder='Enter First Name'
+        <div className='RegisterPage-form-group'>
+          <BasicTextField
+            textName='First Name'
+            value={fname}
+            handleChange={(e) => setFirstName(e.target.value)}
           />
         </div>
-        <div className='form-group'>
-          <label className='form-label' for='password1'>
-            Password
-          </label>
-          <input
-            type='password'
-            className='form-control'
-            id='password1'
-            name='password1'
-            placeholder='Enter Password'
+        <div className='RegisterPage-form-group'>
+          <BasicTextField
+            textName='Last Name'
+            value={lname}
+            handleChange={(e) => setLastName(e.target.value)}
           />
         </div>
-        <div className='form-group'>
-          <label className='form-label' for='password2'>
-            Password (Confirm)
-          </label>
-          <input
-            type='password'
-            className='form-control'
-            id='password2'
-            nam--e='password2'
-            placeholder='Enter Password Again'
+        <div className='RegisterPage-form-group'>
+          <BasicTextField
+            textName='Password'
+            value={password}
+            handleChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <br />
         <TextButton buttonName='Register' buttonType='submit' />
       </form>
-      <div className='register-page-image-container'>
-        <img className='register-page-image' src={RegisterPageImage}></img>
+      <div className='RegisterPage-image-container'>
+        <img className='RegisterPage-image' src={RegisterPageImage}></img>
       </div>
     </div>
   );
 }
 
-export default Register;
+export default RegisterPage;

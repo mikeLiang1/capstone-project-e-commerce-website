@@ -1,0 +1,5 @@
+firebase_admin
+flask
+flask_restful
+requests>=2.11.1
+pyrebase

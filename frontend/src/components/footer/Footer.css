@@ -1,0 +1,17 @@
+.Footer {
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
+  background-color: var(--primary-colour-black);
+  max-height: 70px;
+}
+
+.Footer-link {
+  list-style: none;
+  text-decoration: none;
+  color: var(--primary-colour-white);
+}
+
+.Footer-link:hover {
+  color: var(--secondary-colour-orange);
+}

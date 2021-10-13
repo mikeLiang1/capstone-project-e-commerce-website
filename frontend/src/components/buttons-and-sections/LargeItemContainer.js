@@ -27,7 +27,7 @@ function LargeItemContainer({ itemName, imageUrl, productRouteId }) {
           </Link>
         </div>
       </Paper>
-      <p>{itemName}</p>
+      <p style={{ paddingTop: '8px' }}>{itemName}</p>
     </div>
   );
 }

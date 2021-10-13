@@ -21,7 +21,7 @@ function TrendingSection() {
   return (
     <div className='TrendingSection'>
       <div className='TrendingSection-information'>
-        <h2>TRENDING</h2>
+        <h2 style={{ fontSize: '24px' }}>TRENDING</h2>
       </div>
       <div className='TrendingSection-products-section'>
         {items.map((item) => (

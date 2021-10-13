@@ -49,7 +49,7 @@ function RegisterPage({ token, handleLogin }) {
   return (
     <div className='RegisterPage'>
       <form onSubmit={registerRequest}>
-        <h3>REGISTER</h3>
+        <h3 style={{ fontSize: '24px' }}>REGISTER</h3>
         <div className='RegisterPage-form-group'>
           <BasicTextField
             textName='Email'

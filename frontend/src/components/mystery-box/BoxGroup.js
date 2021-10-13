@@ -19,39 +19,14 @@ function BoxGroup({boxName}) {
         {"itemName" : "", "imageUrl": "", "price" : "99.99"},
     ])
     
-    const [email, setEmail] = useState('');
-    const [fname, setFirstName] = useState('');
-    const [lname, setLastName] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('qwewqe@qweoijqweo.com');
+    const [fname, setFirstName] = useState('oqwiejwqoie');
+    const [lname, setLastName] = useState('qweqwewq');
+    const [password, setPassword] = useState('qweqweqwewqe');
     
     // Function calls to the backend to retrieve name, price, image, and product ids
     async function boxRequest() {
         // Send request to the backend        
-        
-        /*var name = "banana"
-        var category = "cateog"
-        var image = "qowiejq"
-        var description = "qwoeijqweoij"
-        var tag = "taoijkeqwoij"
-        let body = {"name" : "banana", "category": "banana", "image": "banana", "description": "jello", "tag":"hello", "units_sold": 5, "price":300}
-        const registerDetails = { email, fname, lname, password };
-        const requesOptions = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-              'body' : JSON.stringify(registerDetails)
-            }
-          };
-          
-      
-          
-        const testProductPost = await fetch('/product', requesOptions)
-        console.log("PRODUCT TEST")
-        console.log(testProductPost)
-        const data = await testProductPost.json()
-        console.log(data)*/
-        
         const requestOptions = {
             method: 'GET',
             headers: {
@@ -61,7 +36,6 @@ function BoxGroup({boxName}) {
           };
           
         const response = await fetch('/mystery_box/' + boxName, requestOptions);
-
         
       
         if (response.status !== 200) {
@@ -147,6 +121,7 @@ function BoxGroup({boxName}) {
     useEffect(() => {
         boxRequest()    
     }, [])
+    
 
     
     // Need to route add to cart with product id

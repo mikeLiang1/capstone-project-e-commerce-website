@@ -25,7 +25,7 @@ function SmallItemContainer({ itemName, imageUrl }) {
           ></img>
         </div>
       </Paper>
-      <p style= {{ fontSize: '13px' }}>{itemName}</p>
+      <p style={{ fontSize: '13px', paddingTop: '8px' }}>{itemName}</p>
     </div>
   );
 }

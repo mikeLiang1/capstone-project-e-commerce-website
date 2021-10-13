@@ -61,8 +61,8 @@ function App() {
 
   return (
     <div>
-      <button onClick={makeAdmin}>Make Admin</button>
-      <button onClick={removeAdmin}>Remove Admin</button>
+      {/* <button onClick={makeAdmin}>Make Admin</button>
+      <button onClick={removeAdmin}>Remove Admin</button> */}
       <Router>
         <NavigationBar admin={admin} token={token} setToken={setToken} />
         <Switch>

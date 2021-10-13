@@ -1,5 +1,5 @@
 .SmallItemContainer {
-  height: 200px;
+  height: 230px;
   width: 150px;
   margin: 0 8px;
 }
@@ -12,4 +12,5 @@
 
 .SmallItemContainer-image {
   width: 120px;
+  max-height: 130px;
 }

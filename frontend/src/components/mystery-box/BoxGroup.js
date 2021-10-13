@@ -12,11 +12,11 @@ function BoxGroup({boxName}) {
     const [price, setPrice] = useState('999.99')
     const [img, setIMG] = useState('')
     const [products, setProducts] = useState([
-        {"itemName" : "", "imageUrl": "", "price" : "99.99"},
-        {"itemName" : "", "imageUrl": "", "price" : "99.99"},
-        {"itemName" : "", "imageUrl": "", "price" : "99.99"},
-        {"itemName" : "", "imageUrl": "", "price" : "99.99"},
-        {"itemName" : "", "imageUrl": "", "price" : "99.99"},
+        {"itemName" : "", "imageUrl": "", "price" : "99.99", "chance": 20},
+        {"itemName" : "", "imageUrl": "", "price" : "99.99", "chance": 20},
+        {"itemName" : "", "imageUrl": "", "price" : "99.99", "chance": 20},
+        {"itemName" : "", "imageUrl": "", "price" : "99.99", "chance": 20},
+        {"itemName" : "", "imageUrl": "", "price" : "99.99", "chance": 20},
     ])
     
     const [email, setEmail] = useState('qwewqe@qweoijqweo.com');
@@ -53,6 +53,9 @@ function BoxGroup({boxName}) {
                 console.log("PRINTING FOR " + boxName)
                 let products = []
                 for (var ID of Object.keys(data.box_data.Products)) {
+                
+                    const chance = data.box_data.Products[ID];
+                    console.log(`chance is ${chance}`)
                     const productOptions = {
                         method: 'GET',
                         headers: {
@@ -66,10 +69,10 @@ function BoxGroup({boxName}) {
                     
                     //console.log("Response")
                     
-                    const data = await productResponse.json()
+                    const productData = await productResponse.json()
                     
-                    products.push({"itemName" : data.data.name, "imageUrl": data.data.image, "price": data.data.price})
-                    console.log(data.data.image)
+                    products.push({"itemName" : productData.data.name, "imageUrl": productData.data.image, "price": productData.data.price, "chance": chance})
+                    console.log(productData.data)
                 }
                 setProducts(products)
             }
@@ -141,7 +144,11 @@ function BoxGroup({boxName}) {
             <div style={{ display:'flex', overflow:'auto'}}>
                 {products.map((item, id) => (
                     <div className='outline'>
-                        <SmallItemContainer key = {id} itemName = {item.itemName} imageUrl = {item.imageUrl}/>
+                        <div className="container">
+                            <SmallItemContainer key = {id} itemName = {item.itemName} imageUrl = {item.imageUrl}>
+                            </SmallItemContainer>
+                            <div className ="chance"><p>{item.chance}%</p></div>
+                        </div>
                         <b>RRP: ${item.price}</b>
                     </div>
                 ))}

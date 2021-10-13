@@ -25,6 +25,12 @@
   display: inline-block;
 }
 
+.NavigationBar-button {
+  text-decoration: none;
+  border: none;
+  background-color: var(--primary-colour-white);
+}
+
 .NavigationBar-link:hover {
   color: var(--secondary-colour-orange);
 }

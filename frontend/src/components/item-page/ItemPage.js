@@ -4,7 +4,7 @@ import BasicSelect from '../buttons-and-sections/BasicSelect.js';
 
 import './ItemPage.css';
 
-function ItemPage() {
+function ItemPage({ match }) {
   // pass in item id
   const productId = 'B0Si9HGHqL0IQ7EzItpK';
   const [category, setCategory] = useState('');
@@ -25,7 +25,7 @@ function ItemPage() {
       },
     };
 
-    const res = await fetch(`/product/${productId}`, requestOptions);
+    const res = await fetch(`/product/${match.params.itemId}`, requestOptions);
     if (res.status === 400) {
       alert('Product not found!');
     } else if (res.status === 200) {

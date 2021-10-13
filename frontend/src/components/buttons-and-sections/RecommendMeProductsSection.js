@@ -7,7 +7,7 @@ import './RecommendMeProductsSection.css';
 function RecommendMeProductsSection() {
   return (
     <div className='RecommendMeProductsSection'>
-      <h2>RECOMMEND ME PRODUCTS</h2>
+      <h2 style={{ fontSize: '24px' }}>RECOMMEND ME PRODUCTS</h2>
       <div className='RecommendMeProductsSection-section'>
         <Link to='/survey' className='RecommendMeProductsSection-link'>
           <TextButton buttonName='Swipe Survey' buttonType='button' />

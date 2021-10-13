@@ -49,6 +49,8 @@ class Product(Resource):
     def post(self): # ADD PRODUCT
         doc_ref = db.collection(u'products')
         args = productParser.parse_args()
+        
+        print(args)
         args_check = checkArgs(args)
 
         if args_check:
@@ -123,6 +125,6 @@ class Product_range(Resource):
 
         docs = first_query.stream()
         for doc in docs:
-            product_list.append(doc.to_dict())        
+            product_list.append({"content": doc.to_dict(), "id": doc.id})        
 
         return {'products': product_list}

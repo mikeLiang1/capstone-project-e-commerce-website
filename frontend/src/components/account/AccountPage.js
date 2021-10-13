@@ -10,7 +10,7 @@ import RecommendedSection from '../buttons-and-sections/RecommendedSection';
 function AccountPage() {
   return (
     <div className='AccountPage'>
-      <h2>MY ACCOUNT</h2>
+      <h2 style={{ fontSize: '24px' }}>MY ACCOUNT</h2>
       <Link to='/myorders' className='AccountPage-link'>
         <TextButton buttonName='My Orders' buttonType='button' />
       </Link>

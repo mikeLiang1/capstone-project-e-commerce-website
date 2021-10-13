@@ -44,7 +44,7 @@ function LoginPage({ token, handleLogin }) {
   return (
     <div className='LoginPage'>
       <form className='LoginPage-login-section' onSubmit={loginRequest}>
-        <h3>LOGIN</h3>
+        <h3 style={{ fontSize: '24px' }}>LOGIN</h3>
         <div className='LoginPage-form-group'>
           <BasicTextField
             textName='Email'
@@ -63,7 +63,7 @@ function LoginPage({ token, handleLogin }) {
         <TextButton buttonName='Sign In' buttonType='submit' />
       </form>
       <div className='LoginPage-register-section'>
-        <h3>REGISTER</h3>
+        <h3 style={{ fontSize: '24px' }}>REGISTER</h3>
         <p>
           Register an account with{' '}
           <span style={{ color: '#FF7A00' }}>NOCTA TECHNOLOGY</span> for a more

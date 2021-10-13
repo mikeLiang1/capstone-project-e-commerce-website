@@ -21,7 +21,7 @@ function RecommendedSection() {
   return (
     <div className='RecommendedSection'>
       <div className='RecommendedSection-information'>
-        <h2>RECOMMENDED</h2>
+        <h2 style={{ fontSize: '24px' }}>RECOMMENDED</h2>
       </div>
       <div className='RecommendedSection-products-section'>
         {items.map((item) => (

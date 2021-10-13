@@ -11,9 +11,9 @@ import ItemPage from './components/item-page/ItemPage';
 import MysteryBoxPage from './components/mystery-box/MysteryBoxPage';
 import AdminHomePage from './components/admin-home/AdminHomePage';
 import CheckoutPage from './components/checkout/CheckoutPage';
+import CartPage from './components/checkout/CartPage';
 import AccountPage from './components/account/AccountPage';
 import Cookies from 'js-cookie';
-import NavigationBarUser from './components/navigation/NavigationBarUser';
 import { render } from '@testing-library/react';
 
 function App() {
@@ -61,11 +61,12 @@ function App() {
 
   return (
     <div>
-      <button onClick={makeAdmin}>Make Admin</button>
-      <button onClick={removeAdmin}>Remove Admin</button>
+      {/* <button onClick={makeAdmin}>Make Admin</button>
+      <button onClick={removeAdmin}>Remove Admin</button> */}
       <Router>
         <NavigationBar admin={admin} token={token} setToken={setToken} />
         <Switch>
+          <Route path='/cart' exact component={CartPage} />
           <Route path='/checkout' exact component={CheckoutPage} />
           <Route path='/product/:itemId' exact component={ItemPage} />
           <Route path='/adminhome' exact component={AdminHomePage} />

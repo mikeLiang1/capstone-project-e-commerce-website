@@ -15,7 +15,7 @@ function AddProductPage() {
   const [details, setDetails] = useState({
     category: '',
     name: '',
-    img: '',
+    image: '',
     price: '',
     tag: '',
     description: '',
@@ -30,9 +30,24 @@ function AddProductPage() {
     console.log(data);
   };
 
-  const submitData = () => {
+  async function submitData() {
     console.log(details);
-  };
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(details),
+    };
+
+    const res = await fetch(`/product/`, requestOptions);
+    console.log(res);
+    if (res.status === 200) {
+      const data = await res.json();
+      console.log(data);
+    }
+  }
 
   return (
     <div id='AddProductPage'>

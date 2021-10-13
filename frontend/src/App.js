@@ -10,6 +10,7 @@ import AdminDashboardPage from './components/admin-dashboard/AdminDashboardPage'
 import ItemPage from './components/item-page/ItemPage';
 import MysteryBoxPage from './components/mystery-box/MysteryBoxPage';
 import AdminHomePage from './components/admin-home/AdminHomePage';
+import CheckoutPage from './components/checkout/CheckoutPage';
 import AccountPage from './components/account/AccountPage';
 import Cookies from 'js-cookie';
 import NavigationBarUser from './components/navigation/NavigationBarUser';
@@ -19,22 +20,22 @@ function App() {
   const [admin, setAdmin] = useState(Cookies.get('admin'));
   const [token, setToken] = useState(Cookies.get('user'));
   const [itemId, setItemId] = useState('0');
-  const [navigationBar, setNavigationBar] = useState('');
+  //const [navigationBar, setNavigationBar] = useState('');
 
-  useEffect(() => {
-    if (token === Cookies.get('user') && token != undefined) {
-      setNavigationBar(<NavigationBarUser />);
-    } else if (admin == 'true') {
-      setNavigationBar(<div>Admin Nav Bar</div>);
-    } else {
-      setNavigationBar(<NavigationBar />);
-    }
-    // Logouts out a user if the user's token no longer exists (e.g. if the user clears their cookies)
-    // User must refresh the page in order for this to take effect
-    if (Cookies.get('user') == '') {
-      setToken('');
-    }
-  }, [token, admin]);
+  // useEffect(() => {
+  //   if (token === Cookies.get('user') && token != undefined) {
+  //     setNavigationBar(<NavigationBarUser />);
+  //   } else if (admin == 'true') {
+  //     setNavigationBar(<div>Admin Nav Bar</div>);
+  //   } else {
+  //     setNavigationBar(<NavigationBar />);
+  //   }
+  //   // Logouts out a user if the user's token no longer exists (e.g. if the user clears their cookies)
+  //   // User must refresh the page in order for this to take effect
+  //   if (Cookies.get('user') == '') {
+  //     setToken('');
+  //   }
+  // }, [token, admin]);
 
   const makeAdmin = () => {
     setAdmin('true');
@@ -63,10 +64,9 @@ function App() {
       <button onClick={makeAdmin}>Make Admin</button>
       <button onClick={removeAdmin}>Remove Admin</button>
       <Router>
-        {}
-        {navigationBar}
-        {/* <NavigationBar admin={admin} token={token} /> */}
+        <NavigationBar admin={admin} token={token} setToken={setToken} />
         <Switch>
+          <Route path='/checkout' exact component={CheckoutPage} />
           <Route path='/product/:itemId' exact component={ItemPage} />
           <Route path='/adminhome' exact component={AdminHomePage} />
           <Route path='/addproduct' exact component={AddProductPage} />

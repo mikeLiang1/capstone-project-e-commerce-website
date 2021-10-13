@@ -11,7 +11,7 @@ function ItemPage() {
   const [desc, setDesc] = useState('');
   const [img, setImg] = useState('');
   const [name, setName] = useState('');
-  const [price, setPrice] = useState('');
+  const [price, setPrice] = useState(0);
   const [tag, setTag] = useState('');
   const [review, setReview] = useState('');
   const list = ['1', '2', '3', '4', '5'];
@@ -64,7 +64,7 @@ function ItemPage() {
           </div>
           <div className='ItemPage-box-info'>Tag: {tag}</div>
           <div className='ItemPage-box-add'>
-            <div>
+            <div className='ItemPage-small'>
               <BasicSelect
                 name='Quantity'
                 list={list}
@@ -72,7 +72,7 @@ function ItemPage() {
                 handleChange={(e) => setQuantity(e.target.value)}
               />
             </div>
-            <div>
+            <div className='ItemPage-small'>
               <Button
                 onClick={() => {
                   console.log('add');
@@ -91,11 +91,11 @@ function ItemPage() {
           </div>
         </div>
         <div className='ItemPage-flex-vert'>
-          <div>
+          <div className='ItemPage-box'>
             <b>Description</b> <br />
             {desc}
           </div>
-          <div>
+          <div className='ItemPage-box'>
             <b>Reviews</b>
             <br />
             {desc}

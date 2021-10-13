@@ -20,6 +20,7 @@ function RegisterPage({ token, handleLogin }) {
 
     // Format data in a single dictionary to be ready to send to the backend
     const registerDetails = { email, fname, lname, password };
+    console.log(registerDetails);
 
     const requestOptions = {
       method: 'POST',

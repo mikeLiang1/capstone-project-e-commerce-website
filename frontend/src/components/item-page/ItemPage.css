@@ -9,6 +9,10 @@
   justify-content: center;
 }
 
+.ItemPage-box {
+  margin-top: 80px;
+}
+
 .ItemPage-box-img {
   overflow: auto;
 }
@@ -19,11 +23,16 @@
   align-items: center;
 }
 
+.ItemPage-small {
+  margin-right: 30px;
+}
+
 .ItemPage-box-add {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin-top: 30px;
 }
 
 .ItemPage-flex-vert {
@@ -32,4 +41,5 @@
   width: 50%;
   justify-content: center;
   text-align: center;
+  margin-bottom: 30px;
 }

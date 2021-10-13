@@ -2,37 +2,91 @@ import React, { useEffect, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import Button from '@material-ui/core/Button';
 import './NavigationBar.css';
 
-function NavigationBar({ token, admin }) {
+function NavigationBar({ token, admin, setToken }) {
+  const handleLogout = () => {
+    console.log('yes');
+    Cookies.set('user', '');
+    setToken('');
+  };
+
   // Guest Navigation Bar
   return (
-    <div className='NavigationBar'>
-      <ul className='NavigationBar-links-left'>
-        <Link to='/search' className='NavigationBar-link'>
-          <li>SEARCH</li>
-        </Link>
-        <Link to='/explore' className='NavigationBar-link'>
-          <li>EXPLORE</li>
-        </Link>
-        <Link to='/mysterybox' className='NavigationBar-link'>
-          <li>MYSTERY BOX</li>
-        </Link>
-      </ul>
-      <Link to='/' className='NavigationBar-link'>
-        <p className='NavigationBar-brand-name'>NOCTA TECH</p>
-      </Link>
-      <ul className='NavigationBar-links-right'>
-        <Link to='/login' className='NavigationBar-link'>
-          <li>LOGIN</li>
-        </Link>
-        <Link to='/register' className='NavigationBar-link'>
-          <li>REGISTER</li>
-        </Link>
-        <Link to='/cart' className='NavigationBar-link'>
-          <li>CART</li>
-        </Link>
-      </ul>
+    <div>
+      {admin === 'true' ? (
+        <div className='NavigationBar'>
+          <ul className='NavigationBar-links-left'>
+            <Link to='/search' className='NavigationBar-link'>
+              <li>SEARCH</li>
+            </Link>
+            <Link to='/explore' className='NavigationBar-link'>
+              <li>EXPLORE</li>
+            </Link>
+            <Link to='/mysterybox' className='NavigationBar-link'>
+              <li>MYSTERY BOX</li>
+            </Link>
+          </ul>
+          <Link to='/' className='NavigationBar-link'>
+            <p className='NavigationBar-brand-name'>NOCTA TECH</p>
+          </Link>
+          <ul className='NavigationBar-links-right'>
+            <Link to='/login' className='NavigationBar-link'>
+              <li>LOGIN</li>
+            </Link>
+            <Link to='/register' className='NavigationBar-link'>
+              <li>SALES</li>
+            </Link>
+            <Link to='/cart' className='NavigationBar-link'>
+              <li>ADD PRODUCT</li>
+            </Link>
+          </ul>
+        </div>
+      ) : (
+        <div className='NavigationBar'>
+          <ul className='NavigationBar-links-left'>
+            <Link to='/search' className='NavigationBar-link'>
+              <li>SEARCH</li>
+            </Link>
+            <Link to='/explore' className='NavigationBar-link'>
+              <li>EXPLORE</li>
+            </Link>
+            <Link to='/mysterybox' className='NavigationBar-link'>
+              <li>MYSTERY BOX</li>
+            </Link>
+          </ul>
+          <Link to='/' className='NavigationBar-link'>
+            <p className='NavigationBar-brand-name'>NOCTA TECH</p>
+          </Link>
+          <ul className='NavigationBar-links-right'>
+            {token === '' ? (
+              <div>
+                <Link to='/login' className='NavigationBar-link'>
+                  <li>LOGIN</li>
+                </Link>
+              </div>
+            ) : (
+              <Link to='/' className='NavigationBar-link'>
+                <Button
+                  color='primary'
+                  variant='contained'
+                  onClick={() => handleLogout()}
+                >
+                  Logout
+                </Button>
+              </Link>
+            )}
+
+            <Link to='/register' className='NavigationBar-link'>
+              <li>REGISTER</li>
+            </Link>
+            <Link to='/cart' className='NavigationBar-link'>
+              <li>CART</li>
+            </Link>
+          </ul>
+        </div>
+      )}
     </div>
   );
 

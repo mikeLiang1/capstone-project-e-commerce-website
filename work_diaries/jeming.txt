@@ -1,0 +1,40 @@
+Week 1
+
+Group of 5 members formed. We assigned Colin Hon as the Scrum Master for the project. I created the Jira & GitHub accounts. 
+We decided on the E-Commerce Recommender System project. After a group discussion, we drafted up 5 requirements/functionalities out of 
+the 8 required for our project and divided up the work to produce user stories and acceptance criteria for each of these functionalities. 
+
+Week 2 
+
+I wrote up user stories and acceptance criteria for the “Recommendation System” functionality that I was assigned for our E-Commerce 
+project. Early this week, we had a group stand-up to review each other’s user stories and acceptance criterias that we produced. After a 
+discussion with our tutor, Christian, we split up the “Recommendation System” functionality into two separate functionalities due to the 
+complexity of the system – “Recommendation Home Page System” and a “Recommendation Product Page System”. Additionally, we also brainstormed 
+another “Novel” functionality which was approved by Christian. Our group also decided to split up the tasks for drafting up the Project 
+Proposal, Jeffery Ge, Yeji Yun and Colin Hon were assigned to complete the “Background” and the “System Architecture” parts of the 
+proposal, and Mike Liang and I were assigned to complete the “Interface, Flow Diagrams & Storyboards” part of the proposal and designing 
+the UI of our website and creating an interactive prototype on Figma.
+
+Week 3
+
+Our group began to draft up the Project Proposal. Mike and I finalised the Storyboards and UI prototype of our website on Figma, and 
+began to write the “Interface, Flow Diagrams & Storyboards” part of the Project Proposal. Jeffery, Yeji and Colin made good progress on 
+their parts of the proposal. After a discussion with our tutor, we tidied up our user stories, and brainstormed the remaining “Novel” 
+functionality which was approved by Christian.
+
+Week 4
+
+Our group finalised and handed in our Project Proposal on time, and split the tasks for Sprint 1. For our first sprint, we agreed that 
+me and Jeffery would complete the user stories/tasks for the front-end, whilst Colin, Yeji and Mike would complete the back-end user 
+stories/tasks. I worked on implementing the Login Page, Register Page, and Home Pages for both the Guest and User, whilst Jeffery worked 
+on implementing the Explore Page, Add New Products Page, and Edit Product Pages. Since we had already completed a Figma prototype for the 
+UI, we didn’t really need to think about the design, and we just had to write up the code for it.
+
+Week 5
+
+Our group worked on attempting to complete and finalise all our tasks for Sprint 1. Me and Jeffery continued to work on the front and 
+finished our tasks – which included connecting certain components of the frontend to the backend, such as the Login and Register 
+functions, as well as retrieving product information from the backend to be displayed on the frontend. Colin, Yeji and Mike also completed 
+their tasks for the backend, which involved implementing the Authentication (Login/Logout) functionalities, the Product functionality 
+(Adding, Updating, Deleting Products), and the Mystery Box functionality. Since this was our first sprint, much of the features we 
+implemented were very basic as they were part of our “Minimum Viable Product”, which we plan to build upon it in the next Sprint.

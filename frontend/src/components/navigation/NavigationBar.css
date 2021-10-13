@@ -7,12 +7,14 @@
 
 .NavigationBar-links-left {
   padding-left: 0;
+  padding-top: 16px;
   width: 400px;
   text-align: left;
 }
 
 .NavigationBar-links-right {
   padding-left: 0;
+  padding-top: 16px;
   width: 400px;
   text-align: right;
 }
@@ -25,6 +27,11 @@
   display: inline-block;
 }
 
+.NavigationBar-button {
+  border: none;
+  background-color: var(--primary-colour-white);
+}
+
 .NavigationBar-link:hover {
   color: var(--secondary-colour-orange);
 }
@@ -34,4 +41,5 @@
   font-size: var(--title-font-size);
   font-weight: var(--bold-font-weight);
   text-align: center;
+  padding-top: 16px;
 }

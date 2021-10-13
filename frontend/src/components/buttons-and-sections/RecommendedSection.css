@@ -1,4 +1,4 @@
-.TrendingSection {
+.RecommendedSection {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -6,13 +6,13 @@
   padding: 64px 0;
 }
 
-.TrendingSection-information {
+.RecommendedSection-information {
   padding: 32px 0;
 }
 
-.TrendingSection-products-section {
+.RecommendedSection-products-section {
   display: flex;
   width: 60%;
-  height: 400px;
+  height: 350px;
   overflow: auto;
 }

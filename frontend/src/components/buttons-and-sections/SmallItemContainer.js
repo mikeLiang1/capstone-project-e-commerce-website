@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Link } from 'react-router-dom';
+
 import { Paper } from '@material-ui/core';
 
 import './SmallItemContainer.css';
 
-function SmallItemContainer({ itemName, imageUrl }) {
+function SmallItemContainer({ itemName, imageUrl, productRouteId }) {
   return (
     <div className='SmallItemContainer'>
       <Paper
@@ -18,14 +20,16 @@ function SmallItemContainer({ itemName, imageUrl }) {
         }}
       >
         <div className='SmallItemContainer-image-container'>
-          <img
-            className='SmallItemContainer-image'
-            src={imageUrl}
-            alt='Item Image'
-          ></img>
+          <Link to={`/product/${productRouteId}`}>
+            <img
+              className='SmallItemContainer-image'
+              src={imageUrl}
+              alt='Item Image'
+            ></img>
+          </Link>
         </div>
       </Paper>
-      <p style= {{ fontSize: '13px' }}>{itemName}</p>
+      <p style={{ fontSize: '13px', paddingTop: '8px' }}>{itemName}</p>
     </div>
   );
 }

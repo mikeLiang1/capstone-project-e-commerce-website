@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import LargeItemContainer from './LargeItemContainer';
 
@@ -18,14 +18,55 @@ function TrendingSection() {
     { id: 10, content: <LargeItemContainer /> },
   ]);
 
+  const [products, setProducts] = useState([]);
+
+  const getProducts = async () => {
+    const requestOptions = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    };
+
+    const response = await fetch('/product/1/10', requestOptions);
+
+    if (response.status != 200) {
+      alert('Failed to get Trending Products!');
+    } else if (response.status === 200) {
+      const data = await response.json();
+      let items = [];
+      for (var i = 0; i < data.products.length; i++) {
+        // console.log(data.products[i].image);
+        // console.log(data.products[i].name);
+        items.push({
+          name: data.products[i].content.name,
+          image: data.products[i].content.image,
+          routeId: data.products[i].id,
+        });
+      }
+      setProducts(items);
+    }
+  };
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
   return (
     <div className='TrendingSection'>
       <div className='TrendingSection-information'>
-        <h2>TRENDING</h2>
+        <h2 style={{ fontSize: '24px' }}>TRENDING</h2>
       </div>
       <div className='TrendingSection-products-section'>
-        {items.map((item) => (
-          <div key={item.id}>{item.content}</div>
+        {products.map((item, id) => (
+          <div key={id}>
+            <LargeItemContainer
+              itemName={item.name}
+              imageUrl={item.image}
+              productRouteId={item.routeId}
+            />
+          </div>
         ))}
       </div>
     </div>

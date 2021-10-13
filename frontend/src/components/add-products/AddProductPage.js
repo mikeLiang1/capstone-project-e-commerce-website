@@ -7,6 +7,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import Typography from '@mui/material/Typography';
 
 import './AddProductPage.css';
 
@@ -67,21 +68,42 @@ function AddProductPage() {
   
   return (
     <div id='AddProductPage'>
-      <Box sx={{ maxWidth: 130 }}>
-        <FormControl fullWidth>
-          <InputLabel>Category</InputLabel>
-          <Select
-            value={details.category}
-            label='category'
-            onChange={(e) =>
-              setDetails({ ...details, category: e.target.value })
-            }
-          >
-            <MenuItem value='phone'>Phone</MenuItem>
-            <MenuItem value='computer'>Computer</MenuItem>
-            <MenuItem value='pheripheral'>Pheripheral</MenuItem>
-          </Select>
-        </FormControl>
+      <Box sx={{ maxWidth: '50%' }}>
+        <Typography variant='body1'>
+          Select the Category that this product belongs to:
+        </Typography>
+        <Typography variant='body1'>
+          (leave it as None it does not belong to any Category)
+        </Typography>
+        <Box sx={{ display: 'flex', marginTop: '20px', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Typography>
+            Category (if applicable):
+          </Typography>
+          <FormControl sx={{ width: '350px', marginLeft: '30px', backgroundColor: '#000000', borderRadius: '15px', textAlign: 'center', marginRight: '20px' }}>
+            <InputLabel sx={{ color: '#FFFFFF' }}>Category</InputLabel>
+            <Select
+              value={details.category}
+              label='category'
+              sx={{ color: '#FFFFFF' }}
+              onChange={(e) =>
+                setDetails({ ...details, category: e.target.value })
+              }
+            >
+              <MenuItem value='none'>None</MenuItem>
+              <MenuItem value='phone'>Phone</MenuItem>
+              <MenuItem value='computer'>Computer</MenuItem>
+              <MenuItem value='pheripheral'>Pheripheral</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
+      </Box>
+      <Box sx={{ display: 'flex', marginTop: '40px' }}>
+        <Box sx={{ backgroundColor: '#E8E8E8', width: '50%' }}>
+          hi
+        </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column', backgroundColor: '#BBBBBB', width: '50%' }}>
+              bye
+        </Box>
       </Box>
       <div id='AddProductPage-flexbox'>
         <div>

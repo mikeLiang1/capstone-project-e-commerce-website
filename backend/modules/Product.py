@@ -47,7 +47,6 @@ class Product_get(Resource):
 class Product(Resource):
 
     def post(self): # ADD PRODUCT
-        doc_ref = db.collection(u'products')
         args = productParser.parse_args()
         
         args_check = checkArgs(args)
@@ -60,8 +59,9 @@ class Product(Resource):
         
         if args.reviews is None:
             args.reviews = []
-
-        doc_ref.add({
+            
+        doc_ref = db.collection(u'products')
+        result = doc_ref.add({
             u'name': args.name,
             u'category': args.category,
             u'image': args.image,
@@ -71,8 +71,8 @@ class Product(Resource):
             u'tag': args.tag,
             u'units_sold': args.units_sold
         })
-
-        return {'message' : 'product added successfully : {0}'.format(args.name)}
+        
+        return {'message' : 'product added successfully : {0}'.format(result[1].id)}
     
     def put(self):  # EDIT PRODUCT
         args = productParser.parse_args()

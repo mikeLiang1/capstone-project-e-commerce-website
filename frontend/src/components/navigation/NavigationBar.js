@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import Button from '@material-ui/core/Button';
 import './NavigationBar.css';
 
-function NavigationBar({ token, admin, setToken }) {
+function NavigationBar({ token, admin, setToken, setAdmin }) {
   const handleLogout = () => {
     console.log('yes');
     Cookies.set('user', '');
+    Cookies.remove('admin');
+    setAdmin('');
     setToken('');
   };
 
@@ -46,8 +47,8 @@ function NavigationBar({ token, admin, setToken }) {
               </Link>
             </button>
             <button className='NavigationBar-button'>
-              <Link to='/sales' className='NavigationBar-link'>
-                <li>SALES</li>
+              <Link to='/admindash' className='NavigationBar-link'>
+                <li>DASHBOARD</li>
               </Link>
             </button>
             <button className='NavigationBar-button'>

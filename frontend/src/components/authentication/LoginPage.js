@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import BasicTextField from '../buttons-and-sections/BasicTextField.js';
@@ -6,7 +7,7 @@ import TextButton from '../buttons-and-sections/TextButton.js';
 
 import './LoginPage.css';
 
-function LoginPage({ token, handleLogin }) {
+function LoginPage({ token, handleLogin, setAdmin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   let history = useHistory();
@@ -33,6 +34,10 @@ function LoginPage({ token, handleLogin }) {
       alert('Incorrect details entered! Please try again.');
     } else if (response.status === 200) {
       const data = await response.json();
+      if (email === 'admin@admin.com') {
+        setAdmin('true');
+        Cookies.set('admin', 'true');
+      }
       token = data.idToken;
       handleLogin(token);
       console.log('Successful');

@@ -7,15 +7,14 @@ import './AdminDashboardPage.css';
 function AdminDashboardPage() {
   return (
     <div id='AdminDashboardPage-flexbox'>
-      <div>Admin Dashboard</div>
-      <div>
+      <div className='AdminDashboardPage-box'>
         <Link to='/addproduct' style={{ textDecoration: 'none' }}>
           <TextButton buttonName='Add Product' buttonType='button' />
         </Link>
       </div>
-      <div>Total Unit Sold</div>
-      <div>Total Revenue</div>
-      <div>Recent Reviews</div>
+      <div className='AdminDashboardPage-box'>Total Units Sold</div>
+      <div className='AdminDashboardPage-box'>Total Revenue</div>
+      <div className='AdminDashboardPage-box'>Recent Reviews</div>
     </div>
   );
 }

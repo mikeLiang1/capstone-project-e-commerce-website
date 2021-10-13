@@ -79,6 +79,15 @@ function BoxGroup({ boxName }) {
 
             // Parse products
 
+<<<<<<< HEAD
+          products.push({
+            itemName: data.data.name,
+            imageUrl: data.data.image,
+            price: data.data.price,
+            routeId: ID,
+          });
+          console.log(data.data.image);
+=======
             console.log('PRINTING FOR ' + boxName);
             let products = [];
             for (var ID of Object.keys(data.box_data.Products)) {
@@ -112,8 +121,54 @@ function BoxGroup({ boxName }) {
             }
             setProducts(products);
           }
+>>>>>>> 43df822f154a4e0088c826a135e494bad9d6ca6d
         }
       }
+<<<<<<< HEAD
+
+      //if data.box_data.length !== 0 {
+      // setProducts(products)
+      //}
+
+      /*
+                        const data = await response.json()
+            console.log('Successful')
+            console.log(data.box_data)
+            setPrice(data.box_data.Price)
+            setIMG(data.box_data.Image)
+
+            // Parse products
+            //console.log("Data")
+            //console.log(Object.keys(data.box_data.Products).length)
+            if (Object.keys(data.box_data.Products).length !== 0) {
+                console.log("PRINTING FOR " + boxName)
+                let products = []
+                for (var ID of Object.keys(data.box_data.Products)) {
+                    const productOptions = {
+                        method: 'GET',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        }
+                    }
+                    console.log(ID)
+                    ID = ID.substring(1);
+                    console.log(ID)
+                    const productResponse = await fetch(`/product/${ID}`, productOptions)
+
+                    //console.log("Response")
+                    if (productResponse.status === 200) {
+                        const productData = await productResponse.json()
+
+                        products.push({"itemName" : productData.data.name, "imageUrl": productData.data.image, "price": productData.data.price})
+                        console.log(data.data.image)
+                    }
+                }
+
+                setProducts(products)
+            }
+            */
+=======
+>>>>>>> 43df822f154a4e0088c826a135e494bad9d6ca6d
     }
   }
 

@@ -11,6 +11,7 @@ import ItemPage from './components/item-page/ItemPage';
 import MysteryBoxPage from './components/mystery-box/MysteryBoxPage';
 import AdminHomePage from './components/admin-home/AdminHomePage';
 import CheckoutPage from './components/checkout/CheckoutPage';
+import CartPage from './components/checkout/CartPage';
 import AccountPage from './components/account/AccountPage';
 import Cookies from 'js-cookie';
 import { render } from '@testing-library/react';
@@ -19,22 +20,6 @@ function App() {
   const [admin, setAdmin] = useState(Cookies.get('admin'));
   const [token, setToken] = useState(Cookies.get('user'));
   const [itemId, setItemId] = useState('0');
-  //const [navigationBar, setNavigationBar] = useState('');
-
-  // useEffect(() => {
-  //   if (token === Cookies.get('user') && token != undefined) {
-  //     setNavigationBar(<NavigationBarUser />);
-  //   } else if (admin == 'true') {
-  //     setNavigationBar(<div>Admin Nav Bar</div>);
-  //   } else {
-  //     setNavigationBar(<NavigationBar />);
-  //   }
-  //   // Logouts out a user if the user's token no longer exists (e.g. if the user clears their cookies)
-  //   // User must refresh the page in order for this to take effect
-  //   if (Cookies.get('user') == '') {
-  //     setToken('');
-  //   }
-  // }, [token, admin]);
 
   const makeAdmin = () => {
     setAdmin('true');
@@ -63,8 +48,14 @@ function App() {
       {/* <button onClick={makeAdmin}>Make Admin</button>
       <button onClick={removeAdmin}>Remove Admin</button> */}
       <Router>
-        <NavigationBar admin={admin} token={token} setToken={setToken} />
+        <NavigationBar
+          admin={admin}
+          token={token}
+          setToken={setToken}
+          setAdmin={setAdmin}
+        />
         <Switch>
+          <Route path='/cart' exact component={CartPage} />
           <Route path='/checkout' exact component={CheckoutPage} />
           <Route path='/product/:itemId' exact component={ItemPage} />
           <Route path='/adminhome' exact component={AdminHomePage} />
@@ -79,7 +70,11 @@ function App() {
             path='/login'
             exact
             component={() => (
-              <LoginPage token={token} handleLogin={handleLogin} />
+              <LoginPage
+                token={token}
+                handleLogin={handleLogin}
+                setAdmin={setAdmin}
+              />
             )}
           />
           <Route

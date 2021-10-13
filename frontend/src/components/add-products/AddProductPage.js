@@ -33,8 +33,6 @@ const firebaseApp = initializeApp(firebaseConfig);
 const storage = getStorage(firebaseApp);
 
 function AddProductPage() {
-  const { register, handleSubmit } = useForm();
-
   const [image, setImage] = useState(null);
   const [details, setDetails] = useState({
     category: '',
@@ -63,7 +61,7 @@ function AddProductPage() {
       body: JSON.stringify(details),
     };
 
-    const res = await fetch(/product/, requestOptions);
+    const res = await fetch(`/product`, requestOptions);
     console.log(res);
     if (res.status === 200) {
       const data = await res.json();

@@ -1,37 +1,127 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Link } from 'react-router-dom';
-
+import Cookies from 'js-cookie';
+import Button from '@material-ui/core/Button';
 import './NavigationBar.css';
 
-function NavigationBar() {
+function NavigationBar({ token, admin, setToken }) {
+  const handleLogout = () => {
+    console.log('yes');
+    Cookies.set('user', '');
+    setToken('');
+  };
+
   return (
-    <div className='NavigationBar'>
-      <ul className='NavigationBar-links-left'>
-        <Link to='/search' className='NavigationBar-link'>
-          <li>SEARCH</li>
-        </Link>
-        <Link to='/explore' className='NavigationBar-link'>
-          <li>EXPLORE</li>
-        </Link>
-        <Link to='/mysterybox' className='NavigationBar-link'>
-          <li>MYSTERY BOX</li>
-        </Link>
-      </ul>
-      <Link to='/' className='NavigationBar-link'>
-        <p className='NavigationBar-brand-name'>NOCTA TECH</p>
-      </Link>
-      <ul className='NavigationBar-links-right'>
-        <Link to='/login' className='NavigationBar-link'>
-          <li>LOGIN</li>
-        </Link>
-        <Link to='/register' className='NavigationBar-link'>
-          <li>REGISTER</li>
-        </Link>
-        <Link to='/cart' className='NavigationBar-link'>
-          <li>CART</li>
-        </Link>
-      </ul>
+    <div>
+      {admin === 'true' ? (
+        <div className='NavigationBar'>
+          <ul className='NavigationBar-links-left'>
+            <button className='NavigationBar-button'>
+              <Link to='/search' className='NavigationBar-link'>
+                <li>SEARCH</li>
+              </Link>
+            </button>
+            <button className='NavigationBar-button'>
+              <Link to='/explore' className='NavigationBar-link'>
+                <li>EXPLORE</li>
+              </Link>
+            </button>
+            <button className='NavigationBar-button'>
+              <Link to='/mysterybox' className='NavigationBar-link'>
+                <li>MYSTERY BOX</li>
+              </Link>
+            </button>
+          </ul>
+          <Link to='/' className='NavigationBar-link'>
+            <p className='NavigationBar-brand-name'>NOCTA TECH</p>
+          </Link>
+          <ul className='NavigationBar-links-right'>
+            <button
+              onClick={() => handleLogout()}
+              className='NavigationBar-button'
+            >
+              <Link to='/login' className='NavigationBar-link'>
+                <li>LOGOUT</li>
+              </Link>
+            </button>
+            <button className='NavigationBar-button'>
+              <Link to='/sales' className='NavigationBar-link'>
+                <li>SALES</li>
+              </Link>
+            </button>
+            <button className='NavigationBar-button'>
+              <Link to='/addproduct' className='NavigationBar-link'>
+                <li>ADD PRODUCT</li>
+              </Link>
+            </button>
+          </ul>
+        </div>
+      ) : (
+        // User or Guest
+        <div className='NavigationBar'>
+          <ul className='NavigationBar-links-left'>
+            <button className='NavigationBar-button'>
+              <Link to='/search' className='NavigationBar-link'>
+                <li>SEARCH</li>
+              </Link>
+            </button>
+            <button className='NavigationBar-button'>
+              <Link to='/explore' className='NavigationBar-link'>
+                <li>EXPLORE</li>
+              </Link>
+            </button>
+            <button className='NavigationBar-button'>
+              <Link to='/mysterybox' className='NavigationBar-link'>
+                <li>MYSTERY BOX</li>
+              </Link>
+            </button>
+          </ul>
+          <Link to='/' className='NavigationBar-link'>
+            <p className='NavigationBar-brand-name'>NOCTA TECH</p>
+          </Link>
+          <ul className='NavigationBar-links-right'>
+            {token === '' ? (
+              <button className='NavigationBar-button'>
+                <Link to='/login' className='NavigationBar-link'>
+                  <li>LOGIN</li>
+                </Link>
+              </button>
+            ) : (
+              <button
+                onClick={() => handleLogout()}
+                className='NavigationBar-button'
+              >
+                <Link
+                  to='/'
+                  style={{ textDecoration: 'none' }}
+                  className='NavigationBar-link'
+                >
+                  LOGOUT
+                </Link>
+              </button>
+            )}
+            {token === '' ? (
+              <button className='NavigationBar-button'>
+                <Link to='/register' className='NavigationBar-link'>
+                  <li>REGISTER</li>
+                </Link>
+              </button>
+            ) : (
+              <button className='NavigationBar-button'>
+                <Link to='/account' className='NavigationBar-link'>
+                  <li>ACCOUNT</li>
+                </Link>
+              </button>
+            )}
+            <button className='NavigationBar-button'>
+              <Link to='/cart' className='NavigationBar-link'>
+                <li>CART</li>
+              </Link>
+            </button>
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

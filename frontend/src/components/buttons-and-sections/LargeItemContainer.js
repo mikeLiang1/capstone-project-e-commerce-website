@@ -3,8 +3,9 @@ import React from 'react';
 import { Paper } from '@material-ui/core';
 
 import './LargeItemContainer.css';
+import { Link } from 'react-router-dom';
 
-function LargeItemContainer({ itemName, imageUrl }) {
+function LargeItemContainer({ itemName, imageUrl, productRouteId }) {
   return (
     <div className='LargeItemContainer'>
       <Paper
@@ -17,14 +18,16 @@ function LargeItemContainer({ itemName, imageUrl }) {
         }}
       >
         <div className='LargeItemContainer-image-container'>
-          <img
-            className='LargeItemContainer-image'
-            src={imageUrl}
-            alt='Item Image'
-          ></img>
+          <Link to={`/product/${productRouteId}`}>
+            <img
+              className='LargeItemContainer-image'
+              src={imageUrl}
+              alt='Item Image'
+            ></img>
+          </Link>
         </div>
       </Paper>
-      <p>{itemName}</p>
+      <p style={{ paddingTop: '8px' }}>{itemName}</p>
     </div>
   );
 }

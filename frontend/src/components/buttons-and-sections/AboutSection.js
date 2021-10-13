@@ -106,7 +106,7 @@ function AboutSection() {
   return (
     <div className='AboutSection'>
       <div className='AboutSection-information'>
-        <h2>EST. 2021</h2>
+        <h2 style={{ fontSize: '24px' }}>EST. 2021</h2>
         <br></br>
         <p>
           <span style={{ color: '#FF7A00' }}>NOCTA TECHNOLOGY</span> is a brand

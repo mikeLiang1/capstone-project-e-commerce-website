@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import './RegisterPage.css';
 import TextButton from '../buttons-and-sections/TextButton.js';
@@ -6,39 +7,49 @@ import TextButton from '../buttons-and-sections/TextButton.js';
 import RegisterPageImage from '../../images/RegisterPageImage.png';
 import BasicTextField from '../buttons-and-sections/BasicTextField';
 
-function RegisterPage() {
+function RegisterPage({ token, handleLogin }) {
   const [email, setEmail] = useState('');
   const [fname, setFirstName] = useState('');
   const [lname, setLastName] = useState('');
   const [password, setPassword] = useState('');
+  let history = useHistory();
 
-  const registerRequest = (e) => {
+  const registerRequest = async (e) => {
     // Prevents the default action of the page refreshing
     e.preventDefault();
 
-    // Send request to the backend
+    // Format data in a single dictionary to be ready to send to the backend
     const registerDetails = { email, fname, lname, password };
+    console.log(registerDetails);
 
-    fetch('/auth/register', {
+    const requestOptions = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
       body: JSON.stringify(registerDetails),
-    })
-      .then((res) => {
-        if (res.ok) {
-          console.log('Okay');
-        } else {
-          console.log('Not Successful');
-        }
-        res.json();
-      })
-      .then((data) => console.log(data));
+    };
+
+    const response = await fetch('/auth/register', requestOptions);
+
+    if (response.status === 500) {
+      console.log('Not Successful');
+    } else if (response.status === 200) {
+      const data = await response.json();
+      token = data.idToken;
+      handleLogin(token);
+      console.log('Successful');
+      console.log(data);
+      // If account registration is successful, direct the user to the home page
+      history.push('/');
+    }
   };
 
   return (
     <div className='RegisterPage'>
       <form onSubmit={registerRequest}>
-        <h3>REGISTER</h3>
+        <h3 style={{ fontSize: '24px' }}>REGISTER</h3>
         <div className='RegisterPage-form-group'>
           <BasicTextField
             textName='Email'

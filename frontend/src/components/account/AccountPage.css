@@ -1,0 +1,16 @@
+.AccountPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 128px 0;
+}
+
+.AccountPage-link {
+  text-decoration: none;
+  margin-top: 32px;
+  margin-bottom: 16px;
+}
+
+.AccountPage-recommended {
+  width: 100%;
+}

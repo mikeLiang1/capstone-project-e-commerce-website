@@ -5,7 +5,7 @@ import { Button } from '@material-ui/core';
 
 import './TextButton.css';
 
-function TextButton({ buttonName, buttonType }) {
+function TextButton({ buttonName, buttonType, handleClick }) {
   return (
     <Button
       type={`${buttonType}`}
@@ -15,6 +15,7 @@ function TextButton({ buttonName, buttonType }) {
         borderRadius: '16px',
       }}
       variant='contained'
+      onClick={handleClick}
     >
       {buttonName}
     </Button>

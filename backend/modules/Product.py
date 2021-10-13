@@ -50,7 +50,6 @@ class Product(Resource):
         doc_ref = db.collection(u'products')
         args = productParser.parse_args()
         
-        print(args)
         args_check = checkArgs(args)
 
         if args_check:

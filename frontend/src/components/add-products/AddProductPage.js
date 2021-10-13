@@ -11,8 +11,9 @@ import Select from '@mui/material/Select';
 import './AddProductPage.css';
 
 // Import the functions you need from the SDKs you need
-import { initializeApp } from 'firebase/app';
-import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import { initializeApp } from "firebase/app";
+import { getDownloadURL, getStorage, ref, uploadBytes} from "firebase/storage";
+import { maxHeight } from '@mui/system';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -33,6 +34,7 @@ const firebaseApp = initializeApp(firebaseConfig);
 const storage = getStorage(firebaseApp);
 
 function AddProductPage() {
+  const [addPhoto, setAddPhoto] = useState('block');
   const [image, setImage] = useState(null);
   const [details, setDetails] = useState({
     category: '',
@@ -42,6 +44,7 @@ function AddProductPage() {
     tag: '',
     description: '',
   });
+  const fileInput = React.useRef(null);
 
   async function submitData() {
     // Uploading image to retrieve link
@@ -69,128 +72,198 @@ function AddProductPage() {
     }
   }
 
+  const handleClick = (e) => {
+    fileInput.current.click();
+  };
+
+  const handleRemove = (e) => {
+    setImage('');
+    setAddPhoto('block');
+  }
+
   const handleChange = (e) => {
     if (e.target.files[0]) {
       setImage(e.target.files[0]);
+      setAddPhoto('none');
     }
   };
 
+  //now
+  
   return (
     <div id='AddProductPage'>
-      <Box sx={{ maxWidth: 130 }}>
-        <FormControl fullWidth>
-          <InputLabel>Category</InputLabel>
-          <Select
-            value={details.category}
-            label='category'
-            onChange={(e) =>
-              setDetails({ ...details, category: e.target.value })
-            }
-          >
-            <MenuItem value='phone'>Phone</MenuItem>
-            <MenuItem value='computer'>Computer</MenuItem>
-            <MenuItem value='pheripheral'>Pheripheral</MenuItem>
-          </Select>
-        </FormControl>
+      <Box sx={{ maxWidth: '50%' }}>
+        <Typography variant='body1'>
+          Select the Category that this product belongs to:
+        </Typography>
+        <Typography variant='body1'>
+          (leave it as None if it does not belong to any Category)
+        </Typography>
+        <Box sx={{ display: 'flex', marginTop: '20px', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Typography>
+            Category (if applicable):
+          </Typography>
+          <FormControl sx={{ width: '350px', height: '53px', marginLeft: '30px', backgroundColor: '#000000', borderRadius: '15px', textAlign: 'center', marginRight: '20px' }}>
+            <InputLabel sx={{ color: '#FFFFFF' }}>Category</InputLabel>
+            <Select
+              value={details.category}
+              label='category'
+              sx={{ color: '#FFFFFF' }}
+              onChange={(e) =>
+                setDetails({ ...details, category: e.target.value })
+              }
+            >
+              <MenuItem value='none'>None</MenuItem>
+              <MenuItem value='phone'>Phone</MenuItem>
+              <MenuItem value='computer'>Computer</MenuItem>
+              <MenuItem value='pheripheral'>Pheripheral</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
       </Box>
-      <div id='AddProductPage-flexbox'>
-        <div>
-          <input id='file-upload' onChange={handleChange} type='file' />
-        </div>
-        <div>
-          <Box
-            component='form'
-            sx={{
-              '& .MuiTextField-root': { m: 1, width: '25ch' },
-            }}
-            noValidate
-            autoComplete='off'
-          >
-            <TextField
-              label='Product Name'
-              multiline
-              maxRows={8}
-              value={details.name}
-              onChange={(e) => setDetails({ ...details, name: e.target.value })}
-            />
+      <Box sx={{ display: 'flex', marginTop: '40px', height: '80%' }}>
+        <Box id='file-upload-wrapper'>
+          <Box id='file-upload-section'>
+            <img style={{ maxWidth: '100%', maxHeight: '400px', objectFit: 'contain' }} src={image? URL.createObjectURL(image) : null} alt={image? image.name : null}/>
           </Box>
-        </div>
-        <div>
-          <Box
-            component='form'
-            sx={{
-              '& .MuiTextField-root': { m: 1, width: '25ch' },
-            }}
-            noValidate
-            autoComplete='off'
-          >
-            <TextField
-              label='Price'
-              multiline
-              maxRows={8}
-              value={details.price}
-              onChange={(e) =>
-                setDetails({ ...details, price: e.target.value })
-              }
-            />
+          <Box id='file-upload-buttons'>
+            <Button
+              onClick={() => {
+                handleClick();
+              }}
+              style={{
+                backgroundColor: '#000000',
+                color: '#FFFFFF',
+                borderRadius: '16px',
+              }}
+              size='large'
+              variant='contained'
+            >
+              Upload Photo
+            </Button>
+            <input id='file-upload' ref={fileInput} onChange={handleChange} type='file' />
+            <Button
+              onClick={() => {
+                handleRemove();
+              }}
+              style={{
+                backgroundColor: '#000000',
+                color: '#FFFFFF',
+                borderRadius: '16px',
+              }}
+              size='large'
+              variant='contained'
+            >
+              Remove Photo
+            </Button>
           </Box>
-        </div>
-        <div>
-          <Box
-            component='form'
-            sx={{
-              '& .MuiTextField-root': { m: 1, width: '25ch' },
-            }}
-            noValidate
-            autoComplete='off'
-          >
-            <TextField
-              label='Tag'
-              multiline
-              maxRows={8}
-              value={details.tag}
-              onChange={(e) => setDetails({ ...details, tag: e.target.value })}
-            />
-          </Box>
-        </div>
-        <div>Description</div>
-        <div>
-          <Box
-            component='form'
-            sx={{
-              '& .MuiTextField-root': { m: 1, width: '25ch' },
-            }}
-            noValidate
-            autoComplete='off'
-          >
-            <TextField
-              label='Description'
-              multiline
-              maxRows={8}
-              value={details.description}
-              onChange={(e) =>
-                setDetails({ ...details, description: e.target.value })
-              }
-            />
-          </Box>
-        </div>
-        <div>
-          <Button
-            onClick={() => {
-              submitData();
-            }}
-            type='submit'
-            style={{
-              backgroundColor: '#000000',
-              color: '#FFFFFF',
-              borderRadius: '16px',
-            }}
-            variant='contained'
-          >
-            Upload Product
-          </Button>
-        </div>
-      </div>
+        </Box>   
+        <Box id='inputs-section'>
+          <div>
+            <Box
+              component='form'
+              sx={{
+                '& .MuiTextField-root': { m: 1, width: '25ch' }
+              }}
+              noValidate
+              autoComplete='off'
+              style = {{ width: '400px'}}
+            >
+              <TextField
+                label='Product Name'
+                multiline
+                maxRows={8}
+                value={details.name}
+                onChange={(e) => setDetails({ ...details, name: e.target.value })}
+                style = {{ width: '400px'}}
+              />
+            </Box>
+          </div>
+          <div>
+            <Box
+              component='form'
+              sx={{
+                '& .MuiTextField-root': { m: 1, width: '25ch' },
+              }}
+              noValidate
+              autoComplete='off'
+              style = {{ width: '400px'}}
+            >
+              <TextField
+                label='Price'
+                multiline
+                maxRows={8}
+                value={details.price}
+                onChange={(e) =>
+                  setDetails({ ...details, price: e.target.value })
+                }
+                style = {{ width: '400px'}}
+              />
+            </Box>
+          </div>
+          <div>
+            <Box
+              component='form'
+              sx={{
+                '& .MuiTextField-root': { m: 1, width: '25ch' },
+              }}
+              noValidate
+              autoComplete='off'
+              className = 'formWidth'
+            >
+              <TextField
+                label='Tag'
+                multiline
+                maxRows={8}
+                value={details.tag}
+                onChange={(e) => setDetails({ ...details, tag: e.target.value })}
+                fullWidth
+                style = {{ width: '400px'}}
+              />
+            </Box>
+          </div>
+          <div>
+            <Box
+              component='form'
+              sx={{
+                '& .MuiTextField-root': { m: 1, width: '25ch' },
+              }}
+              noValidate
+              autoComplete='off'
+              style = {{ width: '400px'}}
+            >
+              <TextField
+                label='Description'
+                multiline
+                maxRows={8}
+                value={details.description}
+                onChange={(e) =>
+                  setDetails({ ...details, description: e.target.value })
+                }
+                minRows={5}
+                style = {{ width: '400px'}}
+              />
+            </Box>
+          </div>
+          <div>
+            <Button
+              onClick={() => {
+                submitData();
+              }}
+              type='submit'
+              style={{
+                backgroundColor: '#000000',
+                color: '#FFFFFF',
+                borderRadius: '16px',
+              }}
+              size='large'
+              variant='contained'
+            >
+              Upload Product
+            </Button>
+          </div>
+        </Box>
+      </Box>
     </div>
   );
 }

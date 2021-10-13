@@ -14,19 +14,11 @@ api = Api(app)
 
 """
     localhost:5000/product
-<<<<<<< HEAD
-
-=======
->>>>>>> mystery-box
     Ideas of functions we might need:
         product
             post -> add product
             put -> edit product
             get -> get product info
-<<<<<<< HEAD
-
-=======
->>>>>>> mystery-box
                 database:
                     ID PRIMARY
                     Name
@@ -37,21 +29,10 @@ api = Api(app)
                     Tags
                     Original Stock
                     Current Stock
-<<<<<<< HEAD
-
-
-        buy/product --> probably sprint 2
-
-        auth/user
-            put -> edit user
-            get -> get user info
-
-=======
         buy/product --> probably sprint 2
         auth/user
             put -> edit user
             get -> get user info
->>>>>>> mystery-box
                 database:
                     email -> should only be able make one account per email PRIMARY
                     first name
@@ -61,23 +42,11 @@ api = Api(app)
                     address
                     product history
                     admin: boolean
-<<<<<<< HEAD
-
-        mysterybox
-            get -> get box info
-
-        mysterybox/open (id)
-            get -> result
-
-            return product id of the result
-
-=======
         mysterybox
             get -> get box info
         mysterybox/open (id)
             get -> result
             return product id of the result
->>>>>>> mystery-box
                 database:
                     mystery box id PRIMARY
                     image
@@ -85,15 +54,7 @@ api = Api(app)
                     name
                     products [(id, probablity)] list of tuples
                             ^ links to product database
-<<<<<<< HEAD
-
-
     requirements.txt
-
-
-=======
-    requirements.txt
->>>>>>> mystery-box
 """
 
 

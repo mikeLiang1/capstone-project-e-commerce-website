@@ -12,11 +12,11 @@ function BoxGroup({ boxName }) {
   const [price, setPrice] = useState('999.99');
   const [img, setIMG] = useState('');
   const [products, setProducts] = useState([
-    { itemName: '', imageUrl: '', price: '99.99' },
-    { itemName: '', imageUrl: '', price: '99.99' },
-    { itemName: '', imageUrl: '', price: '99.99' },
-    { itemName: '', imageUrl: '', price: '99.99' },
-    { itemName: '', imageUrl: '', price: '99.99' },
+    { itemName: '', imageUrl: '', price: '99.99', routeId: '' },
+    { itemName: '', imageUrl: '', price: '99.99', routeId: '' },
+    { itemName: '', imageUrl: '', price: '99.99', routeId: '' },
+    { itemName: '', imageUrl: '', price: '99.99', routeId: '' },
+    { itemName: '', imageUrl: '', price: '99.99', routeId: '' },
   ]);
 
   const [email, setEmail] = useState('qwewqe@qweoijqweo.com');
@@ -49,7 +49,7 @@ function BoxGroup({ boxName }) {
       // Parse products
 
       if (boxName === 'ultimate_box') {
-        console.log('PRINTING FOR ' + boxName);
+        // console.log('PRINTING FOR ' + boxName);
         let products = [];
         for (var ID of Object.keys(data.box_data.Products)) {
           const productOptions = {
@@ -71,6 +71,7 @@ function BoxGroup({ boxName }) {
             itemName: data.data.name,
             imageUrl: data.data.image,
             price: data.data.price,
+            routeId: ID,
           });
           console.log(data.data.image);
         }
@@ -123,6 +124,7 @@ function BoxGroup({ boxName }) {
 
   useEffect(() => {
     boxRequest();
+    console.log('The Products are:', products);
   }, []);
 
   // Need to route add to cart with product id
@@ -147,6 +149,7 @@ function BoxGroup({ boxName }) {
                 key={id}
                 itemName={item.itemName}
                 imageUrl={item.imageUrl}
+                productRouteId={item.routeId}
               />
               <b>RRP: ${item.price}</b>
             </div>

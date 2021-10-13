@@ -2,7 +2,12 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
-export default function BasicTextField({ textName, value, handleChange }) {
+export default function BasicTextField({
+  textName,
+  value,
+  handleChange,
+  type,
+}) {
   return (
     <Box
       component='form'
@@ -15,6 +20,7 @@ export default function BasicTextField({ textName, value, handleChange }) {
       <TextField
         id='outlined-multiline-flexible'
         label={textName}
+        type={type}
         multiline
         maxRows={8}
         size='small'

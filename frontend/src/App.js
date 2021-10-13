@@ -13,7 +13,6 @@ import AdminHomePage from './components/admin-home/AdminHomePage';
 import CheckoutPage from './components/checkout/CheckoutPage';
 import AccountPage from './components/account/AccountPage';
 import Cookies from 'js-cookie';
-import NavigationBarUser from './components/navigation/NavigationBarUser';
 import { render } from '@testing-library/react';
 
 function App() {

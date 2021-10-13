@@ -7,12 +7,14 @@
 
 .NavigationBar-links-left {
   padding-left: 0;
+  padding-top: 16px;
   width: 400px;
   text-align: left;
 }
 
 .NavigationBar-links-right {
   padding-left: 0;
+  padding-top: 16px;
   width: 400px;
   text-align: right;
 }
@@ -26,7 +28,6 @@
 }
 
 .NavigationBar-button {
-  text-decoration: none;
   border: none;
   background-color: var(--primary-colour-white);
 }
@@ -40,4 +41,5 @@
   font-size: var(--title-font-size);
   font-weight: var(--bold-font-weight);
   text-align: center;
+  padding-top: 16px;
 }

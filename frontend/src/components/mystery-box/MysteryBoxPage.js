@@ -16,8 +16,13 @@ function MysteryBoxPage() {
           You will have the chance to win <span style={{ color: '#FF7A00' }}>one</span> item from the prize pool.<br/>
         </p>  
       </div>
-      <BoxGroup/>
-      <BoxGroup/>
+      <div style={{ display:'flex', flexDirection:'column', alignItems:'center'}}>
+        <BoxGroup boxName="nocta_box"/>
+        <BoxGroup boxName="deluxe_box"/>
+        <BoxGroup boxName="ultimate_box"/>
+        <BoxGroup boxName="epic_box"/>
+        <BoxGroup boxName="standard_box"/>
+      </div>
     </div>
   );
 }

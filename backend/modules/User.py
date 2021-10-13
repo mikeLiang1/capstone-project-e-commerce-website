@@ -16,19 +16,19 @@ parser.add_argument('password', type=str)
 parser.add_argument('address', type=str)
 parser.add_argument('purchaseHistory', type= list)
 
-class User(Resource):
-    
+class User_Get(Resource):
     # Get user info
-    def get(self):
-        
-        args = parser.parse_args()
-        doc_ref = db.collection(u'users').document(args.uid)
+    def get(self, uid):
+
+        doc_ref = db.collection(u'users').document(uid)
 
 
         if user_exists(doc_ref):
             return doc_ref.get().to_dict()
         else:
             return {"message": "User ID is not valid"}, 400
+
+class User(Resource):
     
     # Update User Info
     def put(self):

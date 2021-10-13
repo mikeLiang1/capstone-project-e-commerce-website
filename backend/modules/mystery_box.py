@@ -26,7 +26,7 @@ class mystery_box(Resource):
         doc_ref = db.collection(u'mystery_box').document(box_name)
         doc = doc_ref.get()
         if doc.exists:
-            return {"box data": doc.to_dict()}
+            return {"box_data": doc.to_dict()}
             
         else:
             return {"error" : "box doesnt exist"}, 400

@@ -66,8 +66,8 @@ function AddProductPage() {
   }
   
   return (
-    <div id='AddProductPage'>
-      <Box sx={{ maxWidth: 130 }}>
+
+      <Box sx={{ maxWidth: 130}}>
         <FormControl fullWidth>
           <InputLabel>Category</InputLabel>
           <Select
@@ -83,105 +83,7 @@ function AddProductPage() {
           </Select>
         </FormControl>
       </Box>
-      <div id='AddProductPage-flexbox'>
-        <div>
-            <input id='file-upload' onChange={handleChange} type='file' />
-        </div>
-        <div>
-          <Box
-            component='form'
-            sx={{
-              '& .MuiTextField-root': { m: 1, width: '25ch' },
-            }}
-            noValidate
-            autoComplete='off'
-          >
-            <TextField
-              label='Product Name'
-              multiline
-              maxRows={8}
-              value={details.name}
-              onChange={(e) => setDetails({ ...details, name: e.target.value })}
-            />
-          </Box>
-        </div>
-        <div>
-          <Box
-            component='form'
-            sx={{
-              '& .MuiTextField-root': { m: 1, width: '25ch' },
-            }}
-            noValidate
-            autoComplete='off'
-          >
-            <TextField
-              label='Price'
-              multiline
-              maxRows={8}
-              value={details.price}
-              onChange={(e) =>
-                setDetails({ ...details, price: e.target.value })
-              }
-            />
-          </Box>
-        </div>
-        <div>
-          <Box
-            component='form'
-            sx={{
-              '& .MuiTextField-root': { m: 1, width: '25ch' },
-            }}
-            noValidate
-            autoComplete='off'
-          >
-            <TextField
-              label='Tag'
-              multiline
-              maxRows={8}
-              value={details.tag}
-              onChange={(e) => setDetails({ ...details, tag: e.target.value })}
-            />
-          </Box>
-        </div>
-        <div>Description</div>
-        <div>
-          <Box
-            component='form'
-            sx={{
-              '& .MuiTextField-root': { m: 1, width: '25ch' },
-            }}
-            noValidate
-            autoComplete='off'
-          >
-            <TextField
-              label='Description'
-              multiline
-              maxRows={8}
-              value={details.description}
-              onChange={(e) =>
-                setDetails({ ...details, description: e.target.value })
-              }
-            />
-          </Box>
-        </div>
-        <div>
-          <Button
-            onClick={() => {
-              submitData();
-            }}
-            type='submit'
-            style={{
-              backgroundColor: '#000000',
-              color: '#FFFFFF',
-              borderRadius: '16px',
-            }}
-            variant='contained'
-          >
-            Upload Product
-          </Button>
-        </div>
-      </div>
-    </div>
+      
   );
 }
 

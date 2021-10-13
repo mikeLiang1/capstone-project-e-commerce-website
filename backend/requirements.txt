@@ -1,8 +1,5 @@
 firebase_admin
 flask
 flask_restful
-<<<<<<< HEAD
-=======
 requests>=2.11.1
->>>>>>> main
 pyrebase

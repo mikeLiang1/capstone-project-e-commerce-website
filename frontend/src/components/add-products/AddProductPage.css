@@ -55,3 +55,16 @@ html, body {
   justify-content: space-between;
   align-items: center;
 }
+
+.formWidth {
+  width: 400px;
+}
+
+#plus {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  left: 35%;
+  top: 40%;  
+  margin-left: -100px;
+}

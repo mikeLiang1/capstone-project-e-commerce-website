@@ -92,26 +92,6 @@ function AddProductPage() {
   //now
   
   return (
-<<<<<<< HEAD
-
-      <Box sx={{ maxWidth: 130}}>
-        <FormControl fullWidth>
-          <InputLabel>Category</InputLabel>
-          <Select
-            value={details.category}
-            label='category'
-            onChange={(e) =>
-              setDetails({ ...details, category: e.target.value })
-            }
-          >
-            <MenuItem value='phone'>Phone</MenuItem>
-            <MenuItem value='computer'>Computer</MenuItem>
-            <MenuItem value='pheripheral'>Pheripheral</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
-      
-=======
     <div id='AddProductPage'>
       <Box sx={{ maxWidth: '50%' }}>
         <Typography variant='body1'>
@@ -145,9 +125,6 @@ function AddProductPage() {
       <Box sx={{ display: 'flex', marginTop: '40px', height: '80%' }}>
         <Box id='file-upload-wrapper'>
           <Box id='file-upload-section'>
-            <Typography variant='h1' component='div' style={{ display: addPhoto }}>
-              +
-            </Typography>
             <img style={{ maxWidth: '100%', maxHeight: '400px', objectFit: 'contain' }} src={image? URL.createObjectURL(image) : null} alt={image? image.name : null}/>
           </Box>
           <Box id='file-upload-buttons'>
@@ -191,6 +168,7 @@ function AddProductPage() {
               }}
               noValidate
               autoComplete='off'
+              style = {{ width: '400px'}}
             >
               <TextField
                 label='Product Name'
@@ -198,6 +176,7 @@ function AddProductPage() {
                 maxRows={8}
                 value={details.name}
                 onChange={(e) => setDetails({ ...details, name: e.target.value })}
+                style = {{ width: '400px'}}
               />
             </Box>
           </div>
@@ -209,6 +188,7 @@ function AddProductPage() {
               }}
               noValidate
               autoComplete='off'
+              style = {{ width: '400px'}}
             >
               <TextField
                 label='Price'
@@ -218,6 +198,7 @@ function AddProductPage() {
                 onChange={(e) =>
                   setDetails({ ...details, price: e.target.value })
                 }
+                style = {{ width: '400px'}}
               />
             </Box>
           </div>
@@ -229,6 +210,7 @@ function AddProductPage() {
               }}
               noValidate
               autoComplete='off'
+              className = 'formWidth'
             >
               <TextField
                 label='Tag'
@@ -236,6 +218,8 @@ function AddProductPage() {
                 maxRows={8}
                 value={details.tag}
                 onChange={(e) => setDetails({ ...details, tag: e.target.value })}
+                fullWidth
+                style = {{ width: '400px'}}
               />
             </Box>
           </div>
@@ -247,6 +231,7 @@ function AddProductPage() {
               }}
               noValidate
               autoComplete='off'
+              style = {{ width: '400px'}}
             >
               <TextField
                 label='Description'
@@ -256,6 +241,8 @@ function AddProductPage() {
                 onChange={(e) =>
                   setDetails({ ...details, description: e.target.value })
                 }
+                minRows={5}
+                style = {{ width: '400px'}}
               />
             </Box>
           </div>
@@ -279,7 +266,6 @@ function AddProductPage() {
         </Box>
       </Box>
     </div>
->>>>>>> b943ad03781a5630d4d9cc2b36fc0c9a48b06517
   );
 }
 

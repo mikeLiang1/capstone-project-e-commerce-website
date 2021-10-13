@@ -12,4 +12,5 @@
 
 .SmallItemContainer-image {
   width: 120px;
+  max-height: 130px;
 }

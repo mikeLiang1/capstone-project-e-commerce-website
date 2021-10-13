@@ -71,6 +71,7 @@ function BoxGroup({ boxName }) {
             itemName: data.data.name,
             imageUrl: data.data.image,
             price: data.data.price,
+            routeId: ID,
           });
           console.log(data.data.image);
         }
@@ -81,13 +82,13 @@ function BoxGroup({ boxName }) {
       // setProducts(products)
       //}
 
-      /* 
+      /*
                         const data = await response.json()
             console.log('Successful')
             console.log(data.box_data)
             setPrice(data.box_data.Price)
             setIMG(data.box_data.Image)
-            
+
             // Parse products
             //console.log("Data")
             //console.log(Object.keys(data.box_data.Products).length)
@@ -105,16 +106,16 @@ function BoxGroup({ boxName }) {
                     ID = ID.substring(1);
                     console.log(ID)
                     const productResponse = await fetch(`/product/${ID}`, productOptions)
-                    
+
                     //console.log("Response")
                     if (productResponse.status === 200) {
                         const productData = await productResponse.json()
-                    
+
                         products.push({"itemName" : productData.data.name, "imageUrl": productData.data.image, "price": productData.data.price})
                         console.log(data.data.image)
                     }
                 }
-        
+
                 setProducts(products)
             }
             */

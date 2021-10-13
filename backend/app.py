@@ -70,7 +70,7 @@ api.add_resource(SignIn, "/auth/signin")
 api.add_resource(mystery_box, "/mystery_box/<string:box_name>")
 api.add_resource(mystery_box_open, "/mystery_box/<string:box_name>/open")
 
-api.add_resource(Product, "/product/")
+api.add_resource(Product, "/product")
 api.add_resource(Product_range, "/product/<int:min>/<int:max>")
 api.add_resource(User_add_productID, "/user/<string:productID>")
 

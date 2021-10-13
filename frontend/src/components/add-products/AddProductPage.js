@@ -33,8 +33,6 @@ const firebaseApp = initializeApp(firebaseConfig);
 const storage = getStorage(firebaseApp);
 
 function AddProductPage() {
-  const { register, handleSubmit } = useForm();
-
   const [image, setImage] = useState(null);
   const [details, setDetails] = useState({
     category: '',

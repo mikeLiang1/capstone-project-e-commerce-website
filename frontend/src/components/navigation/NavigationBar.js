@@ -4,10 +4,12 @@ import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import './NavigationBar.css';
 
-function NavigationBar({ token, admin, setToken }) {
+function NavigationBar({ token, admin, setToken, setAdmin }) {
   const handleLogout = () => {
     console.log('yes');
     Cookies.set('user', '');
+    Cookies.remove('admin');
+    setAdmin('');
     setToken('');
   };
 

@@ -48,7 +48,12 @@ function App() {
       {/* <button onClick={makeAdmin}>Make Admin</button>
       <button onClick={removeAdmin}>Remove Admin</button> */}
       <Router>
-        <NavigationBar admin={admin} token={token} setToken={setToken} />
+        <NavigationBar
+          admin={admin}
+          token={token}
+          setToken={setToken}
+          setAdmin={setAdmin}
+        />
         <Switch>
           <Route path='/cart' exact component={CartPage} />
           <Route path='/checkout' exact component={CheckoutPage} />

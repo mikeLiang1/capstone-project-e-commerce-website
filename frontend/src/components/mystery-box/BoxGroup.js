@@ -49,7 +49,7 @@ function BoxGroup({boxName}) {
             
             // Parse products
             
-            if (boxName === 'ultimate_box') {
+            if (boxName === 'nocta_box') {
                 console.log("PRINTING FOR " + boxName)
                 let products = []
                 for (var ID of Object.keys(data.box_data.Products)) {

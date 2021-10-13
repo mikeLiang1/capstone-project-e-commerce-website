@@ -5,7 +5,6 @@
 }
 
 .SmallItemContainer-image-container {
-  /* Centers the image vertically and horizontally in the div/container */
   display: block;
   margin: auto;
 }

@@ -45,8 +45,8 @@ function NavigationBar({ token, admin, setToken }) {
               </Link>
             </button>
             <button className='NavigationBar-button'>
-              <Link to='/sales' className='NavigationBar-link'>
-                <li>SALES</li>
+              <Link to='/admindash' className='NavigationBar-link'>
+                <li>DASHBOARD</li>
               </Link>
             </button>
             <button className='NavigationBar-button'>

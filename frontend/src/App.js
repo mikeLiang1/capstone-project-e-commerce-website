@@ -20,22 +20,6 @@ function App() {
   const [admin, setAdmin] = useState(Cookies.get('admin'));
   const [token, setToken] = useState(Cookies.get('user'));
   const [itemId, setItemId] = useState('0');
-  //const [navigationBar, setNavigationBar] = useState('');
-
-  // useEffect(() => {
-  //   if (token === Cookies.get('user') && token != undefined) {
-  //     setNavigationBar(<NavigationBarUser />);
-  //   } else if (admin == 'true') {
-  //     setNavigationBar(<div>Admin Nav Bar</div>);
-  //   } else {
-  //     setNavigationBar(<NavigationBar />);
-  //   }
-  //   // Logouts out a user if the user's token no longer exists (e.g. if the user clears their cookies)
-  //   // User must refresh the page in order for this to take effect
-  //   if (Cookies.get('user') == '') {
-  //     setToken('');
-  //   }
-  // }, [token, admin]);
 
   const makeAdmin = () => {
     setAdmin('true');
@@ -81,7 +65,11 @@ function App() {
             path='/login'
             exact
             component={() => (
-              <LoginPage token={token} handleLogin={handleLogin} />
+              <LoginPage
+                token={token}
+                handleLogin={handleLogin}
+                setAdmin={setAdmin}
+              />
             )}
           />
           <Route

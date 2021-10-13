@@ -10,8 +10,32 @@ import Select from '@mui/material/Select';
 
 import './AddProductPage.css';
 
+// Import the functions you need from the SDKs you need
+import { initializeApp } from 'firebase/app';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: 'AIzaSyAVOqrvODx6KS-xBGs5guJTrKBJjduEjRI',
+  authDomain: 'nocta-tech.firebaseapp.com',
+  projectId: 'nocta-tech',
+  storageBucket: 'nocta-tech.appspot.com',
+  messagingSenderId: '1002605988200',
+  appId: '1:1002605988200:web:e91efebc3765fd58b0eedd',
+  measurementId: 'G-5HBFEX2BNM',
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+// Get a reference to the storage service, which is used to create references in your storage bucket
+const storage = getStorage(firebaseApp);
+
 function AddProductPage() {
   const { register, handleSubmit } = useForm();
+
+  const [image, setImage] = useState(null);
   const [details, setDetails] = useState({
     category: '',
     name: '',
@@ -21,17 +45,15 @@ function AddProductPage() {
     description: '',
   });
 
-  const onSubmit = (data) => {
-    // const storageRef = app.storage().ref();
-    // const fileRef = storageRef.child(data.image[0].name);
-    // fileRef.put(data).then(() => {
-    //   console.log('Uploaded file');
-    // });
-    console.log(data);
-  };
-
   async function submitData() {
-    console.log(details);
+    // Uploading image to retrieve link
+    const storageRef = ref(storage, image.name);
+
+    let snapshot = await uploadBytes(storageRef, image);
+
+    let url = await getDownloadURL(ref(storage, image.name));
+
+    details.image = url;
     const requestOptions = {
       method: 'POST',
       headers: {
@@ -41,13 +63,19 @@ function AddProductPage() {
       body: JSON.stringify(details),
     };
 
-    const res = await fetch(`/product/`, requestOptions);
+    const res = await fetch(`/product`, requestOptions);
     console.log(res);
     if (res.status === 200) {
       const data = await res.json();
-      console.log(data);
+      console.log(details);
     }
   }
+
+  const handleChange = (e) => {
+    if (e.target.files[0]) {
+      setImage(e.target.files[0]);
+    }
+  };
 
   return (
     <div id='AddProductPage'>
@@ -69,10 +97,7 @@ function AddProductPage() {
       </Box>
       <div id='AddProductPage-flexbox'>
         <div>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <input id='file-upload' {...register('picture')} type='file' />
-            <button>Submit</button>
-          </form>
+          <input id='file-upload' onChange={handleChange} type='file' />
         </div>
         <div>
           <Box

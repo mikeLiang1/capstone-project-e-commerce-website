@@ -19,6 +19,7 @@
     "card-validator": "^8.1.1",
     "js-cookie": "^3.0.1",
     "axios": "^0.22.0",
+    "firebase": "^9.1.2",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.4",
     "react-credit-cards": "^0.8.3",

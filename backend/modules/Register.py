@@ -44,6 +44,7 @@ class Register(Resource):
         try:
             user = authP.create_user_with_email_and_password(args.email, args.password)
         except Exception as exc:
+            print(exc)
             return {"message": "failed"}, 400
         
         # Put user information into database

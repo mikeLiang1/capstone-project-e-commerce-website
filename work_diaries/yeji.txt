@@ -1,0 +1,32 @@
+Week 1
+Group formed with Mike, Colin, Jeming and Jeffery.
+Created Jira accounts and connected my existing GitHub account to the project repository.
+Chose E-Commerce Recommender System to be our group project.
+Brainstormed what functionalities the system can have and distributed who’s writing the user stories of which functionality.
+The group came up with two novelty functions: chatbot and custom products.
+
+Week 2
+I wrote user stories and acceptance criteria for review function.
+Since none of mobile responsibility, feature to have custom products and chatbot don’t get counted towards novelty functions,
+new novelty function mystery box was proposed.
+Standup was held on Saturday to further discuss on the format of user stories and splitting parts of proposal document.
+Jeming and Mike started working on Figma.
+Jeffery, Colin and I were assigned to research on the information that could go into the ‘background’ part of the proposal.
+
+Week 3
+I researched JB Hi-Fi's problem for backgrounds and wrote analysed results into the proposal.
+Had standup session on Tuesday to split works for proposals since some tasks weren't still assigned.
+According to the Christian’s feedback on our user stories, we modified the user stories.
+User stories and Figma had to be adjusted to match with each other. Finalised user stories were put on Jira.
+I researched on the types of possible external actors and wrote who the external actors would be for our E-Commerce system. 
+
+Wk4
+Proposal was submitted on Monday. Splitted tasks for the system.
+I was assigned to do backend for products. Firebase was selected to be used for database system.
+Using Firebase, I finished HTTP methods that can be used for products database.
+
+Wk5
+Since I found errors on the structure of product's data, I had to debug it.
+Image field inside product's data got modified to store the download link of the image inside the Firebase storage.
+Added number of actual products on the Firebase so that team members working on frontend could use them.
+Helped Jeffery by styling the add product page to look more similar to the one on Figma.

@@ -30,7 +30,7 @@ function LoginPage({ token, handleLogin, setAdmin }) {
 
     const response = await fetch('/auth/signin', requestOptions);
 
-    if (response.status === 500) {
+    if (response.status === 400) {
       alert('Incorrect details entered! Please try again.');
     } else if (response.status === 200) {
       const data = await response.json();

@@ -9,7 +9,7 @@ export default function BasicSelect({ name, list, selected, handleChange }) {
   return (
     <Box sx={{ width: 110 }}>
       <FormControl fullWidth>
-        <InputLabel>{name}</InputLabel>
+        <InputLabel style={{ zIndex: 0 }}>{name}</InputLabel>
         <Select value={selected} label={name} onChange={handleChange}>
           {list.map((val, key) => {
             return (

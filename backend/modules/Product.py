@@ -13,7 +13,8 @@ productParser.add_argument('category', type=str)
 # productParser.add_argument('sub-category', type=str)
 productParser.add_argument('image', type=str)
 productParser.add_argument('price', type=float)
-productParser.add_argument('reviews', type=list)
+productParser.add_argument('reviews', type=dict, action='append')
+productParser.add_argument('review', type=dict)
 productParser.add_argument('description', type=str)
 productParser.add_argument('tag', type=str)
 productParser.add_argument('units_sold', type=int)
@@ -87,6 +88,9 @@ class Product(Resource):
         doc = doc_ref.get()
         if doc.exists is not True:
             return {'error': 'product doesn\'t exist'}
+        
+        if args.review is not None:
+            args.reviews.append(args.review)
 
         doc_ref.update({
             u'name': args.name,

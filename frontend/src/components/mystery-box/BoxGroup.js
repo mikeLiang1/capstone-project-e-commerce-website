@@ -21,11 +21,6 @@ function BoxGroup({ boxName }) {
     { itemName: '', imageUrl: '', price: '99.99', routeId: '', chance: 20, background: 'rgba(36, 62, 206, 0.6)' },
   ]);
 
-  const [email, setEmail] = useState('qwewqe@qweoijqweo.com');
-  const [fname, setFirstName] = useState('oqwiejwqoie');
-  const [lname, setLastName] = useState('qweqwewq');
-  const [password, setPassword] = useState('qweqweqwewqe');
-
   // Function calls to the backend to retrieve name, price, image, and product ids
   async function boxRequest() {
     // Send request to the backend        

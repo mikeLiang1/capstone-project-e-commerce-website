@@ -44,13 +44,13 @@ function CartItem({
           <p>{itemName}</p>
         </div>
         <div className='CartItem-quantity'>
-          <IconButton size='small' style={{ margin: '0 8px' }}>
+          {/* <IconButton size='small' style={{ margin: '0 8px' }}>
             <RemoveIcon fontSize='small' />
-          </IconButton>
+          </IconButton> */}
           <div className='CartItem-quantity-display'>{itemQuantity}</div>
-          <IconButton size='small' style={{ margin: '0 8px' }}>
+          {/* <IconButton size='small' style={{ margin: '0 8px' }}>
             <AddIcon fontSize='small' />
-          </IconButton>
+          </IconButton> */}
         </div>
         <div className='CartItem-price'>
           {itemPrice}

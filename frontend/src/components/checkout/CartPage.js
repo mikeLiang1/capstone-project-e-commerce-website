@@ -4,12 +4,26 @@ import { Link } from 'react-router-dom';
 
 import './CartPage.css';
 import CartItem from '../buttons-and-sections/CartItem.js';
+import Accordian from '../buttons-and-sections/Accordian.js';
 
 function CartPage() {
   // TODO: useEffect to retrieve information from the backend about the current user's
   // cart, including: Items, Quantity of Items, Personal Information/Details
 
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState([
+    <CartItem
+      itemName='Sony WH-1000XM4 Wireless Noise Cancelling Headphones (Black)'
+      imageUrl={require('../../images/SonyWH-1000XM4.png').default}
+      itemQuantity={0}
+      itemPrice='$499'
+    />,
+    <CartItem
+      itemName='LG 34 UltraWide QHD IPS Monitor (34WN750)'
+      imageUrl={require('../../images/LG34WN750.png').default}
+      itemQuantity={0}
+      itemPrice='$649'
+    />,
+  ]);
 
   const onAdd = (product) => {
     // Checks if the product we are about to add already exists in the Cart. If it does,
@@ -31,18 +45,7 @@ function CartPage() {
   return (
     <div className='CartPage'>
       <h2 style={{ fontSize: '24px' }}>SHOPPING CART</h2>
-      <CartItem
-        itemName='LG 34 UltraWide QHD IPS Monitor (34WN750)'
-        imageUrl={require('../../images/LG34WN750.png').default}
-        itemQuantity={0}
-        itemPrice='$649'
-      />
-      <CartItem
-        itemName='Sony WH-1000XM4 Wireless Noise Cancelling Headphones (Black)'
-        imageUrl={require('../../images/SonyWH-1000XM4.png').default}
-        itemQuantity={0}
-        itemPrice='$499'
-      />
+      <Accordian title='Items' content={cartItems} />
 
       <Link to={'/checkout'}>
         <TextButton buttonName='Checkout' buttonType='submit' />

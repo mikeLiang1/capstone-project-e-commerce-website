@@ -113,7 +113,9 @@ useEffect(() => {
               <b>${price}</b>
           </div>
           <img height="200" width="200" src= {img}/>
-          <TextButton buttonName='Add to cart' buttonType='submit' />
+          <Link to = {'/mysterybox/open/' + boxName} style= {{ textDecoration: 'none' }}>
+            <TextButton buttonName='Add to cart' buttonType='submit' />
+          </Link>
       </div>
       <div className='boxContents'>
           Prize Pool:

@@ -8,10 +8,10 @@ import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
+import CloseIcon from '@mui/icons-material/Close';
 
-import { initializeApp } from "firebase/app";
-import { getDownloadURL, getStorage, ref, uploadBytes} from "firebase/storage";
+import { initializeApp } from 'firebase/app';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 
 import './ItemPage.css';
 
@@ -116,9 +116,9 @@ function ItemPage({ match }) {
         likes: review.likes,
         image: review.image,
         date_poasted: review.date_posted,
-      }
+      },
     };
-    
+
     const requestOptionsPut = {
       method: 'PUT',
       headers: {
@@ -137,22 +137,21 @@ function ItemPage({ match }) {
     // TODO remove img break icon if pictures are removed? idk when i have time lol
     console.log(reviews);
 
-    fetch(`/product`, requestOptionsPut).then(async response => {
+    fetch(`/product`, requestOptionsPut).then(async (response) => {
       try {
-        const data = await response.json()
-        console.log('response data', data)
+        const data = await response.json();
+        console.log('response data', data);
+      } catch (error) {
+        console.log('Error happened');
+        console.error(error);
       }
-      catch(error) {
-        console.log('Error happened')
-        console.error(error)
-      }
-    })
+    });
   }
 
   const handleRemove = (e) => {
     setReviewNewImg('');
     fileInput.current.value = null;
-  }
+  };
 
   const handleClick = (e) => {
     fileInput.current.click();
@@ -225,7 +224,7 @@ function ItemPage({ match }) {
             {desc}
             <Button
               onClick={() => {
-                setModalOpen(true)
+                setModalOpen(true);
               }}
               style={{
                 backgroundColor: '#000000',
@@ -238,33 +237,61 @@ function ItemPage({ match }) {
               Write a review
             </Button>
           </div>
-          <Modal isOpen={modalOpen} style={{
-            zIndex: 1,
-            overlay: { backgroundColor: 'rgba(0,0,0, 0.5)' },
-            content: { top: '50px', left: '250px', right: '250px', bottom: '50px'}}}
+          <Modal
+            isOpen={modalOpen}
+            style={{
+              zIndex: 1,
+              overlay: { backgroundColor: 'rgba(0,0,0, 0.5)' },
+              content: {
+                top: '50px',
+                left: '250px',
+                right: '250px',
+                bottom: '50px',
+              },
+            }}
           >
-            <IconButton style={{ float: 'right' }} onClick={() => setModalOpen(false)}>
-              <CloseIcon/>
+            <IconButton
+              style={{ float: 'right' }}
+              onClick={() => setModalOpen(false)}
+            >
+              <CloseIcon />
             </IconButton>
-            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '50px' }}>
-              <Typography variant='h5'>
-                My Review for:
-              </Typography>
-              <Typography variant='h5'>
-                {name}
-              </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: '50px',
+              }}
+            >
+              <Typography variant='h5'>My Review for:</Typography>
+              <Typography variant='h5'>{name}</Typography>
               <Box id='review-wrapper'>
                 <Box id='review-images-section'>
-                  <img class='review-image' src={img} alt={img}/>
+                  <img class='review-image' src={img} alt={img} />
                   <Box id='file-upload-section'>
-                    <img class='review-image' src={reviewNewImg? URL.createObjectURL(reviewNewImg) : null} alt={reviewNewImg? reviewNewImg.name : null}/>
+                    <img
+                      class='review-image'
+                      src={
+                        reviewNewImg ? URL.createObjectURL(reviewNewImg) : null
+                      }
+                      alt={reviewNewImg ? reviewNewImg.name : null}
+                    />
                   </Box>
                   <Typography style={{ fontSize: '12pt' }}>
                     Image uploaded
                   </Typography>
                 </Box>
                 <Box id='review-inputs-section'>
-                  <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  >
                     <Typography style={{ fontSize: '11pt', color: '#FF7A00' }}>
                       Overall Rating*
                     </Typography>
@@ -278,8 +305,8 @@ function ItemPage({ match }) {
                       Click to rate!
                     </Typography>
                   </Box>
-                  <Divider style={{ zIndex: 2 }}/>
-                  <br/>
+                  <Divider style={{ zIndex: 2 }} />
+                  <br />
                   <Typography class='Itempage-review-text'>
                     Review Title*
                   </Typography>
@@ -291,14 +318,12 @@ function ItemPage({ match }) {
                     onChange={(e) =>
                       setReview({ ...review, title: e.target.value })
                     }
-                    style = {{ width: '400px'}}
+                    style={{ width: '400px' }}
                   />
-                  <br/>
-                  <Divider style={{ zIndex: 2 }}/>
-                  <br/>
-                  <Typography class='Itempage-review-text'>
-                    Review*
-                  </Typography>
+                  <br />
+                  <Divider style={{ zIndex: 2 }} />
+                  <br />
+                  <Typography class='Itempage-review-text'>Review*</Typography>
                   <TextField
                     label='Content'
                     multiline
@@ -308,18 +333,51 @@ function ItemPage({ match }) {
                       setReview({ ...review, content: e.target.value })
                     }
                     minRows={5}
-                    style = {{ width: '400px'}}
+                    style={{ width: '400px' }}
                   />
-                  <br/>
-                  <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
-                    <Button variant='outlined' style={{ width: '170px' }} onClick={() => {handleClick();}}>Add photo</Button>
-                    <input id='file-upload' ref={fileInput} onChange={handleChange} type='file' />
-                      <Button variant='outlined' style={{ width: '170px' }}onClick={() => {handleRemove();}}>Remove photo</Button>
+                  <br />
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'flex-end',
+                    }}
+                  >
+                    <Button
+                      variant='outlined'
+                      style={{ width: '170px' }}
+                      onClick={() => {
+                        handleClick();
+                      }}
+                    >
+                      Add photo
+                    </Button>
+                    <input
+                      id='file-upload'
+                      ref={fileInput}
+                      onChange={handleChange}
+                      type='file'
+                    />
+                    <Button
+                      variant='outlined'
+                      style={{ width: '170px' }}
+                      onClick={() => {
+                        handleRemove();
+                      }}
+                    >
+                      Remove photo
+                    </Button>
                   </Box>
-                  <br/>
+                  <br />
                 </Box>
-              </Box>              
-              <Button id='post-review-button' size='large' onClick={() => postReview()}>Post Review</Button>
+              </Box>
+              <Button
+                id='post-review-button'
+                size='large'
+                onClick={() => postReview()}
+              >
+                Post Review
+              </Button>
             </Box>
           </Modal>
         </div>

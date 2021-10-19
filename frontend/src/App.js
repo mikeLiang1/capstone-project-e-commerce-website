@@ -13,7 +13,7 @@ import AdminHomePage from './components/admin-home/AdminHomePage';
 import CheckoutPage from './components/checkout/CheckoutPage';
 import CartPage from './components/checkout/CartPage';
 import AccountPage from './components/account/AccountPage';
-import SurveyPage from './components/deck/SurveyPage';
+import SurveyPage from './components/survey/SurveyPage';
 import Cookies from 'js-cookie';
 import { render } from '@testing-library/react';
 

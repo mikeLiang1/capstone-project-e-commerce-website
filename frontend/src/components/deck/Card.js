@@ -28,7 +28,7 @@ function Card(props) {
           transform: interpolate([rot, scale], trans),
         }}
       >
-        <h2>{products[i].name}</h2>
+        <h2>PRODUCT</h2>
       </animated.div>
     </animated.div>
   );

@@ -30,3 +30,4 @@ Since I found errors on the structure of product's data, I had to debug it.
 Image field inside product's data got modified to store the download link of the image inside the Firebase storage.
 Added number of actual products on the Firebase so that team members working on frontend could use them.
 Helped Jeffery by styling the add product page to look more similar to the one on Figma.
+After progressive demo, tasks for sprint2 were splitted. I would do backend and frontend for product reviews.

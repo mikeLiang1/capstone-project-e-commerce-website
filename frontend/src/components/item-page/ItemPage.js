@@ -60,6 +60,7 @@ function ItemPage({ match }) {
   const [modalOpen, setModalOpen] = useState(false);
   const list = ['1', '2', '3', '4', '5'];
   const [quantity, setQuantity] = useState('');
+  const [ratings, setRatings] = useState('');
   const [accordianName, setAccordianName] = useState('');
   const fileInput = React.useRef(null);
 
@@ -86,6 +87,20 @@ function ItemPage({ match }) {
       setUnits(data.data.units_sold);
       setReviewIds(data.data.reviewIds);
       setAccordianName(`Reviews (${data.data.reviews.length})`);
+
+      // Calculate avg star ratings
+      var avg = 0;
+      for (var i = 0; i < data.data.reviews.length; i++) {
+        avg += data.data.reviews[i].star_rating;
+      }
+      if (avg !== 0 && data.data.reviews.length !== 0) {
+        avg /= data.data.reviews.length;
+        var rounded = Math.round(avg * 10) / 10;
+        setRatings(`${rounded} (${data.data.reviews.length})`);
+      }
+      else {
+        setRatings(`0.0 (${data.data.reviews.length})`);
+      } 
     }
   }
 
@@ -152,8 +167,10 @@ function ItemPage({ match }) {
     // TODO style item page itself
     // TODO admin can delete all reviews
     // TODO add alerts
+    // TODO maybe make input fields red if required inputs are not typed
     // TODO reduce scroll when accordian is closed
     // TODO remove img break icon if pictures are removed? idk when i have time lol
+    // pls make it responsive
 
     fetch(`/product`, requestOptionsPut).then(async response => {
       try {
@@ -188,55 +205,44 @@ function ItemPage({ match }) {
 
   return (
     <div id='ItemPage'>
-      <div>
-        <b>{category}</b>
+      <div id='product-category'>
+        <Typography style={{ marginLeft: '30px', marginTop: '10px' }}>{category}</Typography>
       </div>
       <div id='ItemPage-flex'>
-        <div className='ItemPage-box-img'>
-          <img src={img} alt={img} width='200' height='200' />
-        </div>
-        <div className='ItemPage-flex-vert'>
-          <div className='ItemPage-box-info'>
-            <h2>
-              <b>{name}</b>
-            </h2>
-          </div>
-          <div className='ItemPage-box-info'>
-            <h2>$ {price}</h2>
-          </div>
-          <div className='ItemPage-box-info'>Tag: {tag}</div>
-          <div className='ItemPage-box-add'>
-            <div className='ItemPage-small'>
+        <div id='product-wrapper'>
+          <img id='product-image' src={img} alt={img}/>
+          <div id='product-info'>
+            <Typography variant='h4' style={{ fontWeight: '700', marginBottom: '50px' }}>{name}</Typography>
+            <div id='product-ratings'>
+              <Rating name="customized-1" defaultValue={1} max={1} size='large' readOnly/>
+              <Typography variant='h6'>{ratings}</Typography>
+            </div>
+            <Typography variant='h4' style={{ fontWeight: '600', marginTop: '30px' }}>${price}</Typography>
+            <Typography variant='body1' style={{ marginTop: '50px', marginBottom: '20px' }}>Tag: {tag}</Typography>
+            <div id='product-info-buttons'>
               <BasicSelect
                 name='Quantity'
                 list={list}
                 selected={quantity}
                 handleChange={(e) => setQuantity(e.target.value)}
               />
-            </div>
-            <div className='ItemPage-small'>
               <Button
                 onClick={() => {
                   console.log('add');
                 }}
                 type='submit'
-                style={{
-                  backgroundColor: '#000000',
-                  color: '#FFFFFF',
-                  borderRadius: '16px',
-                }}
-                variant='contained'
+                id='add-cart-button'
               >
                 Add to cart
               </Button>
             </div>
           </div>
         </div>
-        <div className='ItemPage-flex-vert'>
-          <div className='ItemPage-box'>
-            <b>Description</b> <br />
-            {desc}
-          </div>
+        <div id='product-description'>
+          <Typography variant='h5' style={{ marginBottom: '30px' }}>Description</Typography>
+          <Typography variant='body'>{desc}</Typography>
+        </div>
+        <div className='ItemPage-flex-vert'> 
           <div className='ItemPage-box'>
             <b>Reviews</b>
             <br />

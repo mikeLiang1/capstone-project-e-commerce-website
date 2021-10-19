@@ -12,10 +12,6 @@
   min-width: 250px;
 }
 
-.ReviewContainer-image:empty {
-    display: none !important;
-}
-
 .ReviewContainer-information {
   text-align: left;
   max-width: 250px;

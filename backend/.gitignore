@@ -3,5 +3,3 @@ pycache/
 **/env/
 pycache/
 __pycache__/
-*.pyc
-**/env/

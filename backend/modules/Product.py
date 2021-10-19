@@ -13,10 +13,12 @@ productParser.add_argument('category', type=str)
 # productParser.add_argument('sub-category', type=str)
 productParser.add_argument('image', type=str)
 productParser.add_argument('price', type=float)
-productParser.add_argument('reviews', type=list)
+productParser.add_argument('reviews', type=dict, action='append')
+productParser.add_argument('review', type=dict)
 productParser.add_argument('description', type=str)
 productParser.add_argument('tag', type=str)
 productParser.add_argument('units_sold', type=int)
+productParser.add_argument('review_ids', type=int)
 
 def checkArgs(args):
     if args.name is None:
@@ -69,7 +71,8 @@ class Product(Resource):
             u'reviews': args.reviews,
             u'description': args.description,
             u'tag': args.tag,
-            u'units_sold': args.units_sold
+            u'units_sold': args.units_sold,
+            u'review_ids': 0
         })
         
         return {'message' : 'product added successfully : {0}'.format(result[1].id)}
@@ -87,16 +90,24 @@ class Product(Resource):
         doc = doc_ref.get()
         if doc.exists is not True:
             return {'error': 'product doesn\'t exist'}
+        
+        newReviews = args.reviews
+
+        if args.review is not None:
+            if newReviews is None:
+                newReviews = []
+            newReviews.append(dict(args.review))
 
         doc_ref.update({
             u'name': args.name,
             u'category': args.category,
             u'image': args.image,
             u'price': args.price,
-            u'reviews': args.reviews,
+            u'reviews': newReviews,
             u'description': args.description,
             u'tag': args.tag,
-            u'units_sold': args.units_sold
+            u'units_sold': args.units_sold,
+            u'review_ids': args.review_ids
         })
 
         return {'message' : 'product updated successfully : {0}'.format(args.name)}

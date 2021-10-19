@@ -13,6 +13,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import { initializeApp } from "firebase/app";
 import { getDownloadURL, getStorage, ref, uploadBytes} from "firebase/storage";
 
+import ReviewContainer from '../buttons-and-sections/ReviewContainer.js';
+import Accordian from '../buttons-and-sections/Accordian.js';
 import './ItemPage.css';
 
 // Your web app's Firebase configuration
@@ -42,6 +44,7 @@ function ItemPage({ match }) {
   const [tag, setTag] = useState('');
   const [reviews, setReviews] = useState([]);
   const [units, setUnits] = useState(0);
+  const [reviewIds, setReviewIds] = useState(0);
   const [reviewNewImg, setReviewNewImg] = useState(null);
   const [review, setReview] = useState({
     product_id: match.params.itemId,
@@ -57,6 +60,7 @@ function ItemPage({ match }) {
   const [modalOpen, setModalOpen] = useState(false);
   const list = ['1', '2', '3', '4', '5'];
   const [quantity, setQuantity] = useState('');
+  const [accordianName, setAccordianName] = useState('');
   const fileInput = React.useRef(null);
 
   async function getItemData() {
@@ -72,7 +76,6 @@ function ItemPage({ match }) {
       alert('Product not found!');
     } else if (res.status === 200) {
       const data = await res.json();
-      console.log(data.data);
       setCategory(data.data.category);
       setDesc(data.data.description);
       setImg(data.data.image);
@@ -81,20 +84,25 @@ function ItemPage({ match }) {
       setTag(data.data.tag);
       setReviews(data.data.reviews);
       setUnits(data.data.units_sold);
+      setReviewIds(data.data.reviewIds);
+      setAccordianName(`Reviews (${data.data.reviews.length})`);
     }
   }
 
   async function postReview() {
     // Uploading image to retrieve link
-    if (reviewNewImg !== '') {
+    if (reviewNewImg !== null) {
       const storageRef = ref(storage, reviewNewImg.name);
       let snapshot = await uploadBytes(storageRef, reviewNewImg);
       let url = await getDownloadURL(ref(storage, reviewNewImg.name));
       review.image = url;
     }
 
-    const newDate = Date.now().toString;
+    var today = new Date();
+    today.setHours(today.getHours() + 9);
+    const newDate = today.toISOString().replace('T', ' ').substring(0, 19);
     setReview({ ...review, date_posted: newDate });
+    const newReviewIds = reviewIds + 1;
 
     const newBody = {
       product_id: match.params.itemId,
@@ -106,8 +114,10 @@ function ItemPage({ match }) {
       description: desc,
       tag: tag,
       units_sold: units,
+      review_ids: newReviewIds,
       review: {
         product_id: match.params.itemId,
+        review_id: reviewIds,
         first_name: review.first_name,
         last_name: review.last_name,
         star_rating: review.star_rating,
@@ -115,9 +125,11 @@ function ItemPage({ match }) {
         content: review.content,
         likes: review.likes,
         image: review.image,
-        date_poasted: review.date_posted,
+        date_posted: newDate,
       }
     };
+
+    setReviewIds(reviewIds + 1);
     
     const requestOptionsPut = {
       method: 'PUT',
@@ -128,14 +140,20 @@ function ItemPage({ match }) {
       body: JSON.stringify(newBody),
     };
 
-    // TODO: actually show the reviews
+    // TODO: change time format..?idk
+    // TODO: like, edit, delete reviews
+      // post can be done by using idx of review?
+      // probably need to save review field for each user
+      // e.g. review >> [{product id, review id}]
+      // liked_reviews >> [{product_id, review id}] -- this is needed to prevent like spamming from one user
     // TODO: retrieve user's name, check if user has actually bought the item && do i check if user has already posted a review?
-    // TODO fix error where it still uploads image even if its removed
     // hmm review gets overwritten if user posts it twice without refreshing
     // TODO style the code
     // TODO style item page itself
+    // TODO admin can delete all reviews
+    // TODO add alerts
+    // TODO reduce scroll when accordian is closed
     // TODO remove img break icon if pictures are removed? idk when i have time lol
-    console.log(reviews);
 
     fetch(`/product`, requestOptionsPut).then(async response => {
       try {
@@ -150,8 +168,8 @@ function ItemPage({ match }) {
   }
 
   const handleRemove = (e) => {
-    setReviewNewImg('');
     fileInput.current.value = null;
+    setReviewNewImg(null);
   }
 
   const handleClick = (e) => {
@@ -222,7 +240,6 @@ function ItemPage({ match }) {
           <div className='ItemPage-box'>
             <b>Reviews</b>
             <br />
-            {desc}
             <Button
               onClick={() => {
                 setModalOpen(true)
@@ -237,6 +254,21 @@ function ItemPage({ match }) {
             >
               Write a review
             </Button>
+            <Accordian title={accordianName} content={
+              reviews.slice(0).reverse().map((rev, id) => (
+                <ReviewContainer
+                  key = {id}
+                  first_name = {rev.first_name}
+                  last_name = {rev.last_name}
+                  star_rating = {rev.star_rating}
+                  title = {rev.title}
+                  content = {rev.content}
+                  likes = {rev.likes}
+                  image = {rev.image}
+                  date_posted = {rev.date_posted}
+                />
+              ))
+            } />
           </div>
           <Modal isOpen={modalOpen} style={{
             zIndex: 1,
@@ -255,9 +287,9 @@ function ItemPage({ match }) {
               </Typography>
               <Box id='review-wrapper'>
                 <Box id='review-images-section'>
-                  <img class='review-image' src={img} alt={img}/>
+                  <img className='review-image' src={img} alt={img}/>
                   <Box id='file-upload-section'>
-                    <img class='review-image' src={reviewNewImg? URL.createObjectURL(reviewNewImg) : null} alt={reviewNewImg? reviewNewImg.name : null}/>
+                    <img className='review-image' src={reviewNewImg? URL.createObjectURL(reviewNewImg) : null} alt={reviewNewImg? reviewNewImg.name : null}/>
                   </Box>
                   <Typography style={{ fontSize: '12pt' }}>
                     Image uploaded
@@ -280,7 +312,7 @@ function ItemPage({ match }) {
                   </Box>
                   <Divider style={{ zIndex: 2 }}/>
                   <br/>
-                  <Typography class='Itempage-review-text'>
+                  <Typography className='Itempage-review-text'>
                     Review Title*
                   </Typography>
                   <TextField
@@ -296,7 +328,7 @@ function ItemPage({ match }) {
                   <br/>
                   <Divider style={{ zIndex: 2 }}/>
                   <br/>
-                  <Typography class='Itempage-review-text'>
+                  <Typography className='Itempage-review-text'>
                     Review*
                   </Typography>
                   <TextField
@@ -314,7 +346,7 @@ function ItemPage({ match }) {
                   <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
                     <Button variant='outlined' style={{ width: '170px' }} onClick={() => {handleClick();}}>Add photo</Button>
                     <input id='file-upload' ref={fileInput} onChange={handleChange} type='file' />
-                      <Button variant='outlined' style={{ width: '170px' }}onClick={() => {handleRemove();}}>Remove photo</Button>
+                    <Button variant='outlined' style={{ width: '170px' }}onClick={() => {handleRemove();}}>Remove photo</Button>
                   </Box>
                   <br/>
                 </Box>

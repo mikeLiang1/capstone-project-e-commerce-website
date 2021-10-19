@@ -18,6 +18,7 @@ productParser.add_argument('review', type=dict)
 productParser.add_argument('description', type=str)
 productParser.add_argument('tag', type=str)
 productParser.add_argument('units_sold', type=int)
+productParser.add_argument('review_ids', type=int)
 
 def checkArgs(args):
     if args.name is None:
@@ -70,7 +71,8 @@ class Product(Resource):
             u'reviews': args.reviews,
             u'description': args.description,
             u'tag': args.tag,
-            u'units_sold': args.units_sold
+            u'units_sold': args.units_sold,
+            u'review_ids': 0
         })
         
         return {'message' : 'product added successfully : {0}'.format(result[1].id)}
@@ -104,7 +106,8 @@ class Product(Resource):
             u'reviews': newReviews,
             u'description': args.description,
             u'tag': args.tag,
-            u'units_sold': args.units_sold
+            u'units_sold': args.units_sold,
+            u'review_ids': args.review_ids
         })
 
         return {'message' : 'product updated successfully : {0}'.format(args.name)}

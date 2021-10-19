@@ -79,6 +79,7 @@ function AddProductPage() {
 
   const handleRemove = (e) => {
     setImage('');
+    fileInput.current.value = null;
     setAddPhoto('block');
   }
 

@@ -41,6 +41,7 @@ function ItemPage({ match }) {
   const [price, setPrice] = useState(0);
   const [tag, setTag] = useState('');
   const [reviews, setReviews] = useState([]);
+  const [units, setUnits] = useState(0);
   const [reviewNewImg, setReviewNewImg] = useState(null);
   const [review, setReview] = useState({
     product_id: match.params.itemId,
@@ -51,7 +52,7 @@ function ItemPage({ match }) {
     content: '',
     likes: 0,
     image: '',
-    date_posted: ''
+    date_posted: '',
   });
   const [modalOpen, setModalOpen] = useState(false);
   const list = ['1', '2', '3', '4', '5'];
@@ -79,13 +80,78 @@ function ItemPage({ match }) {
       setPrice(data.data.price);
       setTag(data.data.tag);
       setReviews(data.data.reviews);
+      setUnits(data.data.units_sold);
     }
   }
 
-  // TODO write async function for submit review stuff
+  async function postReview() {
+    // Uploading image to retrieve link
+    if (reviewNewImg !== '') {
+      const storageRef = ref(storage, reviewNewImg.name);
+      let snapshot = await uploadBytes(storageRef, reviewNewImg);
+      let url = await getDownloadURL(ref(storage, reviewNewImg.name));
+      review.image = url;
+    }
+
+    const newDate = Date.now().toString;
+    setReview({ ...review, date_posted: newDate });
+
+    const newBody = {
+      product_id: match.params.itemId,
+      name: name,
+      category: category,
+      image: img,
+      price: price,
+      reviews: reviews,
+      description: desc,
+      tag: tag,
+      units_sold: units,
+      review: {
+        product_id: match.params.itemId,
+        first_name: review.first_name,
+        last_name: review.last_name,
+        star_rating: review.star_rating,
+        title: review.title,
+        content: review.content,
+        likes: review.likes,
+        image: review.image,
+        date_poasted: review.date_posted,
+      }
+    };
+    
+    const requestOptionsPut = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(newBody),
+    };
+
+    // TODO: actually show the reviews
+    // TODO: retrieve user's name, check if user has actually bought the item && do i check if user has already posted a review?
+    // TODO fix error where it still uploads image even if its removed
+    // hmm review gets overwritten if user posts it twice without refreshing
+    // TODO style the code
+    // TODO style item page itself
+    // TODO remove img break icon if pictures are removed? idk when i have time lol
+    console.log(reviews);
+
+    fetch(`/product`, requestOptionsPut).then(async response => {
+      try {
+        const data = await response.json()
+        console.log('response data', data)
+      }
+      catch(error) {
+        console.log('Error happened')
+        console.error(error)
+      }
+    })
+  }
 
   const handleRemove = (e) => {
-    setReviewNewImg(null);
+    setReviewNewImg('');
+    fileInput.current.value = null;
   }
 
   const handleClick = (e) => {
@@ -191,7 +257,7 @@ function ItemPage({ match }) {
                 <Box id='review-images-section'>
                   <img class='review-image' src={img} alt={img}/>
                   <Box id='file-upload-section'>
-                    <img class='review-image' src={reviewNewImg? URL.createObjectURL(reviewNewImg) : null}/>
+                    <img class='review-image' src={reviewNewImg? URL.createObjectURL(reviewNewImg) : null} alt={reviewNewImg? reviewNewImg.name : null}/>
                   </Box>
                   <Typography style={{ fontSize: '12pt' }}>
                     Image uploaded
@@ -253,7 +319,7 @@ function ItemPage({ match }) {
                   <br/>
                 </Box>
               </Box>              
-              <Button id='post-review-button' size='large' onClick={() => console.log(review)}>Post Review</Button>
+              <Button id='post-review-button' size='large' onClick={() => postReview()}>Post Review</Button>
             </Box>
           </Modal>
         </div>

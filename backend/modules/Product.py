@@ -89,15 +89,19 @@ class Product(Resource):
         if doc.exists is not True:
             return {'error': 'product doesn\'t exist'}
         
+        newReviews = args.reviews
+
         if args.review is not None:
-            args.reviews.append(args.review)
+            if newReviews is None:
+                newReviews = []
+            newReviews.append(dict(args.review))
 
         doc_ref.update({
             u'name': args.name,
             u'category': args.category,
             u'image': args.image,
             u'price': args.price,
-            u'reviews': args.reviews,
+            u'reviews': newReviews,
             u'description': args.description,
             u'tag': args.tag,
             u'units_sold': args.units_sold

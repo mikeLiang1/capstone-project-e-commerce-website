@@ -23,7 +23,6 @@
 .Accordian-visible span {
   padding: 16px 8px;
   font-size: 16px;
-  font-family: var(--body-font);
   font-weight: var(--bold-font-weight);
 }
 

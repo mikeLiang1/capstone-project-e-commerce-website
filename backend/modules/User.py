@@ -41,7 +41,7 @@ class User_Get(Resource):
         doc_ref = db.collection(u'users').document(email)
         
         if user_exists(doc_ref):
-            return doc_ref.get().to_dict()
+            return {"id": doc_ref.get().id, "content": doc_ref.get().to_dict()}
         else:
             return {"message": "User ID is not valid"}, 400
 

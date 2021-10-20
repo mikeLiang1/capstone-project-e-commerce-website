@@ -146,6 +146,30 @@ class User_add_to_cart(Resource):
         else:
             return {"message": "User ID is not valid"}, 400
 
+class User_remove_from_cart(Resource):
+    def post(self):
+        args = parser.parse_args()
+        # Get the user's information
+        info = authP.get_account_info(args.uid)
+        email = info['users'][0]['email']
+        doc_ref = db.collection(u'users').document(email)
+        if user_exists(doc_ref):
+            doc = doc_ref.get()
+            cart = doc.to_dict().get('cart')
+            # Confirms that the product has been removed from the user's cart
+            removeConfirmed = False
+            # Check if product exists in the user's cart
+            for item in cart:
+                # If the product exists in the user's cart, update the quantity
+                if item.get("product") == args.productId:
+                    # Save the existing quantity of the product that already exists in the cart
+                    existingQuantity = item['quantity']
+                    # Remove the item from the cart
+                    doc_ref.update({u"cart": firestore.ArrayRemove([{"product": args.productId, "quantity": existingQuantity}])})
+                    removeConfirmed = True
+            # The product doesn't exist in the user's cart, so failed to remove
+            if removeConfirmed == False:
+                return {"message": "Error! Failed to remove item from the cart."}, 400
 
 def user_exists(doc_ref):
     doc = doc_ref.get()

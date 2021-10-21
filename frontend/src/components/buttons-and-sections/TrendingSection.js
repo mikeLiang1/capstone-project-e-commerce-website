@@ -31,7 +31,7 @@ function TrendingSection() {
 
     const response = await fetch('/product/1/10', requestOptions);
 
-    if (response.status != 200) {
+    if (response.status !== 200) {
       alert('Failed to get Trending Products!');
     } else if (response.status === 200) {
       const data = await response.json();

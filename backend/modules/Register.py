@@ -58,7 +58,8 @@ class Register(Resource):
             u'last': args.lname,
             u'address': None,
             u'purchase_history': [],
-            u'admin': False
+            u'admin': False,
+            u"cart": []
         })
         
         # When registered, you are signed in

@@ -13,6 +13,7 @@ import AdminHomePage from './components/admin-home/AdminHomePage';
 import CheckoutPage from './components/checkout/CheckoutPage';
 import CartPage from './components/checkout/CartPage';
 import AccountPage from './components/account/AccountPage';
+import SurveyPage from './components/survey/SurveyPage';
 import Cookies from 'js-cookie';
 import { render } from '@testing-library/react';
 import MysteryBoxOpen from './components/mystery-box/MysteryBoxOpen';
@@ -56,12 +57,17 @@ function App() {
           setAdmin={setAdmin}
         />
         <Switch>
-          <Route path='/cart' exact component={CartPage} />
+          <Route
+            path='/cart'
+            exact
+            component={() => <CartPage token={token} />}
+          />
           <Route path='/checkout' exact component={CheckoutPage} />
           <Route path='/product/:itemId' render={({match}) => <ItemPage match={match} token={token} />} />
           <Route path='/adminhome' exact component={AdminHomePage} />
           <Route path='/addproduct' exact component={AddProductPage} />
           <Route path='/admindash' exact component={AdminDashboardPage} />
+          <Route path='/survey' exact component={SurveyPage} />
           <Route
             path='/'
             exact
@@ -87,7 +93,11 @@ function App() {
           />
           <Route path='/mysterybox' exact component={MysteryBoxPage} />
           <Route path='/account' exact component={AccountPage} />
-          <Route path='/mysterybox/open/:boxName' exact component={MysteryBoxOpen}/> 
+          <Route
+            path='/mysterybox/open/:boxName'
+            exact
+            component={MysteryBoxOpen}
+          />
         </Switch>
         {/* <Footer /> */}
         {/* <NavigationBarUser /> */}

@@ -122,15 +122,19 @@ function ItemPage({ match, token }) {
         Accept: 'application/json',
       },
     };
+    
+    fetch(`/auth/user/${token}`, requestOptions).then(async response => {
+      try {
+        const data = await response.json();
+        setUser(data);
+        console.log('response data', data);
+      }
+      catch (error) {
+        console.log('Error happened');
+        console.error(error);
+      }
+    })
 
-    const response = await fetch(`/auth/user/${token}`, requestOptions);
-    if (response.status != 200) {
-      alert('Failed to get Customer Details!');
-    } else if (response.status === 200) {
-      const data = await response.json();
-      console.log(data);
-      setUser(data);
-    }
   }
 
   // Post new review

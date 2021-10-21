@@ -2,6 +2,8 @@ from flask import Flask, app
 from flask_restful import Api, Resource, reqparse
 from firebase_admin import credentials, firestore, initialize_app
 
+import pyrebase
+
 # Initialize Firestore DB
 cred = credentials.Certificate('key.json')
 default_app = initialize_app(cred, name='user')
@@ -16,13 +18,28 @@ parser.add_argument('password', type=str)
 parser.add_argument('address', type=str)
 parser.add_argument('purchaseHistory', type= list)
 
+# Pyrebase
+config = {
+  "apiKey": "AIzaSyAVOqrvODx6KS-xBGs5guJTrKBJjduEjRI",
+  "authDomain": "nocta-tech.firebaseapp.com",
+  "databaseURL": "https://nocta-tech.firebaseio.com",
+  "storageBucket": "nocta-tech.appspot.com",
+  "serviceAccount": "key.json"
+}
+
+firebase = pyrebase.initialize_app(config)
+authP = firebase.auth()
+
 class User_Get(Resource):
     # Get user info
     def get(self, uid):
 
-        doc_ref = db.collection(u'users').document(uid)
+        info = authP.get_account_info(uid)
+        
+        email = info['users'][0]['email']
 
-
+        doc_ref = db.collection(u'users').document(email)
+        
         if user_exists(doc_ref):
             return doc_ref.get().to_dict()
         else:
@@ -34,7 +51,12 @@ class User(Resource):
     def put(self):
         
         args = parser.parse_args()
-        doc_ref = db.collection(u'users').document(args.uid)
+        
+        info = authP.get_account_info(args.uid)
+        
+        email = info['users'][0]['email']
+        
+        doc_ref = db.collection(u'users').document(email)
         doc = doc_ref.get()
         if doc.exists is not True:
             return {'error': 'User ID is not valid'}, 404
@@ -70,7 +92,12 @@ class User_add_productID(Resource):
     # given a productid, add to users purchase history
     def post(self, productID):
         args = parser.parse_args()
-        doc_ref = db.collection(u'users').document(args.uid)
+        
+        info = authP.get_account_info(args.uid)
+        
+        email = info['users'][0]['email']
+        
+        doc_ref = db.collection(u'users').document(email)
 
         if user_exists(doc_ref):
             doc_ref.update({u'purchase_history': firestore.ArrayUnion([productID])})

@@ -40,6 +40,9 @@ class Register(Resource):
         # Check if email has @
         if not re.match(r"[^@]+@[^@]+\.[^@]+", args.email):
             return {"message": "Email is not valid"}, 400
+            
+        # Change email to all lowercase
+        args.email = args.email.lower()
         
         try:
             user = authP.create_user_with_email_and_password(args.email, args.password)
@@ -48,11 +51,11 @@ class Register(Resource):
             return {"message": "failed"}, 400
         
         # Put user information into database
-        doc_ref = db.collection(u'users').document(user['idToken'])
+        # Email is the primary key
+        doc_ref = db.collection(u'users').document(args.email)
         doc_ref.set({
             u'first': args.fname,
             u'last': args.lname,
-            u'email': args.email,
             u'address': None,
             u'purchase_history': [],
             u'admin': False
@@ -60,5 +63,6 @@ class Register(Resource):
         
         # When registered, you are signed in
         user = authP.sign_in_with_email_and_password(args.email, args.password)
+        print(user)
         
         return {"message" : "User created successfully", "idToken" : user['idToken']}

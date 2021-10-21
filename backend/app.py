@@ -3,10 +3,11 @@ from flask_restful import Api, Resource, reqparse
 from firebase_admin import credentials, firestore, initialize_app
 
 from modules.Register import Register
-from modules.User import User, User_add_productID
+from modules.User import User, User_Get, User_add_productID
 from modules.SignIn import SignIn
 from modules.mystery_box import *
 from modules.Product import *
+from modules.Admin_dashboard import *
 
 app = Flask(__name__)
 api = Api(app)
@@ -82,12 +83,14 @@ api.add_resource(Register, "/auth/register")
 api.add_resource(Product, "/product")
 api.add_resource(Product_get, "/product/<string:productID>")
 api.add_resource(User, "/auth/user")
+api.add_resource(User_Get, "/auth/user/<string:uid>")
 api.add_resource(SignIn, "/auth/signin")
 api.add_resource(mystery_box, "/mystery_box/<string:box_name>")
 api.add_resource(mystery_box_open, "/mystery_box/<string:box_name>/open")
-
 api.add_resource(Product_range, "/product/<int:min>/<int:max>")
 api.add_resource(User_add_productID, "/user/<string:productID>")
+api.add_resource(Units_sold, "/units_sold")
+api.add_resource(Total_revenue, "/total_revenue")
 
 if __name__ == "__main__":
     app.run(debug=True)

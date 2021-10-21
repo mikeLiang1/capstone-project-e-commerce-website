@@ -57,7 +57,7 @@ function App() {
         <Switch>
           <Route path='/cart' exact component={CartPage} />
           <Route path='/checkout' exact component={CheckoutPage} />
-          <Route path='/product/:itemId' exact component={ItemPage} />
+          <Route path='/product/:itemId' render={({match}) => <ItemPage match={match} token={token} />} />
           <Route path='/adminhome' exact component={AdminHomePage} />
           <Route path='/addproduct' exact component={AddProductPage} />
           <Route path='/admindash' exact component={AdminDashboardPage} />

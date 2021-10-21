@@ -33,7 +33,7 @@ const firebaseApp = initializeApp(firebaseConfig);
 // Get a reference to the storage service, which is used to create references in your storage bucket
 const storage = getStorage(firebaseApp);
 
-function ItemPage({ match }) {
+function ItemPage({ match, token }) {
   // pass in item id
   const productId = 'B0Si9HGHqL0IQ7EzItpK';
   const [category, setCategory] = useState('');
@@ -57,6 +57,14 @@ function ItemPage({ match }) {
     image: '',
     date_posted: '',
   });
+  const [user, setUser] = useState({
+    id: '',
+    content: {
+      first: '',
+      last: '',
+      address: '',
+    },
+  });
   const [modalOpen, setModalOpen] = useState(false);
   const list = ['1', '2', '3', '4', '5'];
   const [quantity, setQuantity] = useState('');
@@ -64,6 +72,7 @@ function ItemPage({ match }) {
   const [accordianName, setAccordianName] = useState('');
   const fileInput = React.useRef(null);
 
+  // Get item data
   async function getItemData() {
     const requestOptions = {
       method: 'GET',
@@ -104,6 +113,27 @@ function ItemPage({ match }) {
     }
   }
 
+  // Get logged-in user's info
+  async function getUserData() {
+    const requestOptions = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    };
+
+    const response = await fetch(`/auth/user/${token}`, requestOptions);
+    if (response.status != 200) {
+      alert('Failed to get Customer Details!');
+    } else if (response.status === 200) {
+      const data = await response.json();
+      console.log(data);
+      setUser(data);
+    }
+  }
+
+  // Post new review
   async function postReview() {
     // Uploading image to retrieve link
     if (reviewNewImg !== null) {
@@ -143,6 +173,7 @@ function ItemPage({ match }) {
         date_posted: newDate,
       }
     };
+    // add user id to review
 
     setReviewIds(reviewIds + 1);
     
@@ -155,12 +186,24 @@ function ItemPage({ match }) {
       body: JSON.stringify(newBody),
     };
 
+    // check if user is logged in (only logged in user can write reviews)
+
+    // TODO: create review images directory
     // TODO: change time format..?idk
     // TODO: like, edit, delete reviews
-      // post can be done by using idx of review?
-      // probably need to save review field for each user
-      // e.g. review >> [{product id, review id}]
-      // liked_reviews >> [{product_id, review id}] -- this is needed to prevent like spamming from one user
+      // PLAN FOR LIKE
+        // modify likes to be array of user ids
+        // number of likes determined by the array length
+        // if currently logged in user already liked it they cant like it again
+      // INCLUDE USER_ID FIELD INSIDE REVIEW
+        // if currently logged in user wrote the review they can edit/delete review (not sure about edit for now)
+        // need to determine if it should also be saved in user database? so they can see their written reviews altogether
+      // PLAN FOR REVIEW SECTION UPDATE
+        // make one big async function here just to update whole review list
+        // when review is liked, editted or deleted it calls that async function
+        // need to figure out how to pass onclick function to the ReviewContainer.js
+      // NEED TO SEE IF CHANGING REVIEWCONTAINER'S WIDTH CHANGES ACCORDIAN'S WIDTH
+
     // TODO: retrieve user's name, check if user has actually bought the item && do i check if user has already posted a review?
     // hmm review gets overwritten if user posts it twice without refreshing
     // TODO style the code
@@ -201,6 +244,7 @@ function ItemPage({ match }) {
 
   useEffect(() => {
     getItemData();
+    getUserData();
   }, []);
 
   return (

@@ -215,7 +215,7 @@ function ItemPage({ match }) {
       body: JSON.stringify(addToCartBody),
     };
 
-    const response = await fetch('/addtocart', requestOptions);
+    const response = await fetch('/cart', requestOptions);
     if (response.status != 200) {
       alert('Failed to add to cart!');
     } else if (response.status === 200) {

@@ -111,13 +111,9 @@ class User_add_productID(Resource):
 
 # Requires:
 # uid, productId, productQuantity
-class User_add_to_cart(Resource):
+class User_cart(Resource):
     def post(self):
-        
         args = parser.parse_args()
-        print(args.uid)
-        print(args.productId)
-        print(args.productQuantity)
         # Get the user's information
         info = authP.get_account_info(args.uid)
         email = info['users'][0]['email']
@@ -153,8 +149,7 @@ class User_add_to_cart(Resource):
         else:
             return {"message": "User ID is not valid"}, 400
 
-class User_remove_from_cart(Resource):
-    def post(self):
+    def delete(self):
         args = parser.parse_args()
         # Get the user's information
         info = authP.get_account_info(args.uid)

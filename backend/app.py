@@ -93,6 +93,8 @@ api.add_resource(Units_sold, "/units_sold")
 api.add_resource(Total_revenue, "/total_revenue")
 api.add_resource(User_add_to_cart, "/addtocart")
 api.add_resource(User_remove_from_cart, "/removefromcart")
+api.add_resource(Product_visited, "/product_visited/<string:productID>")
+api.add_resource(Get_product_visited, "/product_visited")
 
 if __name__ == "__main__":
     app.run(debug=True)

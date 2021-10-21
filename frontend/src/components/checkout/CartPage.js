@@ -5,8 +5,9 @@ import { Link } from 'react-router-dom';
 import './CartPage.css';
 import CartItem from '../buttons-and-sections/CartItem.js';
 import Accordian from '../buttons-and-sections/Accordian.js';
+import CustomerDetailsSection from './CustomerDetailsSection.js';
 
-function CartPage() {
+function CartPage({ token }) {
   // TODO: useEffect to retrieve information from the backend about the current user's
   // cart, including: Items, Quantity of Items, Personal Information/Details
 
@@ -25,28 +26,53 @@ function CartPage() {
     />,
   ]);
 
-  const onAdd = (product) => {
-    // Checks if the product we are about to add already exists in the Cart. If it does,
-    // then increase the quantity of that item in the cart
-    const exist = cartItems.find((item) => item.id === product.id);
-    if (exist) {
-      setCartItems(
-        cartItems.map((item) =>
-          item.id === product.id
-            ? { ...exist, quantity: exist.quantity + 1 }
-            : item
-        )
-      );
-    } else {
-      setCartItems([...cartItems, { ...product, quantity: 1 }]);
+  const [customerDetails, setCustomerDetails] = useState({
+    id: '',
+    content: {
+      first: '',
+      last: '',
+      address: '',
+    },
+  });
+
+  const getCustomerDetails = async () => {
+    const requestOptions = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    };
+
+    const response = await fetch(`/auth/user/${token}`, requestOptions);
+    if (response.status != 200) {
+      alert('Failed to get Customer Details!');
+    } else if (response.status === 200) {
+      const data = await response.json();
+      console.log(data);
+      setCustomerDetails(data);
     }
   };
+
+  useEffect(() => {
+    getCustomerDetails();
+  }, []);
 
   return (
     <div className='CartPage'>
       <h2 style={{ fontSize: '24px' }}>SHOPPING CART</h2>
       <Accordian title='Items' content={cartItems} />
-
+      <Accordian
+        title='Customer Details'
+        content={
+          <CustomerDetailsSection
+            firstName={customerDetails.content.first}
+            lastName={customerDetails.content.last}
+            email={customerDetails.id}
+            address={customerDetails.content.address}
+          />
+        }
+      />
       <Link to={'/checkout'}>
         <TextButton buttonName='Checkout' buttonType='submit' />
       </Link>

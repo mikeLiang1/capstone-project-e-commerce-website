@@ -56,7 +56,11 @@ function App() {
           setAdmin={setAdmin}
         />
         <Switch>
-          <Route path='/cart' exact component={CartPage} />
+          <Route
+            path='/cart'
+            exact
+            component={() => <CartPage token={token} />}
+          />
           <Route path='/checkout' exact component={CheckoutPage} />
           <Route path='/product/:itemId' exact component={ItemPage} />
           <Route path='/adminhome' exact component={AdminHomePage} />
@@ -87,7 +91,11 @@ function App() {
           />
           <Route path='/mysterybox' exact component={MysteryBoxPage} />
           <Route path='/account' exact component={AccountPage} />
-          <Route path='/mysterybox/open/:boxName' exact component={MysteryBoxOpen}/> 
+          <Route
+            path='/mysterybox/open/:boxName'
+            exact
+            component={MysteryBoxOpen}
+          />
         </Switch>
         {/* <Footer /> */}
         {/* <NavigationBarUser /> */}

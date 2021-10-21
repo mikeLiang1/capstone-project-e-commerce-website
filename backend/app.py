@@ -3,7 +3,7 @@ from flask_restful import Api, Resource, reqparse
 from firebase_admin import credentials, firestore, initialize_app
 
 from modules.Register import Register
-from modules.User import User, User_Get, User_add_productID
+from modules.User import User, User_Get, User_add_productID, User_add_to_cart, User_remove_from_cart
 from modules.SignIn import SignIn
 from modules.mystery_box import *
 from modules.Product import *
@@ -91,6 +91,8 @@ api.add_resource(Product_range, "/product/<int:min>/<int:max>")
 api.add_resource(User_add_productID, "/user/<string:productID>")
 api.add_resource(Units_sold, "/units_sold")
 api.add_resource(Total_revenue, "/total_revenue")
+api.add_resource(User_add_to_cart, "/addtocart")
+api.add_resource(User_remove_from_cart, "/removefromcart")
 
 if __name__ == "__main__":
     app.run(debug=True)

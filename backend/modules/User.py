@@ -109,7 +109,9 @@ class User_add_productID(Resource):
         else:
             return {"message": "User ID is not valid"}, 400
 
-class User_add_to_cart(Resource):
+# Requires:
+# uid, productId, productQuantity
+class User_cart(Resource):
     def post(self):
         args = parser.parse_args()
         # Get the user's information
@@ -143,11 +145,11 @@ class User_add_to_cart(Resource):
             if addConfirmed == False:
                 doc_ref.update({u"cart": firestore.ArrayUnion([{"product": args.productId, "quantity": args.productQuantity}])})
                 addConfirmed = True
+            return {"message": "Added to Cart!"}
         else:
             return {"message": "User ID is not valid"}, 400
 
-class User_remove_from_cart(Resource):
-    def post(self):
+    def delete(self):
         args = parser.parse_args()
         # Get the user's information
         info = authP.get_account_info(args.uid)
@@ -167,6 +169,7 @@ class User_remove_from_cart(Resource):
                     # Remove the item from the cart
                     doc_ref.update({u"cart": firestore.ArrayRemove([{"product": args.productId, "quantity": existingQuantity}])})
                     removeConfirmed = True
+                    return {"message": "Removed from Cart!"}
             # The product doesn't exist in the user's cart, so failed to remove
             if removeConfirmed == False:
                 return {"message": "Error! Failed to remove item from the cart."}, 400

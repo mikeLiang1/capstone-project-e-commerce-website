@@ -35,6 +35,18 @@ function CartPage({ token }) {
     },
   });
 
+  const getCartDetails = async () => {
+    const requestOptions = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    };
+
+    const response = await fetch('/');
+  };
+
   const getCustomerDetails = async () => {
     const requestOptions = {
       method: 'GET',
@@ -55,6 +67,7 @@ function CartPage({ token }) {
   };
 
   useEffect(() => {
+    getCartDetails();
     getCustomerDetails();
   }, []);
 

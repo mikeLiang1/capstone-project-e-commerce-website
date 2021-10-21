@@ -8,7 +8,12 @@ import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
+<<<<<<< HEAD
 import CloseIcon from '@mui/icons-material/Close';
+=======
+import CloseIcon from '@material-ui/icons/Close';
+import Cookies from 'js-cookie';
+>>>>>>> cart-frontend-backend
 
 import { initializeApp } from 'firebase/app';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
@@ -34,8 +39,6 @@ const firebaseApp = initializeApp(firebaseConfig);
 const storage = getStorage(firebaseApp);
 
 function ItemPage({ match }) {
-  // pass in item id
-  const productId = 'B0Si9HGHqL0IQ7EzItpK';
   const [category, setCategory] = useState('');
   const [desc, setDesc] = useState('');
   const [img, setImg] = useState('');
@@ -97,8 +100,7 @@ function ItemPage({ match }) {
         avg /= data.data.reviews.length;
         var rounded = Math.round(avg * 10) / 10;
         setRatings(`${rounded} (${data.data.reviews.length})`);
-      }
-      else {
+      } else {
         setRatings(`0.0 (${data.data.reviews.length})`);
       }
     }
@@ -141,7 +143,7 @@ function ItemPage({ match }) {
         likes: review.likes,
         image: review.image,
         date_posted: newDate,
-      }
+      },
     };
 
     setReviewIds(reviewIds + 1);
@@ -157,10 +159,10 @@ function ItemPage({ match }) {
 
     // TODO: change time format..?idk
     // TODO: like, edit, delete reviews
-      // post can be done by using idx of review?
-      // probably need to save review field for each user
-      // e.g. review >> [{product id, review id}]
-      // liked_reviews >> [{product_id, review id}] -- this is needed to prevent like spamming from one user
+    // post can be done by using idx of review?
+    // probably need to save review field for each user
+    // e.g. review >> [{product id, review id}]
+    // liked_reviews >> [{product_id, review id}] -- this is needed to prevent like spamming from one user
     // TODO: retrieve user's name, check if user has actually bought the item && do i check if user has already posted a review?
     // hmm review gets overwritten if user posts it twice without refreshing
     // TODO style the code
@@ -186,7 +188,7 @@ function ItemPage({ match }) {
   const handleRemove = (e) => {
     fileInput.current.value = null;
     setReviewNewImg(null);
-  }
+  };
 
   const handleClick = (e) => {
     fileInput.current.click();
@@ -198,6 +200,35 @@ function ItemPage({ match }) {
     }
   };
 
+  const addTocart = async () => {
+    // const uid = Cookies.get('user');
+    // const productId = match.params.itemId;
+    // const productQuantity = quantity;
+    const addToCartBody = {
+      uid: Cookies.get('user'),
+      productId: match.params.itemId,
+      productQuantity: quantity,
+    };
+    console.log(addToCartBody);
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(addToCartBody),
+    };
+
+    const response = await fetch('/cart', requestOptions);
+    if (response.status != 200) {
+      alert('Failed to add to cart!');
+    } else if (response.status === 200) {
+      const data = await response.json();
+      // TODO: Implement "Succefully Added to Cart" Pop-up
+      alert('Added to Cart!');
+    }
+  };
+
   useEffect(() => {
     getItemData();
   }, []);
@@ -205,19 +236,42 @@ function ItemPage({ match }) {
   return (
     <div id='ItemPage'>
       <div id='product-category'>
-        <Typography style={{ marginLeft: '30px', marginTop: '10px' }}>{category}</Typography>
+        <Typography style={{ marginLeft: '30px', marginTop: '10px' }}>
+          {category}
+        </Typography>
       </div>
       <div id='ItemPage-flex'>
         <div id='product-wrapper'>
-          <img id='product-image' src={img} alt={img}/>
+          <img id='product-image' src={img} alt={img} />
           <div id='product-info'>
-            <Typography variant='h4' style={{ fontWeight: '700', marginBottom: '50px' }}>{name}</Typography>
+            <Typography
+              variant='h4'
+              style={{ fontWeight: '700', marginBottom: '50px' }}
+            >
+              {name}
+            </Typography>
             <div id='product-ratings'>
-              <Rating name="customized-1" defaultValue={1} max={1} size='large' readOnly/>
+              <Rating
+                name='customized-1'
+                defaultValue={1}
+                max={1}
+                size='large'
+                readOnly
+              />
               <Typography variant='h6'>{ratings}</Typography>
             </div>
-            <Typography variant='h4' style={{ fontWeight: '600', marginTop: '30px' }}>${price}</Typography>
-            <Typography variant='body1' style={{ marginTop: '50px', marginBottom: '20px' }}>Tag: {tag}</Typography>
+            <Typography
+              variant='h4'
+              style={{ fontWeight: '600', marginTop: '30px' }}
+            >
+              ${price}
+            </Typography>
+            <Typography
+              variant='body1'
+              style={{ marginTop: '50px', marginBottom: '20px' }}
+            >
+              Tag: {tag}
+            </Typography>
             <div id='product-info-buttons'>
               <BasicSelect
                 name='Quantity'
@@ -227,7 +281,7 @@ function ItemPage({ match }) {
               />
               <Button
                 onClick={() => {
-                  console.log('add');
+                  addTocart();
                 }}
                 type='submit'
                 id='add-cart-button'
@@ -238,7 +292,9 @@ function ItemPage({ match }) {
           </div>
         </div>
         <div id='product-description'>
-          <Typography variant='h5' style={{ marginBottom: '30px' }}>Description</Typography>
+          <Typography variant='h5' style={{ marginBottom: '30px' }}>
+            Description
+          </Typography>
           <Typography variant='body'>{desc}</Typography>
         </div>
         <div className='ItemPage-flex-vert'>
@@ -259,21 +315,25 @@ function ItemPage({ match }) {
             >
               Write a review
             </Button>
-            <Accordian title={accordianName} content={
-              reviews.slice(0).reverse().map((rev, id) => (
-                <ReviewContainer
-                  key = {id}
-                  first_name = {rev.first_name}
-                  last_name = {rev.last_name}
-                  star_rating = {rev.star_rating}
-                  title = {rev.title}
-                  content = {rev.content}
-                  likes = {rev.likes}
-                  image = {rev.image}
-                  date_posted = {rev.date_posted}
-                />
-              ))
-            } />
+            <Accordian
+              title={accordianName}
+              content={reviews
+                .slice(0)
+                .reverse()
+                .map((rev, id) => (
+                  <ReviewContainer
+                    key={id}
+                    first_name={rev.first_name}
+                    last_name={rev.last_name}
+                    star_rating={rev.star_rating}
+                    title={rev.title}
+                    content={rev.content}
+                    likes={rev.likes}
+                    image={rev.image}
+                    date_posted={rev.date_posted}
+                  />
+                ))}
+            />
           </div>
           <Modal
             isOpen={modalOpen}
@@ -307,10 +367,10 @@ function ItemPage({ match }) {
               <Typography variant='h5'>{name}</Typography>
               <Box id='review-wrapper'>
                 <Box id='review-images-section'>
-                  <img class='review-image' src={img} alt={img} />
+                  <img className='review-image' src={img} alt={img} />
                   <Box id='file-upload-section'>
                     <img
-                      class='review-image'
+                      className='review-image'
                       src={
                         reviewNewImg ? URL.createObjectURL(reviewNewImg) : null
                       }
@@ -345,7 +405,7 @@ function ItemPage({ match }) {
                   </Box>
                   <Divider style={{ zIndex: 2 }} />
                   <br />
-                  <Typography class='Itempage-review-text'>
+                  <Typography className='Itempage-review-text'>
                     Review Title*
                   </Typography>
                   <TextField
@@ -361,7 +421,9 @@ function ItemPage({ match }) {
                   <br />
                   <Divider style={{ zIndex: 2 }} />
                   <br />
-                  <Typography class='Itempage-review-text'>Review*</Typography>
+                  <Typography className='Itempage-review-text'>
+                    Review*
+                  </Typography>
                   <TextField
                     label='Content'
                     multiline

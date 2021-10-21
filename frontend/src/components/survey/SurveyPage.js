@@ -6,7 +6,26 @@ import Card from './Card';
 import './SurveyPage.css';
 
 function SurveyPage() {
-  const cards = [1, 2, 3];
+  const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+  let it = 9;
+  let loved = [];
+
+  const [products, setProducts] = useState([
+    { name: 'Loading', img: 'Loading' },
+    { name: 'Loading', img: 'Loading' },
+    { name: 'Loading', img: 'Loading' },
+    { name: 'Loading', img: 'Loading' },
+    { name: 'Loading', img: 'Loading' },
+    { name: 'Loading', img: 'Loading' },
+    { name: 'Loading', img: 'Loading' },
+    { name: 'Loading', img: 'Loading' },
+    { name: 'Loading', img: 'Loading' },
+    { name: 'Loading', img: 'Loading' },
+  ]);
+
+  let list = [];
+  let dir = 0;
 
   const to = (i) => ({
     x: 0,
@@ -22,49 +41,58 @@ function SurveyPage() {
       r / 10
     }deg) rotateZ(${r}deg) scale(${s})`;
   const [gone] = useState(() => new Set());
-  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const getProducts = async () => {
+      const requestOptions = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+      };
+
+      const response = await fetch('/product/1/11', requestOptions);
+
+      if (response.status !== 200) {
+        alert('Failed to get Products!');
+      } else if (response.status === 200) {
+        const data = await response.json();
+        let items = [];
+        console.log(data);
+        for (var i = 0; i < data.products.length; i++) {
+          items.push({
+            name: data.products[i].content.name,
+            img: data.products[i].content.image,
+          });
+        }
+        setProducts(items);
+        list = items;
+      }
+    };
+    getProducts();
+  }, []);
 
   const [props, set] = useSprings(cards.length, (i) => ({
     ...to(i),
     from: from(i),
   }));
 
-  const getProducts = async () => {
-    const requestOptions = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-    };
-
-    const response = await fetch('/product/1/4', requestOptions);
-
-    if (response.status !== 200) {
-      alert('Failed to get Trending Products!');
-    } else if (response.status === 200) {
-      const data = await response.json();
-      let items = [];
-      for (var i = 0; i < data.products.length; i++) {
-        items.push({
-          name: data.products[i].content.name,
-          image: data.products[i].content.image,
-          routeId: data.products[i].id,
-        });
-      }
-      setProducts(items);
-    }
-  };
-
   const bind = useGesture(
     ({ args: [index], down, delta: [xDelta], direction: [xDir], velocity }) => {
       const trigger = velocity > 0.2;
 
-      const dir = xDir < 0 ? -1 : 1;
+      dir = xDir < 0 ? -1 : 1;
 
       if (!down && trigger) {
-        if (dir === 1) console.log('swiped right');
-        if (dir === -1) console.log('swiped left');
+        if (dir === 1) {
+          console.log('swiped right');
+          loved.push(list[it]);
+        }
+        if (dir === -1) {
+          console.log('swiped left');
+        }
+        it--;
         gone.add(index);
       }
 
@@ -86,14 +114,9 @@ function SurveyPage() {
         };
       });
 
-      if (!down && gone.size === cards.length)
-        setTimeout(() => gone.clear() || set((i) => to(i)), 600);
+      if (!down && gone.size === cards.length) console.log(loved);
     }
   );
-
-  useEffect(() => {
-    getProducts();
-  }, []);
 
   return (
     <div id='SurveyPage'>
@@ -106,8 +129,8 @@ function SurveyPage() {
           rot={rot}
           scale={scale}
           trans={trans}
-          products={products}
           bind={bind}
+          products={products}
         />
       ))}
     </div>

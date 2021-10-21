@@ -3,14 +3,6 @@ import { animated, interpolate } from 'react-spring/hooks';
 
 function Card(props) {
   const { i, x, y, rot, scale, trans, bind, products } = props;
-  const [info, setInfo] = useState(false);
-
-  useEffect(() => {
-    if (products.length !== 0) {
-      setInfo(true);
-      console.log(products);
-    }
-  }, [products]);
 
   return (
     <animated.div
@@ -26,9 +18,11 @@ function Card(props) {
         {...bind(i)}
         style={{
           transform: interpolate([rot, scale], trans),
+          backgroundImage: `url(${products[i].img})`,
+          backgroundSize: '150px',
         }}
       >
-        <h2>PRODUCT</h2>
+        <h2>{products[i].name}</h2>
       </animated.div>
     </animated.div>
   );

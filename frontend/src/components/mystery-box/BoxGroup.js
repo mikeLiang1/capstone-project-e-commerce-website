@@ -21,11 +21,6 @@ function BoxGroup({ boxName }) {
     { itemName: '', imageUrl: '', price: '99.99', routeId: '', chance: 20, background: 'rgba(36, 62, 206, 0.6)' },
   ]);
 
-  const [email, setEmail] = useState('qwewqe@qweoijqweo.com');
-  const [fname, setFirstName] = useState('oqwiejwqoie');
-  const [lname, setLastName] = useState('qweqwewq');
-  const [password, setPassword] = useState('qweqweqwewqe');
-
   // Function calls to the backend to retrieve name, price, image, and product ids
   async function boxRequest() {
     // Send request to the backend        
@@ -118,7 +113,9 @@ useEffect(() => {
               <b>${price}</b>
           </div>
           <img height="200" width="200" src= {img}/>
-          <TextButton buttonName='Add to cart' buttonType='submit' />
+          <Link to = {'/mysterybox/open/' + boxName} style= {{ textDecoration: 'none' }}>
+            <TextButton buttonName='Add to cart' buttonType='submit' />
+          </Link>
       </div>
       <div className='boxContents'>
           Prize Pool:

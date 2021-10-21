@@ -16,6 +16,7 @@ import AccountPage from './components/account/AccountPage';
 import SurveyPage from './components/survey/SurveyPage';
 import Cookies from 'js-cookie';
 import { render } from '@testing-library/react';
+import MysteryBoxOpen from './components/mystery-box/MysteryBoxOpen';
 
 function App() {
   const [admin, setAdmin] = useState(Cookies.get('admin'));
@@ -88,6 +89,7 @@ function App() {
           />
           <Route path='/mysterybox' exact component={MysteryBoxPage} />
           <Route path='/account' exact component={AccountPage} />
+          <Route path='/mysterybox/open/:boxName' exact component={MysteryBoxOpen}/> 
         </Switch>
         {/* <Footer /> */}
         {/* <NavigationBarUser /> */}

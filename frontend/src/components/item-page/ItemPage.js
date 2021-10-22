@@ -34,7 +34,7 @@ const firebaseApp = initializeApp(firebaseConfig);
 // Get a reference to the storage service, which is used to create references in your storage bucket
 const storage = getStorage(firebaseApp);
 
-function ItemPage({ match, token }) {
+function ItemPage({ match}) {
   // pass in item id
   const productId = 'B0Si9HGHqL0IQ7EzItpK';
   const [category, setCategory] = useState('');
@@ -47,17 +47,20 @@ function ItemPage({ match, token }) {
   const [units, setUnits] = useState(0);
   const [reviewIds, setReviewIds] = useState(0);
   const [reviewNewImg, setReviewNewImg] = useState(null);
-  const [review, setReview] = useState({
+  const reviewInitialState = {
     product_id: match.params.itemId,
-    first_name: 'temp',
-    last_name: 'user',
+    user_id: '',
+    first_name: '',
+    last_name: '',
     star_rating: 0,
     title: '',
     content: '',
-    likes: 0,
+    likes: [],
     image: '',
     date_posted: '',
-  });
+    review_id: 0,
+  }
+  const [review, setReview] = useState(reviewInitialState);
   const [user, setUser] = useState({
     id: '',
     content: {
@@ -71,6 +74,7 @@ function ItemPage({ match, token }) {
   const [quantity, setQuantity] = useState('');
   const [ratings, setRatings] = useState('');
   const [accordianName, setAccordianName] = useState('');
+  const [onEdit, setOnEdit] = useState(false);
   const fileInput = React.useRef(null);
 
   // Get item data
@@ -95,7 +99,7 @@ function ItemPage({ match, token }) {
       setTag(data.data.tag);
       setReviews(data.data.reviews);
       setUnits(data.data.units_sold);
-      setReviewIds(data.data.reviewIds);
+      setReviewIds(data.data.review_ids);
       setAccordianName(`Reviews (${data.data.reviews.length})`);
 
       // Calculate avg star ratings
@@ -122,64 +126,89 @@ function ItemPage({ match, token }) {
         Accept: 'application/json',
       },
     };
-    
-    fetch(`/auth/user/${token}`, requestOptions).then(async response => {
-      try {
-        const data = await response.json();
-        setUser(data);
-        console.log('response data', data);
-      }
-      catch (error) {
-        console.log('Error happened');
-        console.error(error);
-      }
-    })
-
+    if (Cookies.get('user') !== '') {
+      fetch(`/auth/user/${Cookies.get('user')}`, requestOptions).then(async response => {
+        try {
+          const data = await response.json();
+          setUser(data);
+          console.log('response data', data);
+          console.log(user);
+        }
+        catch (error) {
+          console.log('Error happened');
+          console.error(error);
+        }
+      })
+    }
   }
 
   // Post new review
   async function postReview() {
     // Uploading image to retrieve link
     if (reviewNewImg !== null) {
-      const storageRef = ref(storage, reviewNewImg.name);
+      //const storageRef = ref(storage, reviewNewImg.name);
+      const storageRef = ref(storage, `Review_images/${reviewNewImg.name}`);
       let snapshot = await uploadBytes(storageRef, reviewNewImg);
-      let url = await getDownloadURL(ref(storage, reviewNewImg.name));
+      let url = await getDownloadURL(ref(storage, `Review_images/${reviewNewImg.name}`));
       review.image = url;
     }
 
-    var today = new Date();
-    today.setHours(today.getHours() + 9);
-    const newDate = today.toISOString().replace('T', ' ').substring(0, 19);
-    setReview({ ...review, date_posted: newDate });
-    const newReviewIds = reviewIds + 1;
+    var newBody;
 
-    const newBody = {
-      product_id: match.params.itemId,
-      name: name,
-      category: category,
-      image: img,
-      price: price,
-      reviews: reviews,
-      description: desc,
-      tag: tag,
-      units_sold: units,
-      review_ids: newReviewIds,
-      review: {
+    if (onEdit === false) {
+      var today = new Date();
+      today.setHours(today.getHours() + 9);
+      const newDate = today.toISOString().replace('T', ' ').substring(0, 19);
+      setReview({ ...review, date_posted: newDate });
+      const newReviewIds = reviewIds + 1;
+
+      newBody = {
         product_id: match.params.itemId,
-        review_id: reviewIds,
-        first_name: review.first_name,
-        last_name: review.last_name,
-        star_rating: review.star_rating,
-        title: review.title,
-        content: review.content,
-        likes: review.likes,
-        image: review.image,
-        date_posted: newDate,
-      },
-    };
-    // add user id to review
+        name: name,
+        category: category,
+        image: img,
+        price: price,
+        reviews: reviews,
+        description: desc,
+        tag: tag,
+        units_sold: units,
+        review_ids: newReviewIds,
+        review: {
+          product_id: match.params.itemId,
+          user_id: user.id,
+          review_id: reviewIds,
+          first_name: user.content.first,
+          last_name: user.content.last,
+          star_rating: review.star_rating,
+          title: review.title,
+          content: review.content,
+          likes: review.likes,
+          image: review.image,
+          date_posted: newDate,
+        },
+      };
 
-    setReviewIds(reviewIds + 1);
+      setReviewIds(reviewIds + 1);
+    }
+    else {
+      // edit reviews array
+      const idx = reviews.map((o) => o.user_id).indexOf(user.id);
+      var newArr = reviews;
+      newArr[idx] = review;
+
+      newBody = {
+        product_id: match.params.itemId,
+        name: name,
+        category: category,
+        image: img,
+        price: price,
+        reviews: newArr,
+        description: desc,
+        tag: tag,
+        units_sold: units,
+        review_ids: reviewIds,
+      };
+    }
 
     const requestOptionsPut = {
       method: 'PUT',
@@ -190,39 +219,106 @@ function ItemPage({ match, token }) {
       body: JSON.stringify(newBody),
     };
 
-    // check if user is logged in (only logged in user can write reviews)
+    fetch(`/product`, requestOptionsPut).then(async (response) => {
+      try {
+        const data = await response.json();
+        if (onEdit) {
+          alert('Review successfully editted!');
+        }
+        else {
+          alert('Review successfully posted!');
+        }
+        console.log('response data', data);
+        setModalOpen(false);
+        setOnEdit(false);
+        setReviewNewImg(null);
+        setReview(reviewInitialState);
+        window.location.reload();
+      } catch (error) {
+        alert('Review could not be posted', error);
+        console.log('Error happened');
+        console.error(error);
+      }
+    });
+  }
 
-    // TODO: create review images directory
-    // TODO: change time format..?idk
-    // TODO: like, edit, delete reviews
-      // PLAN FOR LIKE
-        // modify likes to be array of user ids
-        // number of likes determined by the array length
-        // if currently logged in user already liked it they cant like it again
-      // INCLUDE USER_ID FIELD INSIDE REVIEW
-        // if currently logged in user wrote the review they can edit/delete review (not sure about edit for now)
-        // need to determine if it should also be saved in user database? so they can see their written reviews altogether
-      // PLAN FOR REVIEW SECTION UPDATE
-        // make one big async function here just to update whole review list
-        // when review is liked, editted or deleted it calls that async function
-        // need to figure out how to pass onclick function to the ReviewContainer.js
-      // NEED TO SEE IF CHANGING REVIEWCONTAINER'S WIDTH CHANGES ACCORDIAN'S WIDTH
+  // Update/Delete existing reviews
+  async function updateReviews(review_id, command) {
+    if (Cookies.get('user') === '') {
+      alert('Only logged in users can do this task!');
+      return;
+    }
 
-    // TODO: retrieve user's name, check if user has actually bought the item && do i check if user has already posted a review?
-    // hmm review gets overwritten if user posts it twice without refreshing
-    // TODO style the code
-    // TODO style item page itself
-    // TODO admin can delete all reviews
-    // TODO add alerts
-    // TODO maybe make input fields red if required inputs are not typed
-    // TODO reduce scroll when accordian is closed
-    // TODO remove img break icon if pictures are removed? idk when i have time lol
-    // pls make it responsive
+    // Find review with given review_id
+    var newArr = reviews;
+
+    for (var i = 0; i < reviews.length; i++) {
+      if (reviews[i].review_id === review_id) {
+        // For delete and edit, make sure to check current user is the writer of the review
+        if (command === 'delete') {
+          if (reviews[i].user_id !== user.id) {
+            alert('You are not an original writer of this review!');
+            return;
+          }
+          newArr.splice(i, 1);
+          alert('Successfully deleted the review!');
+          window.location.reload();
+        }
+
+        // For edit, simply open modal and return from the function
+        else if (command === 'edit') {
+          if (reviews[i].user_id !== user.id) {
+            alert('You are not an original writer of this review!');
+            return;
+          }
+          setReview(reviews[i]);
+          setReviewNewImg(reviews[i].image);
+          setOnEdit(true);
+          setModalOpen(true);
+          return;
+        }
+
+        // For like, remove like if user has liked the review, otherwise like the review
+        else if (command === 'like') {
+          if (reviews[i].likes.includes(user.id)) {
+            const idx = reviews[i].likes.indexOf(user.id);
+            newArr[i].likes.splice(idx, 1);
+          }
+          else {
+            newArr[i].likes.push(user.id);
+          }
+        }
+      }
+    }
+
+    // Now update whole product info with new reviews
+    const newBody = {
+      product_id: match.params.itemId,
+      name: name,
+      category: category,
+      image: img,
+      price: price,
+      reviews: newArr,
+      description: desc,
+      tag: tag,
+      units_sold: units,
+      review_ids: reviewIds,
+    };
+
+    const requestOptionsPut = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(newBody),
+    };
 
     fetch(`/product`, requestOptionsPut).then(async (response) => {
       try {
         const data = await response.json();
         console.log('response data', data);
+        setReview(reviewInitialState);  // should i put it after
       } catch (error) {
         console.log('Error happened');
         console.error(error);
@@ -244,6 +340,18 @@ function ItemPage({ match, token }) {
       setReviewNewImg(e.target.files[0]);
     }
   };
+
+  const handleReviewButton = (e) => {
+    if (Cookies.get('user') === '') {
+      alert('Only logged in users can write reviews!');
+    }
+    else if (reviews.some(e => e.user_id === user.id)) {
+      alert('You can write only one review for each product!');
+    }
+    else {
+      setModalOpen(true);
+    }
+  }
 
   const addTocart = async () => {
     // const uid = Cookies.get('user');
@@ -349,7 +457,7 @@ function ItemPage({ match, token }) {
             <br />
             <Button
               onClick={() => {
-                setModalOpen(true);
+                handleReviewButton();
               }}
               style={{
                 backgroundColor: '#000000',
@@ -374,9 +482,13 @@ function ItemPage({ match, token }) {
                     star_rating={rev.star_rating}
                     title={rev.title}
                     content={rev.content}
-                    likes={rev.likes}
+                    likes={rev.likes.length}
                     image={rev.image}
                     date_posted={rev.date_posted}
+                    is_original_poster={rev.user_id === user.id}
+                    is_liked={rev.likes.includes(user.id)}
+                    rev_id={rev.review_id}
+                    func={updateReviews}
                   />
                 ))}
             />
@@ -418,7 +530,7 @@ function ItemPage({ match, token }) {
                     <img
                       className='review-image'
                       src={
-                        reviewNewImg ? URL.createObjectURL(reviewNewImg) : null
+                        onEdit === false && reviewNewImg ? URL.createObjectURL(reviewNewImg) : reviewNewImg
                       }
                       alt={reviewNewImg ? reviewNewImg.name : null}
                     />
@@ -521,8 +633,17 @@ function ItemPage({ match, token }) {
                 id='post-review-button'
                 size='large'
                 onClick={() => postReview()}
+                style={{ display: onEdit ? 'none' : 'block' }}
               >
                 Post Review
+              </Button>
+              <Button
+                id='post-review-button'
+                size='large'
+                onClick={() => postReview()}
+                style={{ display: onEdit ? 'block' : 'none' }}
+              >
+                Edit Review
               </Button>
             </Box>
           </Modal>

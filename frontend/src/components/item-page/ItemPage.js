@@ -204,6 +204,9 @@ function ItemPage({ match }) {
       uid: Cookies.get('user'),
       productId: match.params.itemId,
       productQuantity: quantity,
+      productImage: img,
+      productName: name,
+      productPrice: price,
     };
     console.log(addToCartBody);
     const requestOptions = {

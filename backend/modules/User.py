@@ -19,6 +19,9 @@ parser.add_argument('address', type=str)
 parser.add_argument('purchaseHistory', type= list)
 parser.add_argument('productId', type=str)
 parser.add_argument('productQuantity', type=int)
+parser.add_argument('productImage', type=str)
+parser.add_argument('productName', type=str)
+parser.add_argument('productPrice', type=int)
 
 # Pyrebase
 config = {
@@ -146,7 +149,8 @@ class User_cart(Resource):
                     # 1. Save the existing quantity of the product that already exists in the cart
                     existingQuantity = item['quantity']
                     # 2. Delete the array element (the product from the cart)
-                    doc_ref.update({u"cart": firestore.ArrayRemove([{"product": args.productId, "quantity": existingQuantity}])})
+                    doc_ref.update({u"cart": firestore.ArrayRemove([{"product": args.productId, "quantity": existingQuantity,
+                    "name": args.productName, "image": args.productImage, "price": args.productPrice}])})
                     # doc_ref.update({u"cart": filter(lambda itemId: itemId != args.productId,doc.get('cart'))})
                     # 3. Add the product back to the cart with the updated quantity
                     newQuantity = existingQuantity + args.productQuantity
@@ -154,7 +158,8 @@ class User_cart(Resource):
                     addConfirmed = True
             # The product doesn't exist in the user's cart, so add it to the user's cart
             if addConfirmed == False:
-                doc_ref.update({u"cart": firestore.ArrayUnion([{"product": args.productId, "quantity": args.productQuantity}])})
+                doc_ref.update({u"cart": firestore.ArrayUnion([{"product": args.productId, "quantity": args.productQuantity,
+                "name": args.productName, "image": args.productImage, "price": args.productPrice}])})
                 addConfirmed = True
             return {"message": "Added to Cart!"}
         else:
@@ -178,7 +183,8 @@ class User_cart(Resource):
                     # Save the existing quantity of the product that already exists in the cart
                     existingQuantity = item['quantity']
                     # Remove the item from the cart
-                    doc_ref.update({u"cart": firestore.ArrayRemove([{"product": args.productId, "quantity": existingQuantity}])})
+                    doc_ref.update({u"cart": firestore.ArrayRemove([{"product": args.productId, "quantity": existingQuantity, 
+                    "name": args.productName, "image": args.productImage, "price": args.productPrice}])})
                     removeConfirmed = True
                     return {"message": "Removed from Cart!"}
             # The product doesn't exist in the user's cart, so failed to remove

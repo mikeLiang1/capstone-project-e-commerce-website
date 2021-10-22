@@ -45,25 +45,14 @@ function CartPage({ token }) {
       console.log('Cart: ', cartData);
       let items = [];
       for (var i = 0; i < cartData.cart.length; i++) {
-        // Fetch product
-        const response = await fetch(
-          `/product/${cartData.cart[i].product}`,
-          requestOptions
+        items.push(
+          <CartItem
+            itemName={cartData.cart[i].name}
+            imageUrl={cartData.cart[i].image}
+            itemQuantity={cartData.cart[i].quantity}
+            itemPrice={cartData.cart[i].price}
+          />
         );
-        if (response.status != 200) {
-          alert('Failed to get products in the Cart!');
-        } else if (response.status === 200) {
-          const productData = await response.json();
-          console.log('Name: ', productData.data.image);
-          items.push(
-            <CartItem
-              itemName={productData.data.name}
-              imageUrl={productData.data.image}
-              itemQuantity={cartData.cart[i].quantity}
-              itemPrice={productData.data.price}
-            />
-          );
-        }
       }
       setCartItems(items);
     }

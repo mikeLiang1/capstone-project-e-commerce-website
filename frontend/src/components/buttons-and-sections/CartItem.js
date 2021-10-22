@@ -53,7 +53,7 @@ function CartItem({
           </IconButton> */}
         </div>
         <div className='CartItem-price'>
-          {itemPrice}
+          ${itemPrice}
           <div className='CartItem-remove'>
             <IconButton size='small'>
               <DeleteIcon />

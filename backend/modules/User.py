@@ -109,6 +109,17 @@ class User_add_productID(Resource):
         else:
             return {"message": "User ID is not valid"}, 400
 
+class User_get_cart(Resource):
+    def get(self, uid):
+        # Get the user's information
+        info = authP.get_account_info(uid)
+        email = info['users'][0]['email']
+        doc_ref = db.collection(u'users').document(email)
+        if user_exists(doc_ref):
+            doc = doc_ref.get()
+            cart = doc.to_dict().get('cart')
+            return {"cart": cart}
+
 # Requires:
 # uid, productId, productQuantity
 class User_cart(Resource):

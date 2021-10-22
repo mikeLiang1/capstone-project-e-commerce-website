@@ -25,6 +25,11 @@ function CartPage({ token }) {
     },
   });
 
+  const handleRemove = () => {
+    // Given a productId, remove it from the cartItems list (displayed to the user)
+    // setCartItems(cartItems.filter((item) => item.id !== productId));
+  };
+
   const getCartDetails = async () => {
     const requestOptions = {
       method: 'GET',
@@ -45,14 +50,19 @@ function CartPage({ token }) {
       console.log('Cart: ', cartData);
       let items = [];
       for (var i = 0; i < cartData.cart.length; i++) {
-        items.push(
-          <CartItem
-            itemName={cartData.cart[i].name}
-            imageUrl={cartData.cart[i].image}
-            itemQuantity={cartData.cart[i].quantity}
-            itemPrice={cartData.cart[i].price}
-          />
-        );
+        items.push({
+          id: cartData.cart[i].product,
+          content: (
+            <CartItem
+              itemName={cartData.cart[i].name}
+              imageUrl={cartData.cart[i].image}
+              itemQuantity={cartData.cart[i].quantity}
+              itemPrice={cartData.cart[i].price}
+              productRouteId={cartData.cart[i].product}
+              handleRemove={handleRemove}
+            />
+          ),
+        });
       }
       setCartItems(items);
     }
@@ -88,7 +98,10 @@ function CartPage({ token }) {
   return (
     <div className='CartPage'>
       <h2 style={{ fontSize: '24px' }}>SHOPPING CART</h2>
-      {cartItems}
+      {cartItems.map((item) => (
+        <div>{item.content}</div>
+      ))}
+      {/* {cartItems} */}
       {/* <Accordian title='Items' content={cartItems} /> */}
       <Accordian
         title='Customer Details'

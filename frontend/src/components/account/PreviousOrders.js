@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import "./AccountPage.css";
 
-import PreviousOrderItem from "../buttons-and-sections/PreviousOrderItems.js";
+import PreviousOrderitem from "../buttons-and-sections/PreviousOrderItems.js";
 
 function PreviousOrders() {
   const [previousItems, setPreviousItems] = useState([]);
@@ -29,7 +29,7 @@ function PreviousOrders() {
         items.push({
           id: data.purchase_history[i].product,
           content: (
-            <PreviousOrderItem
+            <PreviousOrderitem
               itemName={data.purchase_history[i].name}
               imageUrl={data.purchase_history[i].image}
               itemQuantity={data.purchase_history[i].quantity}

@@ -6,7 +6,7 @@ import { Card, IconButton } from "@material-ui/core";
 
 import "./PreviousOrderItems.css";
 
-function PreviousOrders({
+function PreviousOrderitem({
   itemName,
   itemPrice,
   imageUrl,
@@ -81,4 +81,4 @@ function PreviousOrders({
   );
 }
 
-export default PreviousOrders;
+export default PreviousOrderitem;

@@ -3,7 +3,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { Card, IconButton } from "@material-ui/core";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 import "./PreviousOrderItems.css";
 
@@ -42,6 +41,7 @@ function PreviousOrders({
           <p>{itemName}</p>
         </div>
         <div className="CartItem-quantity">
+          <div> Quantity </div>
           <div className="CartItem-quantity-display">{itemQuantity}</div>
         </div>
         <div className="CartItem-price">${itemPrice}</div>

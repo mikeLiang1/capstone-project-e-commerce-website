@@ -35,6 +35,8 @@ function PreviousOrders() {
               itemQuantity={data.purchase_history[i].quantity}
               itemPrice={data.purchase_history[i].price}
               productRouteId={data.purchase_history[i].product}
+              deliveryInfo={data.purchase_history[i].deliveryInfo}
+              orderPlaced={data.purchase_history[i].orderPlaced}
             />
           ),
         });

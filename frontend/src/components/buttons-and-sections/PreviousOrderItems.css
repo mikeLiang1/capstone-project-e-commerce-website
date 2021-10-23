@@ -2,50 +2,51 @@
   display: flex;
 }
 
-.CartItem-card {
+.OrderPlaced {
+  display: flex;
+  flex-direction: column;
+  padding-left: 15px;
+}
+
+.deliveryInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.PreviousItem-card {
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
-.CartItem-image {
-  min-width: 250px;
-}
-
-.CartItem-information {
+.PreviousItem-image {
   text-align: left;
-  max-width: 250px;
-}
-
-.CartItem-quantity {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
 }
 
-.CartItem-quantity-display {
+.PreviousItem-information {
+  text-align: left;
+  display: flex;
+  max-width: 250px;
+  flex-direction: column;
+}
+
+.PreviousItem-quantity {
+  display: flex;
+  flex-direction: column;
+  padding-top: 94px;
+}
+
+.PreviousItem-quantity-display {
   border-style: solid;
   border-width: 1px;
   border-color: var(--secondary-colour-dark-grey);
   border-radius: 16px;
   width: 64px;
+  height: 25px;
 }
 
-.CartItem-price {
+.PreviousItem-price {
   font-weight: 700;
-}
-
-.CartItem-remove {
-  position: absolute;
-  padding-top: 100px;
-  padding-left: 20px;
-}
-
-.CartItem-remove-button {
-  border: none;
-  background-color: transparent;
-}
-
-.CartItem-remove-button:hover {
-  color: var(--secondary-colour-orange);
+  padding-top: 95px;
 }

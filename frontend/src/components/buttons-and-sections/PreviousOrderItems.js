@@ -12,11 +12,13 @@ function PreviousOrders({
   imageUrl,
   itemQuantity,
   productRouteId,
+  deliveryInfo,
+  orderPlaced,
 }) {
   return (
     <div className="POItem">
       <Card
-        className="CartItem-card"
+        className="PreviousItem-card"
         elevation={3}
         style={{
           maxWidth: "1600px",
@@ -26,7 +28,19 @@ function PreviousOrders({
           padding: "16px 16px",
         }}
       >
-        <div className="CartItem-image">
+        <div className="PreviousItem-image">
+          <div className="OrderPlaced">
+            <p
+              style={{
+                fontSize: "16px",
+                fontWeight: "700",
+                marginBottom: "5px",
+              }}
+            >
+              Order Placed
+            </p>
+            <p style={{ marginBottom: "20px" }}>{orderPlaced}</p>
+          </div>
           <Link to={`/product/${productRouteId}`}>
             <img
               className="LargeItemContainer-image"
@@ -36,15 +50,32 @@ function PreviousOrders({
             ></img>
           </Link>
         </div>
-        <div className="CartItem-information">
-          <p style={{ fontSize: "16px", fontWeight: "700" }}>Order Placed</p>
-          <p>{itemName}</p>
+        <div className="PreviousItem-information">
+          <div className="deliveryInfo">
+            <p
+              style={{
+                fontSize: "16px",
+                fontWeight: "700",
+                marginBottom: "5px",
+              }}
+            >
+              Delivery Info
+            </p>
+            <p>{deliveryInfo}</p>
+          </div>
+          <p style={{ paddingTop: "45px" }}>{itemName}</p>
         </div>
-        <div className="CartItem-quantity">
-          <div> Quantity </div>
-          <div className="CartItem-quantity-display">{itemQuantity}</div>
+        <div className="PreviousItem-quantity">
+          <p style={{ fontSize: "16px", fontWeight: "700" }}>Quantity</p>
+          <div className="PreviousItem-quantity-display">{itemQuantity}</div>
         </div>
-        <div className="CartItem-price">${itemPrice}</div>
+
+        <div className="PreviousItem-price">
+          <p style={{ fontSize: "16px", fontWeight: "700" }}>Total</p>
+          <div style={{ fontSize: "16px", fontWeight: "450" }}>
+            ${itemPrice * itemQuantity}
+          </div>
+        </div>
       </Card>
     </div>
   );

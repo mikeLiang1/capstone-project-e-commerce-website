@@ -12,9 +12,9 @@ function CartPage({ token }) {
   // TODO: useEffect to retrieve information from the backend about the current user's
   // cart, including: Items, Quantity of Items, Personal Information/Details
   const [cartItems, setCartItems] = useState([]);
-  const [cartAccordian, setCartAccordian] = useState(
-    <Accordian title='Items' content={cartItems} />
-  );
+  // const [cartAccordian, setCartAccordian] = useState(
+  //   <Accordian title='Items' content={cartItems} />
+  // );
 
   const [customerDetails, setCustomerDetails] = useState({
     id: '',
@@ -94,8 +94,6 @@ function CartPage({ token }) {
   const handleRemove = async (productToRemoveId) => {
     // Given a productId, remove it from the cartItems list (displayed to the user)
     console.log('Hello!', cartItems);
-    // Frontend Remove Item from Cart
-    // setCartItems(cartItems.filter((item) => item.id !== productId));
     // Backend Remove Item from Cart
     const cartRemoveBody = {
       uid: Cookies.get('user'),
@@ -115,8 +113,10 @@ function CartPage({ token }) {
       alert('Failed to reove from Cart!');
     } else if (response.status === 200) {
       const data = await response.json();
-      console.log('Cart Remove Response: ', data);
     }
+    // Frontend Remove Item from Cart
+    getCartDetails();
+    // setCartItems(cartItems.filter((item) => item.id !== productToRemoveId));
   };
 
   // useEffect(() => {

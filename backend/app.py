@@ -3,11 +3,7 @@ from flask_restful import Api, Resource, reqparse
 from firebase_admin import credentials, firestore, initialize_app
 
 from modules.Register import Register
-<<<<<<< HEAD
 from modules.User import *
-=======
-from modules.User import User, User_Get, User_add_productID, User_cart, User_get_cart
->>>>>>> 410efaa77a65fabbc674904fd5842042513e93d2
 from modules.SignIn import SignIn
 from modules.mystery_box import *
 from modules.Product import *

@@ -18,10 +18,7 @@ function CartItem({
   handleRemove,
 }) {
   const removeRequest = async () => {
-    // Frontend Remove Item from Cart
-    console.log('remove!');
-    handleRemove();
-    // Backend Remove Item from Cart
+    handleRemove(productRouteId);
   };
 
   return (

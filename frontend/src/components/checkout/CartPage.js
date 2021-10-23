@@ -25,11 +25,6 @@ function CartPage({ token }) {
     },
   });
 
-  const handleRemove = () => {
-    // Given a productId, remove it from the cartItems list (displayed to the user)
-    // setCartItems(cartItems.filter((item) => item.id !== productId));
-  };
-
   const getCartDetails = async () => {
     const requestOptions = {
       method: 'GET',
@@ -47,7 +42,7 @@ function CartPage({ token }) {
       alert('Failed to get Cart!');
     } else if (response.status === 200) {
       const cartData = await response.json();
-      console.log('Cart: ', cartData);
+      console.log('Fetch cart: ');
       let items = [];
       for (var i = 0; i < cartData.cart.length; i++) {
         items.push({
@@ -92,8 +87,41 @@ function CartPage({ token }) {
   }, []);
 
   useEffect(() => {
-    setCartAccordian(<Accordian title='Items' content={cartItems} />);
+    console.log('Changed');
+    console.log('Changed: ', cartItems);
   }, [cartItems]);
+
+  const handleRemove = async (productToRemoveId) => {
+    // Given a productId, remove it from the cartItems list (displayed to the user)
+    console.log('Hello!', cartItems);
+    // Frontend Remove Item from Cart
+    // setCartItems(cartItems.filter((item) => item.id !== productId));
+    // Backend Remove Item from Cart
+    const cartRemoveBody = {
+      uid: Cookies.get('user'),
+      productId: productToRemoveId,
+    };
+    const requestOptions = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(cartRemoveBody),
+    };
+
+    const response = await fetch('/cart', requestOptions);
+    if (response.status != 200) {
+      alert('Failed to reove from Cart!');
+    } else if (response.status === 200) {
+      const data = await response.json();
+      console.log('Cart Remove Response: ', data);
+    }
+  };
+
+  // useEffect(() => {
+  //   setCartAccordian(<Accordian title='Items' content={cartItems} />);
+  // }, [cartItems]);
 
   return (
     <div className='CartPage'>

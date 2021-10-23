@@ -96,6 +96,7 @@ api.add_resource(Get_product_visited, "/product_visited")
 api.add_resource(User_cart, "/cart")
 api.add_resource(User_purchase_history, "/purchase_history/<string:uid>")
 api.add_resource(User_get_cart, "/cart/<string:uid>")
+api.add_resource(get_recommend, "/recommended/<string:uid>")
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -196,6 +196,40 @@ class User_cart(Resource):
             if removeConfirmed == False:
                 return {"message": "Error! Failed to remove item from the cart."}, 400
 
+class get_recommend(Resource):
+    #get users purchase history and return list of products with same tags/categories
+    def get(self, uid): 
+        
+        recommended = []
+        categories = {}
+        # get users purchase history
+        info = authP.get_account_info(uid)
+        email = info['users'][0]['email']
+        doc_ref = db.collection(u'users').document(email)
+        if user_exists(doc_ref):
+            doc = doc_ref.get()
+            purchase_history = doc.to_dict().get('purchase_history')
+
+        # for each in purchase history, add their category and id to dict {"charger": "asdn34234"}    
+        for each in purchase_history:
+            doc_ref = db.collection(u'products').document(each["product"])
+            doc = doc_ref.get()      
+            if doc.to_dict().get("category") not in categories:
+                categories[doc.to_dict().get("category")] = []
+            categories[doc.to_dict().get("category")].append(doc.id)
+            
+        # for every product, check if product is same category as categories, and doesnt already exist
+        docs = db.collection(u'products').stream()
+        for doc in docs:
+            # we found a product with same catefgory add to array
+            if doc.get("category") in categories and doc.id not in categories[doc.get("category")]:
+                recommended.append({"content": doc.to_dict(), "id": doc.id})
+            
+        print(recommended)
+        return {"recommended_items": recommended}
+
+
 def user_exists(doc_ref):
     doc = doc_ref.get()
     return doc.exists
+

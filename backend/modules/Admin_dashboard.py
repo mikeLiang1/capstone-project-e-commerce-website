@@ -11,7 +11,6 @@ class Units_sold(Resource):
         docs = db.collection(u'products').stream()
         units_sold = 0
         for doc in docs:
-            # print(f'{doc.get("units_sold")}')
             units_sold += doc.get("units_sold")
 
         return {"units_sold": units_sold}

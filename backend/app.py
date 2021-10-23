@@ -3,7 +3,11 @@ from flask_restful import Api, Resource, reqparse
 from firebase_admin import credentials, firestore, initialize_app
 
 from modules.Register import Register
+<<<<<<< HEAD
 from modules.User import *
+=======
+from modules.User import User, User_Get, User_add_productID, User_cart, User_get_cart
+>>>>>>> 410efaa77a65fabbc674904fd5842042513e93d2
 from modules.SignIn import SignIn
 from modules.mystery_box import *
 from modules.Product import *
@@ -95,7 +99,7 @@ api.add_resource(Product_visited, "/product_visited/<string:productID>")
 api.add_resource(Get_product_visited, "/product_visited")
 api.add_resource(User_cart, "/cart")
 api.add_resource(User_purchase_history, "/purchase_history/<string:uid>")
-
+api.add_resource(User_get_cart, "/cart/<string:uid>")
 
 if __name__ == "__main__":
     app.run(debug=True)

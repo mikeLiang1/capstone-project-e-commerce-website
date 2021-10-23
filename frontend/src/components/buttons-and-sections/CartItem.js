@@ -15,7 +15,15 @@ function CartItem({
   imageUrl,
   itemQuantity,
   productRouteId,
+  handleRemove,
 }) {
+  const removeRequest = async () => {
+    // Frontend Remove Item from Cart
+    console.log('remove!');
+    handleRemove();
+    // Backend Remove Item from Cart
+  };
+
   return (
     <div className='CartItem'>
       <Card
@@ -53,9 +61,9 @@ function CartItem({
           </IconButton> */}
         </div>
         <div className='CartItem-price'>
-          {itemPrice}
+          ${itemPrice}
           <div className='CartItem-remove'>
-            <IconButton size='small'>
+            <IconButton onClick={removeRequest} size='small'>
               <DeleteIcon />
             </IconButton>
           </div>

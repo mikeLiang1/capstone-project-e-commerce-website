@@ -12,7 +12,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Cookies from 'js-cookie';
 
 import { initializeApp } from 'firebase/app';
-import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import { getDownloadURL, getStorage, ref, uploadBytes, deleteObject } from 'firebase/storage';
 
 import ReviewContainer from '../buttons-and-sections/ReviewContainer.js';
 import Accordian from '../buttons-and-sections/Accordian.js';
@@ -34,7 +34,7 @@ const firebaseApp = initializeApp(firebaseConfig);
 // Get a reference to the storage service, which is used to create references in your storage bucket
 const storage = getStorage(firebaseApp);
 
-function ItemPage({ match}) {
+function ItemPage({ match }) {
   // pass in item id
   const productId = 'B0Si9HGHqL0IQ7EzItpK';
   const [category, setCategory] = useState('');
@@ -46,7 +46,8 @@ function ItemPage({ match}) {
   const [reviews, setReviews] = useState([]);
   const [units, setUnits] = useState(0);
   const [reviewIds, setReviewIds] = useState(0);
-  const [reviewNewImg, setReviewNewImg] = useState(null);
+  const reviewNewImgInitialState = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+  const [reviewNewImg, setReviewNewImg] = useState(reviewNewImgInitialState);
   const reviewInitialState = {
     product_id: match.params.itemId,
     user_id: '',
@@ -144,8 +145,22 @@ function ItemPage({ match}) {
 
   // Post new review
   async function postReview() {
+    // Check all inputs present
+    var errmsg = '';
+    if (review.star_rating === 0) errmsg += 'star ratings, ';
+    if (review.title === '') errmsg += 'title, ';
+    if (review.content === '') errmsg += 'content';
+    errmsg = errmsg.replace(/, $/, '');
+    console.log(errmsg);
+
+    if (errmsg !== '') {
+      alert(`Please complete the following fields: ${errmsg}`);
+      return;
+    }
+
+    
     // Uploading image to retrieve link
-    if (reviewNewImg !== null) {
+    if (reviewNewImg instanceof Blob) {
       //const storageRef = ref(storage, reviewNewImg.name);
       const storageRef = ref(storage, `Review_images/${reviewNewImg.name}`);
       let snapshot = await uploadBytes(storageRef, reviewNewImg);
@@ -196,6 +211,9 @@ function ItemPage({ match}) {
       var newArr = reviews;
       newArr[idx] = review;
 
+      // If image removed
+      if (reviewNewImg === null) newArr[idx].image = '';
+
       newBody = {
         product_id: match.params.itemId,
         name: name,
@@ -231,7 +249,7 @@ function ItemPage({ match}) {
         console.log('response data', data);
         setModalOpen(false);
         setOnEdit(false);
-        setReviewNewImg(null);
+        setReviewNewImg(reviewNewImgInitialState);
         setReview(reviewInitialState);
         window.location.reload();
       } catch (error) {
@@ -328,7 +346,7 @@ function ItemPage({ match}) {
 
   const handleRemove = (e) => {
     fileInput.current.value = null;
-    setReviewNewImg(null);
+    setReviewNewImg(reviewNewImgInitialState);
   };
 
   const handleClick = (e) => {
@@ -452,9 +470,7 @@ function ItemPage({ match}) {
           <Typography variant='body'>{desc}</Typography>
         </div>
         <div className='ItemPage-flex-vert'>
-          <div className='ItemPage-box'>
-            <b>Reviews</b>
-            <br />
+          <div id='review-section'>
             <Button
               onClick={() => {
                 handleReviewButton();
@@ -463,6 +479,8 @@ function ItemPage({ match}) {
                 backgroundColor: '#000000',
                 color: '#FFFFFF',
                 borderRadius: '16px',
+                width: '200px',
+                marginTop: '64px'
               }}
               size='large'
               variant='contained'
@@ -508,46 +526,35 @@ function ItemPage({ match}) {
           >
             <IconButton
               style={{ float: 'right' }}
-              onClick={() => setModalOpen(false)}
+              onClick={() => {
+                setModalOpen(false);
+                setOnEdit(false);
+                console.log(reviewNewImg);
+              }}
             >
               <CloseIcon />
             </IconButton>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginTop: '50px',
-              }}
-            >
+            <div id='modal-review'>
               <Typography variant='h5'>My Review for:</Typography>
               <Typography variant='h5'>{name}</Typography>
-              <Box id='review-wrapper'>
-                <Box id='review-images-section'>
+              <div id='review-space-between'>
+                <div id='review-images-section'>
                   <img className='review-image' src={img} alt={img} />
-                  <Box id='file-upload-section'>
+                  <div id='file-upload-section'>
                     <img
                       className='review-image'
                       src={
-                        onEdit === false && reviewNewImg ? URL.createObjectURL(reviewNewImg) : reviewNewImg
+                        reviewNewImg instanceof Blob ? URL.createObjectURL(reviewNewImg) : reviewNewImg
                       }
-                      alt={reviewNewImg ? reviewNewImg.name : null}
+                      alt={reviewNewImg instanceof Blob ? reviewNewImg.name : 'media'}
                     />
-                  </Box>
+                  </div>
                   <Typography style={{ fontSize: '12pt' }}>
                     Image uploaded
                   </Typography>
-                </Box>
-                <Box id='review-inputs-section'>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}
-                  >
+                </div>
+                <div id='review-inputs-section'>
+                  <div id='review-space-between'>
                     <Typography style={{ fontSize: '11pt', color: '#FF7A00' }}>
                       Overall Rating*
                     </Typography>
@@ -557,10 +564,10 @@ function ItemPage({ match}) {
                         setReview({ ...review, star_rating: newValue });
                       }}
                     />
-                    <Typography style={{ fontSize: '11pt' }}>
+                    <Typography style={{ fontSize: '11pt', color: review.star_rating === 0 ? 'red' : 'black' }}>
                       Click to rate!
                     </Typography>
-                  </Box>
+                  </div>
                   <Divider style={{ zIndex: 2 }} />
                   <br />
                   <Typography className='Itempage-review-text'>
@@ -568,6 +575,7 @@ function ItemPage({ match}) {
                   </Typography>
                   <TextField
                     label='Title'
+                    error={review.title === '' ? true : false}
                     multiline
                     maxRows={8}
                     value={review.title}
@@ -584,6 +592,7 @@ function ItemPage({ match}) {
                   </Typography>
                   <TextField
                     label='Content'
+                    error={review.content === '' ? true : false}
                     multiline
                     maxRows={5}
                     value={review.content}
@@ -594,13 +603,7 @@ function ItemPage({ match}) {
                     style={{ width: '400px' }}
                   />
                   <br />
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'flex-end',
-                    }}
-                  >
+                  <div id='review-photo-buttons'>
                     <Button
                       variant='outlined'
                       style={{ width: '170px' }}
@@ -625,10 +628,10 @@ function ItemPage({ match}) {
                     >
                       Remove photo
                     </Button>
-                  </Box>
+                  </div>
                   <br />
-                </Box>
-              </Box>
+                </div>
+              </div>
               <Button
                 id='post-review-button'
                 size='large'
@@ -645,7 +648,7 @@ function ItemPage({ match}) {
               >
                 Edit Review
               </Button>
-            </Box>
+            </div>
           </Modal>
         </div>
       </div>

@@ -53,24 +53,16 @@ function LoginPage({ token, handleLogin, setAdmin }) {
         <div className='LoginPage-form-group'>
           <BasicTextField
             textName='Email'
+            type='email'
             value={email}
             handleChange={(e) => setEmail(e.target.value)}
             type='email'
           />
         </div>
         <div className='LoginPage-form-group'>
-          {/* <TextField
-            id='outlined-basic'
-            label='Password'
-            type='password'
-            multiline
-            maxRows={8}
-            size='small'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          /> */}
           <BasicTextField
             textName='Password'
+            id='outlined-password-input'
             type='password'
             value={password}
             handleChange={(e) => setPassword(e.target.value)}

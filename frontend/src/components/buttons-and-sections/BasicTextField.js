@@ -7,6 +7,7 @@ export default function BasicTextField({
   value,
   handleChange,
   type,
+  id,
 }) {
   return (
     <Box
@@ -18,7 +19,8 @@ export default function BasicTextField({
       autoComplete='off'
     >
       <TextField
-        id={type}
+        id={id}
+        type={type}
         label={textName}
         size='small'
         value={value}

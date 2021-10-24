@@ -38,3 +38,8 @@ functions, as well as retrieving product information from the backend to be disp
 their tasks for the backend, which involved implementing the Authentication (Login/Logout) functionalities, the Product functionality 
 (Adding, Updating, Deleting Products), and the Mystery Box functionality. Since this was our first sprint, much of the features we 
 implemented were very basic as they were part of our “Minimum Viable Product”, which we plan to build upon it in the next Sprint.
+
+Week 6 
+Our group worked on completing our tasks for Sprint 2. I was assigned with implementing both the frontend and backend for the “Cart” 
+functionality – which allows users to add items to their cart and purchase them. Additionally, I also
+tidied up styling for the frontend for various pages. 

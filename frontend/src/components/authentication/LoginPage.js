@@ -2,7 +2,7 @@ import Cookies from 'js-cookie';
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import BasicTextField from '../buttons-and-sections/BasicTextField.js';
-
+import { TextField } from '@material-ui/core';
 import TextButton from '../buttons-and-sections/TextButton.js';
 
 import './LoginPage.css';
@@ -11,7 +11,6 @@ function LoginPage({ token, handleLogin, setAdmin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   let history = useHistory();
-  let alertMessage = <div></div>;
 
   const loginRequest = async (e) => {
     // Prevents the default action of the page refreshing
@@ -56,9 +55,20 @@ function LoginPage({ token, handleLogin, setAdmin }) {
             textName='Email'
             value={email}
             handleChange={(e) => setEmail(e.target.value)}
+            type='email'
           />
         </div>
         <div className='LoginPage-form-group'>
+          {/* <TextField
+            id='outlined-basic'
+            label='Password'
+            type='password'
+            multiline
+            maxRows={8}
+            size='small'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          /> */}
           <BasicTextField
             textName='Password'
             type='password'
@@ -67,7 +77,6 @@ function LoginPage({ token, handleLogin, setAdmin }) {
           />
         </div>
         <br />
-        {alertMessage}
         <TextButton buttonName='Sign In' buttonType='submit' />
       </form>
       <div className='LoginPage-register-section'>

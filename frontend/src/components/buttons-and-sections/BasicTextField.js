@@ -18,11 +18,8 @@ export default function BasicTextField({
       autoComplete='off'
     >
       <TextField
-        id='outlined-multiline-flexible'
+        id={type}
         label={textName}
-        type={type}
-        multiline
-        maxRows={8}
         size='small'
         value={value}
         onChange={handleChange}

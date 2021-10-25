@@ -44,7 +44,9 @@ function Search() {
   
   function handleSubmit() {
     console.log(searchValue)
-    history.push("/product/" + searchValue.id)
+    if (searchValue !== null) {
+      history.push("/product/" + searchValue.id)
+    }
   }
   
 

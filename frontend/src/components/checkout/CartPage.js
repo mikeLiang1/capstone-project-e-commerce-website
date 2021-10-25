@@ -49,6 +49,7 @@ function CartPage({ token }) {
       for (var i = 0; i < cartData.cart.length; i++) {
         items.push({
           id: cartData.cart[i].product,
+          quantity: cartData.cart[i].quantity,
           content: (
             <CartItem
               itemName={cartData.cart[i].name}
@@ -57,6 +58,8 @@ function CartPage({ token }) {
               itemPrice={cartData.cart[i].price}
               productRouteId={cartData.cart[i].product}
               handleRemove={handleRemove}
+              incrementQuantity={incrementQuantity}
+              decrementQuantity={decrementQuantity}
             />
           ),
         });
@@ -96,6 +99,7 @@ function CartPage({ token }) {
         total + item.content.props.itemPrice * item.content.props.itemQuantity;
     });
     setTotalPrice(total);
+    incrementQuantity();
   }, [cartItems]);
 
   const handleRemove = async (productToRemoveId) => {
@@ -130,6 +134,26 @@ function CartPage({ token }) {
   //   setCartAccordian(<Accordian title='Items' content={cartItems} />);
   // }, [cartItems]);
 
+  // Used to handle changing the item quantity of each product in the cart
+  const incrementQuantity = (productId) => {
+    console.log('Add to Product');
+    // if (productId === null) {
+    //   console.log('Here');
+    //   return;
+    // }
+    // const itemExists = cartItems.find((item) => item.id === productId);
+    // if (itemExists != null) {
+    //   console.log(itemExists);
+    //   setCartItems(cartItems.filter((item) => item.id === productId));
+    // }
+    // setCartItems();
+  };
+
+  const decrementQuantity = () => {
+    console.log('Minus from Product');
+    // setCartItems();
+  };
+
   return (
     <div className='CartPage'>
       <h2 style={{ fontSize: '24px' }}>SHOPPING CART</h2>
@@ -137,7 +161,7 @@ function CartPage({ token }) {
         <div className='CartPage-cart-items-title'>
           <p>Cart Items</p>
         </div>
-        {cartItems.length === 0 ? (
+        {cartItems === [] ? (
           <p style={{ paddingBottom: '16px' }}>
             Your cart is <span style={{ color: '#FF7A00' }}>empty</span>
           </p>

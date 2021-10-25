@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Link } from 'react-router-dom';
 
@@ -16,10 +16,14 @@ function CartItem({
   itemQuantity,
   productRouteId,
   handleRemove,
+  incrementQuantity,
+  decrementQuantity,
 }) {
   const removeRequest = async () => {
     handleRemove(productRouteId);
   };
+
+  const handleAdd = () => {};
 
   return (
     <div className='CartItem'>
@@ -49,13 +53,21 @@ function CartItem({
           <p>{itemName}</p>
         </div>
         <div className='CartItem-quantity'>
-          {/* <IconButton size='small' style={{ margin: '0 8px' }}>
+          <IconButton
+            onClick={decrementQuantity(productRouteId)}
+            size='small'
+            style={{ margin: '0 8px' }}
+          >
             <RemoveIcon fontSize='small' />
-          </IconButton> */}
+          </IconButton>
           <div className='CartItem-quantity-display'>{itemQuantity}</div>
-          {/* <IconButton size='small' style={{ margin: '0 8px' }}>
+          <IconButton
+            onClick={incrementQuantity(productRouteId)}
+            size='small'
+            style={{ margin: '0 8px' }}
+          >
             <AddIcon fontSize='small' />
-          </IconButton> */}
+          </IconButton>
         </div>
         <div className='CartItem-price'>
           ${itemPrice}

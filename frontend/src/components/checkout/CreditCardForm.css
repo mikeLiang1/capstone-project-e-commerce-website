@@ -1,12 +1,12 @@
 .container {
-  margin-top: 10%;
+  margin-top: 32px;
   width: 100%;
   display: flex;
   justify-content: center;
 }
 
 .formDiv {
-  width: 400px;
+  min-width: 800px;
   padding: 30px;
   border-radius: 10px;
   -webkit-box-shadow: -1px 8px 15px 0px rgba(0, 0, 0, 0.44);

@@ -9,12 +9,12 @@
 }
 
 .CartItem-image {
-  min-width: 250px;
+  width: 250px;
 }
 
 .CartItem-information {
   text-align: left;
-  max-width: 250px;
+  width: 250px;
 }
 
 .CartItem-quantity {
@@ -33,6 +33,7 @@
 
 .CartItem-price {
   font-weight: 700;
+  width: 50px;
 }
 
 .CartItem-remove {

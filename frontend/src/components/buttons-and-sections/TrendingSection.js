@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-import LargeItemContainer from './LargeItemContainer';
+import LargeItemContainer from "./LargeItemContainer";
 
-import './TrendingSection.css';
+import "./TrendingSection.css";
 
 function TrendingSection() {
   const [items, setItems] = useState([
@@ -22,17 +22,17 @@ function TrendingSection() {
 
   const getProducts = async () => {
     const requestOptions = {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
     };
 
-    const response = await fetch('/product/1/10', requestOptions);
+    const response = await fetch("/product_visited", requestOptions);
 
     if (response.status !== 200) {
-      alert('Failed to get Trending Products!');
+      alert("Failed to get Trending Products!");
     } else if (response.status === 200) {
       const data = await response.json();
       let items = [];
@@ -54,11 +54,11 @@ function TrendingSection() {
   }, []);
 
   return (
-    <div className='TrendingSection'>
-      <div className='TrendingSection-information'>
-        <h2 style={{ fontSize: '24px' }}>TRENDING</h2>
+    <div className="TrendingSection">
+      <div className="TrendingSection-information">
+        <h2 style={{ fontSize: "24px" }}>TRENDING</h2>
       </div>
-      <div className='TrendingSection-products-section'>
+      <div className="TrendingSection-products-section">
         {products.map((item, id) => (
           <div key={id}>
             <LargeItemContainer

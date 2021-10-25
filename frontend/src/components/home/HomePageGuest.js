@@ -12,7 +12,7 @@ function HomePageGuest({ token }) {
   let recommendedProductsSection = <div></div>;
   let recommendMeProductsSection = <div></div>;
   // If the user is logged in, display their recommended section
-  if (token === Cookies.get('user')) {
+  if (token === Cookies.get('user') && Cookies.get('user') != '') {
     recommendedProductsSection = <RecommendedSection />;
     recommendMeProductsSection = <RecommendMeProductsSection />;
   }

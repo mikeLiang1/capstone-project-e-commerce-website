@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 
 function CheckoutPage() {
   return (
-    <div>
+    <div style={{ minHeight: '650px' }}>
       <CreditCardForm />
       <Button
         onClick={() => {

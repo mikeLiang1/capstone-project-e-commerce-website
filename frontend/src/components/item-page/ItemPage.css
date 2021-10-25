@@ -82,7 +82,15 @@
   padding-bottom: 70px;
 }
 
-#review-wrapper {
+#modal-review {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+
+#review-space-between {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -112,6 +120,8 @@
 
 #file-upload-section {
   display: flex;
+  width: 200px;
+  height: 200px;
   margin-top: 20px;
   text-align: center;
   justify-content: center;
@@ -126,8 +136,18 @@
   border-radius: 16px;
 }
 
-.ItemPage-box {
+#review-photo-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.review-section {
   margin-top: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: aqua;
 }
 
 .ItemPage-box-img {

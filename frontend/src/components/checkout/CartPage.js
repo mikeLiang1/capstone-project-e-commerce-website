@@ -7,11 +7,13 @@ import CartItem from '../buttons-and-sections/CartItem.js';
 import Accordian from '../buttons-and-sections/Accordian.js';
 import CustomerDetailsSection from './CustomerDetailsSection.js';
 import Cookies from 'js-cookie';
+import CheckoutPage from './CheckoutPage.js';
 
 function CartPage({ token }) {
   // TODO: useEffect to retrieve information from the backend about the current user's
   // cart, including: Items, Quantity of Items, Personal Information/Details
   const [cartItems, setCartItems] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
   // const [cartAccordian, setCartAccordian] = useState(
   //   <Accordian title='Items' content={cartItems} />
   // );
@@ -42,7 +44,7 @@ function CartPage({ token }) {
       alert('Failed to get Cart!');
     } else if (response.status === 200) {
       const cartData = await response.json();
-      console.log('Fetch cart: ');
+      console.log('Fetch cart: ', cartData);
       let items = [];
       for (var i = 0; i < cartData.cart.length; i++) {
         items.push({
@@ -87,8 +89,13 @@ function CartPage({ token }) {
   }, []);
 
   useEffect(() => {
-    console.log('Changed');
-    console.log('Changed: ', cartItems);
+    console.log('CartItems: ', cartItems);
+    let total = 0;
+    cartItems.map((item) => {
+      total =
+        total + item.content.props.itemPrice * item.content.props.itemQuantity;
+    });
+    setTotalPrice(total);
   }, [cartItems]);
 
   const handleRemove = async (productToRemoveId) => {
@@ -126,9 +133,24 @@ function CartPage({ token }) {
   return (
     <div className='CartPage'>
       <h2 style={{ fontSize: '24px' }}>SHOPPING CART</h2>
-      {cartItems.map((item) => (
-        <div>{item.content}</div>
-      ))}
+      <div className='CartPage-cart-items'>
+        <div className='CartPage-cart-items-title'>
+          <p>Cart Items</p>
+        </div>
+        {cartItems.length === 0 ? (
+          <p style={{ paddingBottom: '16px' }}>
+            Your cart is <span style={{ color: '#FF7A00' }}>empty</span>
+          </p>
+        ) : (
+          cartItems.map((item) => <div>{item.content}</div>)
+        )}
+        <div className='CartPage-cart-items-total-price'>
+          <p style={{ color: '#FF7A00' }}>
+            Subtotal: &emsp; &emsp; &emsp; &emsp; &emsp;
+          </p>
+          <p>${totalPrice}</p>
+        </div>
+      </div>
       {/* {cartItems} */}
       {/* <Accordian title='Items' content={cartItems} /> */}
       <Accordian
@@ -142,9 +164,7 @@ function CartPage({ token }) {
           />
         }
       />
-      <Link to={'/checkout'}>
-        <TextButton buttonName='Checkout' buttonType='submit' />
-      </Link>
+      <Accordian title='Payment' content={<CheckoutPage />} />
     </div>
   );
 }

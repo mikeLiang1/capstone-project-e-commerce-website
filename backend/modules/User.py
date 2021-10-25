@@ -184,7 +184,6 @@ class User_cart(Resource):
         email = info['users'][0]['email']
         doc_ref = db.collection(u'users').document(email)
         if user_exists(doc_ref):
-            print("proudcti id", args.productId)
             doc = doc_ref.get()
             cart = doc.to_dict().get('cart')
             # Confirms that the product has been removed from the user's cart
@@ -193,7 +192,6 @@ class User_cart(Resource):
             for item in cart:
                 # If the product exists in the user's cart, remove from cart
                 if item.get("product") == args.productId:
-                    print('match')
                     # Remove the item from the cart
                     doc_ref.update({u"cart": firestore.ArrayRemove([{"product": args.productId, "quantity": item['quantity'], 
                     "name": item["name"], "image": item['image'], "price": item['price']}])})

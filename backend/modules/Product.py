@@ -146,6 +146,7 @@ class Product_all(Resource):
         docs = db.collection('products').stream()
         
         for doc in docs:
-            product_list.append({"content": doc.to_dict(), "id": doc.id}) 
+            info = doc.to_dict()
+            product_list.append({"content": info, "id": doc.id, "title": info['name']}) 
         
         return {"products": product_list}

@@ -7,6 +7,8 @@ import Cookies from 'js-cookie';
 import './NavigationBar.css';
 
 function NavigationBar({ token, admin, setToken, setAdmin }) {
+  const [searchOpen, setSearchOpen] = useState(false)
+
   const handleLogout = () => {
     console.log('yes');
     Cookies.set('user', '');
@@ -64,7 +66,7 @@ function NavigationBar({ token, admin, setToken, setAdmin }) {
         // User or Guest
         <div className='NavigationBar'>
           <ul className='NavigationBar-links-left'>
-            <button className='NavigationBar-button'>
+            <button className='NavigationBar-button' onClick = {() => setSearchOpen(!searchOpen)}>
                 <li style = {{ padding: '0px 10px' }}>SEARCH</li>
             </button>
             <button className='NavigationBar-button'>
@@ -123,7 +125,7 @@ function NavigationBar({ token, admin, setToken, setAdmin }) {
           </ul>
         </div>
       )}
-      <Search/>
+      {searchOpen ? <Search/> : null}
     </div>
   );
 }

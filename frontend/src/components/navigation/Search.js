@@ -7,13 +7,34 @@ import Autocomplete from '@mui/material/Autocomplete';
 
 function Search({ token, admin, setToken, setAdmin }) {
 
+  const [products, setProducts] = useState(top100Films)
+  
+  // Fetch returning ALL products in a array of JSON objects
+  async function getProducts() {
+    const requestOptions = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      }
+    };
+    
+    const response = await fetch('/product/all', requestOptions);
+    const productList = await response.json()
+    
+    setProducts(productList.products)
+  }
+  
+  useEffect(() => {
+    getProducts() 
+  }, [])
 
   return (
     <Stack spacing={2} sx={{ width: 300 }}>
       <Autocomplete
         freeSolo
         disableClearable
-        options={top100Films.map((option) => option.title)}
+        options={products.map((option) => option.title)}
         renderInput={(params) => (
           <TextField
             {...params}

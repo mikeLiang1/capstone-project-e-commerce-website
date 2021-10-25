@@ -5,3 +5,7 @@
 #nav-dropdown:hover {
   color: var(--secondary-colour-orange);
 }
+
+.flexi {
+  min-width: 350px;
+}

@@ -10,6 +10,7 @@
   padding-top: 16px;
   width: 400px;
   text-align: left;
+  display: flex;
 }
 
 .NavigationBar-links-right {

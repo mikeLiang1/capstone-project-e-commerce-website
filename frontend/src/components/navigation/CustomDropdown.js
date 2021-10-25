@@ -11,7 +11,7 @@ import {
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './CustomDropdown.css';
-
+//eventsNav pt-0 mt-0
 function CustomDropdown() {
   return (
     <NavDropdown
@@ -19,7 +19,7 @@ function CustomDropdown() {
       title='EXPLORE'
       id='nav-dropdown'
     >
-      <Container className='eventsNav pt-0 mt-0'>
+      <Container className='flexi'>
         <Row>
           <Col xs='12' md='6' className='text-left'>
             <Dropdown.Header>

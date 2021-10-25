@@ -4,7 +4,6 @@ import BasicSelect from '../buttons-and-sections/BasicSelect.js';
 import TextField from '@mui/material/TextField';
 import Modal from 'react-modal';
 import { Typography } from '@material-ui/core';
-import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
@@ -16,6 +15,7 @@ import { getDownloadURL, getStorage, ref, uploadBytes, deleteObject } from 'fire
 
 import ReviewContainer from '../buttons-and-sections/ReviewContainer.js';
 import Accordian from '../buttons-and-sections/Accordian.js';
+import ReviewAccordian from '../buttons-and-sections/ReviewAccordian.js';
 import './ItemPage.css';
 
 // Your web app's Firebase configuration
@@ -44,6 +44,9 @@ function ItemPage({ match }) {
   const [price, setPrice] = useState(0);
   const [tag, setTag] = useState('');
   const [reviews, setReviews] = useState([]);
+  const [reviewsSort, setReviewsSort] = useState('default');
+  const [reviewsShow, setReviewsShow] = useState([]);
+  const [reviewsLen, setReviewsLen] = useState(10);
   const [units, setUnits] = useState(0);
   const [reviewIds, setReviewIds] = useState(0);
   const reviewNewImgInitialState = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
@@ -99,6 +102,7 @@ function ItemPage({ match }) {
       setPrice(data.data.price);
       setTag(data.data.tag);
       setReviews(data.data.reviews);
+      setReviewsShow(data.data.reviews.slice(-10).reverse());
       setUnits(data.data.units_sold);
       setReviewIds(data.data.review_ids);
       setAccordianName(`Reviews (${data.data.reviews.length})`);
@@ -369,7 +373,22 @@ function ItemPage({ match }) {
     else {
       setModalOpen(true);
     }
-  }
+  };
+
+  const handleSortButton = (e) => {
+    setReviewsSort('default');
+  };
+
+  const handleLoadButton = (e) => {
+    if (reviewsLen >= reviews.length) {
+      alert('No more reviews to be loaded!');
+      return
+    }
+    if (reviewsSort === 'default') {
+      setReviewsShow(reviews.slice((reviewsLen + 10) * -1).reverse());
+    }
+    setReviewsLen(reviewsLen + 10);
+  };
 
   const addTocart = async () => {
     // const uid = Cookies.get('user');
@@ -471,27 +490,9 @@ function ItemPage({ match }) {
         </div>
         <div className='ItemPage-flex-vert'>
           <div id='review-section'>
-            <Button
-              onClick={() => {
-                handleReviewButton();
-              }}
-              style={{
-                backgroundColor: '#000000',
-                color: '#FFFFFF',
-                borderRadius: '16px',
-                width: '200px',
-                marginTop: '64px'
-              }}
-              size='large'
-              variant='contained'
-            >
-              Write a review
-            </Button>
-            <Accordian
+            <ReviewAccordian
               title={accordianName}
-              content={reviews
-                .slice(0)
-                .reverse()
+              content={reviewsShow
                 .map((rev, id) => (
                   <ReviewContainer
                     key={id}
@@ -509,6 +510,9 @@ function ItemPage({ match }) {
                     func={updateReviews}
                   />
                 ))}
+              writeFunc={handleReviewButton}
+              sortFunc={handleSortButton}
+              loadFunc={handleLoadButton}
             />
           </div>
           <Modal

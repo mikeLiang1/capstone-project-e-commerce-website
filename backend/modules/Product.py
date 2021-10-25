@@ -72,7 +72,8 @@ class Product(Resource):
             u'description': args.description,
             u'tag': args.tag,
             u'units_sold': args.units_sold,
-            u'review_ids': 0
+            u'review_ids': 0,
+            u'visited': 0
         })
         
         return {'message' : 'product added successfully : {0}'.format(result[1].id)}
@@ -133,11 +134,57 @@ class Product_range(Resource):
         doc_ref = db.collection(u'products')
         first_query = doc_ref.limit(max-min)
 
-        docs = first_query.stream()
-        for doc in docs:
+        results = first_query.stream()
+        for doc in results:
             product_list.append({"content": doc.to_dict(), "id": doc.id})        
 
         return {'products': product_list}
+
+class Product_visited(Resource):
+    # add 1 to visited
+    def post(self, productID):
+        previous = 0
+        docs = db.collection(u'products').stream()
+        for doc in docs:
+            if doc.id == productID:
+                previous = doc.get("visited")
+        previous += 1
+
+        doc_ref = db.collection(u'products').document(productID)
+        doc = doc_ref.get()
+        if doc.exists:
+            doc_ref.update({u'visited': previous})
+
+            return {"message": previous}
+
+        else:
+            return {"message": "product id doesnt exist"}, 400
+    
+class Get_product_visited(Resource):
+    # gets 10 of the most visited products
+    def get(self):
+        product_list = []
+        doc_ref = db.collection(u'products')
+        query = doc_ref.order_by(u'visited', direction=firestore.Query.DESCENDING).limit(10)
+        results = query.stream()
+
+        for doc in results:
+            product_list.append({"content": doc.to_dict(), "id": doc.id})        
+
+        return {'products': product_list}
+    
+    # code to add visited to all products
+    def post(self):
+        array = []
+        docs = db.collection(u'products')
+        #print(docs.get())
+        for doc in docs.get():
+            array.append(doc.id)
+            
+        for doc in array:
+            
+            doc_ref = db.collection(u'products').document(doc)
+            doc_ref.update({u'visited': 0})
 
 class Product_all(Resource):
     def get(self):

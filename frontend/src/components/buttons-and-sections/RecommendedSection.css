@@ -13,6 +13,6 @@
 .RecommendedSection-products-section {
   display: flex;
   width: 60%;
-  height: 350px;
+  height: 400px;
   overflow: auto;
 }

@@ -5,48 +5,143 @@ import { Link } from 'react-router-dom';
 import './CartPage.css';
 import CartItem from '../buttons-and-sections/CartItem.js';
 import Accordian from '../buttons-and-sections/Accordian.js';
+import CustomerDetailsSection from './CustomerDetailsSection.js';
+import Cookies from 'js-cookie';
 
-function CartPage() {
+function CartPage({ token }) {
   // TODO: useEffect to retrieve information from the backend about the current user's
   // cart, including: Items, Quantity of Items, Personal Information/Details
+  const [cartItems, setCartItems] = useState([]);
+  // const [cartAccordian, setCartAccordian] = useState(
+  //   <Accordian title='Items' content={cartItems} />
+  // );
 
-  const [cartItems, setCartItems] = useState([
-    <CartItem
-      itemName='Sony WH-1000XM4 Wireless Noise Cancelling Headphones (Black)'
-      imageUrl={require('../../images/SonyWH-1000XM4.png').default}
-      itemQuantity={0}
-      itemPrice='$499'
-    />,
-    <CartItem
-      itemName='LG 34 UltraWide QHD IPS Monitor (34WN750)'
-      imageUrl={require('../../images/LG34WN750.png').default}
-      itemQuantity={0}
-      itemPrice='$649'
-    />,
-  ]);
+  const [customerDetails, setCustomerDetails] = useState({
+    id: '',
+    content: {
+      first: '',
+      last: '',
+      address: '',
+    },
+  });
 
-  const onAdd = (product) => {
-    // Checks if the product we are about to add already exists in the Cart. If it does,
-    // then increase the quantity of that item in the cart
-    const exist = cartItems.find((item) => item.id === product.id);
-    if (exist) {
-      setCartItems(
-        cartItems.map((item) =>
-          item.id === product.id
-            ? { ...exist, quantity: exist.quantity + 1 }
-            : item
-        )
-      );
-    } else {
-      setCartItems([...cartItems, { ...product, quantity: 1 }]);
+  const getCartDetails = async () => {
+    const requestOptions = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    };
+
+    const response = await fetch(
+      `/cart/${Cookies.get('user')}`,
+      requestOptions
+    );
+    if (response.status != 200) {
+      alert('Failed to get Cart!');
+    } else if (response.status === 200) {
+      const cartData = await response.json();
+      console.log('Fetch cart: ');
+      let items = [];
+      for (var i = 0; i < cartData.cart.length; i++) {
+        items.push({
+          id: cartData.cart[i].product,
+          content: (
+            <CartItem
+              itemName={cartData.cart[i].name}
+              imageUrl={cartData.cart[i].image}
+              itemQuantity={cartData.cart[i].quantity}
+              itemPrice={cartData.cart[i].price}
+              productRouteId={cartData.cart[i].product}
+              handleRemove={handleRemove}
+            />
+          ),
+        });
+      }
+      setCartItems(items);
     }
   };
+
+  const getCustomerDetails = async () => {
+    const requestOptions = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    };
+
+    const response = await fetch(`/auth/user/${token}`, requestOptions);
+    if (response.status != 200) {
+      alert('Failed to get Customer Details!');
+    } else if (response.status === 200) {
+      const data = await response.json();
+      setCustomerDetails(data);
+    }
+  };
+
+  useEffect(() => {
+    getCartDetails();
+    getCustomerDetails();
+  }, []);
+
+  useEffect(() => {
+    console.log('Changed');
+    console.log('Changed: ', cartItems);
+  }, [cartItems]);
+
+  const handleRemove = async (productToRemoveId) => {
+    // Given a productId, remove it from the cartItems list (displayed to the user)
+    console.log('Hello!', cartItems);
+    // Backend Remove Item from Cart
+    const cartRemoveBody = {
+      uid: Cookies.get('user'),
+      productId: productToRemoveId,
+    };
+    const requestOptions = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(cartRemoveBody),
+    };
+
+    const response = await fetch('/cart', requestOptions);
+    if (response.status != 200) {
+      alert('Failed to reove from Cart!');
+    } else if (response.status === 200) {
+      const data = await response.json();
+    }
+    // Frontend Remove Item from Cart
+    getCartDetails();
+    // setCartItems(cartItems.filter((item) => item.id !== productToRemoveId));
+  };
+
+  // useEffect(() => {
+  //   setCartAccordian(<Accordian title='Items' content={cartItems} />);
+  // }, [cartItems]);
 
   return (
     <div className='CartPage'>
       <h2 style={{ fontSize: '24px' }}>SHOPPING CART</h2>
-      <Accordian title='Items' content={cartItems} />
-
+      {cartItems.map((item) => (
+        <div>{item.content}</div>
+      ))}
+      {/* {cartItems} */}
+      {/* <Accordian title='Items' content={cartItems} /> */}
+      <Accordian
+        title='Customer Details'
+        content={
+          <CustomerDetailsSection
+            firstName={customerDetails.content.first}
+            lastName={customerDetails.content.last}
+            email={customerDetails.id}
+            address={customerDetails.content.address}
+          />
+        }
+      />
       <Link to={'/checkout'}>
         <TextButton buttonName='Checkout' buttonType='submit' />
       </Link>

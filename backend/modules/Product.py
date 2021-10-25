@@ -147,6 +147,6 @@ class Product_all(Resource):
         
         for doc in docs:
             info = doc.to_dict()
-            product_list.append({"content": info, "id": doc.id, "title": info['name']}) 
+            product_list.append({"category": info['category'], "id": doc.id, "title": info['name']}) 
         
         return {"products": product_list}

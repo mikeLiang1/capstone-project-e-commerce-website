@@ -8,12 +8,8 @@ import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-<<<<<<< HEAD
-import CloseIcon from '@mui/icons-material/Close';
-=======
 import CloseIcon from '@material-ui/icons/Close';
 import Cookies from 'js-cookie';
->>>>>>> cart-frontend-backend
 
 import { initializeApp } from 'firebase/app';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';

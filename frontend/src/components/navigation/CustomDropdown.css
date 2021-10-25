@@ -1,0 +1,7 @@
+#nav-dropdown {
+  color: black;
+}
+
+#nav-dropdown:hover {
+  color: var(--secondary-colour-orange);
+}

@@ -17,6 +17,7 @@ import SurveyPage from './components/survey/SurveyPage';
 import Cookies from 'js-cookie';
 import { render } from '@testing-library/react';
 import MysteryBoxOpen from './components/mystery-box/MysteryBoxOpen';
+import 'tailwindcss/tailwind.css';
 
 function App() {
   const [admin, setAdmin] = useState(Cookies.get('admin'));

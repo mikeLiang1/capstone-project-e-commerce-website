@@ -138,3 +138,14 @@ class Product_range(Resource):
             product_list.append({"content": doc.to_dict(), "id": doc.id})        
 
         return {'products': product_list}
+
+class Product_all(Resource):
+    def get(self):
+        product_list = []
+        
+        docs = db.collection('products').stream()
+        
+        for doc in docs:
+            product_list.append({"content": doc.to_dict(), "id": doc.id}) 
+        
+        return {"products": product_list}

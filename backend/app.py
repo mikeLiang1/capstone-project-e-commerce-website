@@ -88,6 +88,7 @@ api.add_resource(mystery_box, "/mystery_box/<string:box_name>")
 api.add_resource(mystery_box_open, "/mystery_box/<string:box_name>/open")
 
 api.add_resource(Product_range, "/product/<int:min>/<int:max>")
+api.add_resource(Product_all, "/product/all")
 api.add_resource(User_add_productID, "/user/<string:productID>")
 
 if __name__ == "__main__":

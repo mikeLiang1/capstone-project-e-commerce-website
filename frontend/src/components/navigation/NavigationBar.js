@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+import Search from './Search';
+
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import './NavigationBar.css';
@@ -63,9 +65,7 @@ function NavigationBar({ token, admin, setToken, setAdmin }) {
         <div className='NavigationBar'>
           <ul className='NavigationBar-links-left'>
             <button className='NavigationBar-button'>
-              <Link to='/search' className='NavigationBar-link'>
-                <li>SEARCH</li>
-              </Link>
+                <li style = {{ padding: '0px 10px' }}>SEARCH</li>
             </button>
             <button className='NavigationBar-button'>
               <Link to='/explore' className='NavigationBar-link'>
@@ -123,6 +123,7 @@ function NavigationBar({ token, admin, setToken, setAdmin }) {
           </ul>
         </div>
       )}
+      <Search/>
     </div>
   );
 }

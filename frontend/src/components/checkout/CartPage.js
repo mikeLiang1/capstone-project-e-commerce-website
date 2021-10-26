@@ -63,7 +63,7 @@ function CartPage({ token }) {
     };
 
     const response = await fetch(`/auth/user/${token}`, requestOptions);
-    if (response.status != 200) {
+    if (response.status !== 200) {
       alert('Failed to get Customer Details!');
     } else if (response.status === 200) {
       const data = await response.json();

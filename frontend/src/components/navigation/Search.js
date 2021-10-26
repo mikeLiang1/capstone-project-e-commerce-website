@@ -4,6 +4,9 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
+import parse from 'autosuggest-highlight/parse';
+import match from 'autosuggest-highlight/match';
+import { createFilterOptions } from '@mui/material/Autocomplete';
 
 import { useHistory } from "react-router-dom";
 
@@ -49,6 +52,12 @@ function Search() {
     }
   }
   
+  const filterOptions = createFilterOptions({
+    stringify: (option) => option.title + option.category,
+    limit: 10
+  });
+  
+  
 
   return (
       <div
@@ -62,6 +71,28 @@ function Search() {
           getOptionLabel={(option) => option.title}
           renderInput={(params) => <TextField {...params} label="Search for product" />}
           sx = {{ width: '600px'}}
+          filterOptions={filterOptions}
+          renderOption={(props, option, { inputValue }) => {
+            const matches = match(option.title, inputValue);
+            const parts = parse(option.title, matches);
+    
+            return (
+              <li {...props}>
+                <div>
+                  {parts.map((part, index) => (
+                    <span
+                      key={index}
+                      style={{
+                        fontWeight: part.highlight ? 700 : 400,
+                      }}
+                    >
+                      {part.text}
+                    </span>
+                  ))}
+                </div>
+              </li>
+            );
+          }}
         />
         <IconButton onClick = {handleSubmit} aria-label="search">
           <SearchIcon />

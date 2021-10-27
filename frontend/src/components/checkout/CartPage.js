@@ -72,9 +72,52 @@ function CartPage({ token }) {
   };
 
   useEffect(() => {
+    // updateCartItemQuantities();
     getCartDetails();
     getCustomerDetails();
   }, []);
+
+  const handleQuantity = async (productToChangeQuantityId, newQuantity) => {
+    console.log('handleQuantity run...');
+    // Frontend Change Item Quantity
+    if (productToChangeQuantityId === null) {
+      return;
+    }
+    const itemExists = cartItems.find(
+      (item) => item.id === productToChangeQuantityId
+    );
+    if (itemExists != null) {
+      // Change the quantity of the item in the user's cart
+      setCartItems(
+        cartItems.map((item) =>
+          item.id === productToChangeQuantityId
+            ? { ...itemExists, itemQuantity: newQuantity }
+            : item
+        )
+      );
+    }
+    // Backend Change Item Quantity
+    const productDetails = {
+      uid: Cookies.get('user'),
+      productId: productToChangeQuantityId,
+      productQuantity: newQuantity,
+    };
+    const requestOptions = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(productDetails),
+    };
+
+    const response = await fetch('/cart', requestOptions);
+    if (response.status != 200) {
+      alert('Failed to remove from Cart!');
+    } else if (response.status === 200) {
+      const data = await response.json();
+    }
+  };
 
   // Given a productId, remove it from the cartItems list (displayed to the user)
   const handleRemove = async (productToRemoveId) => {
@@ -84,7 +127,7 @@ function CartPage({ token }) {
     }
     const itemExists = cartItems.find((item) => item.id === productToRemoveId);
     if (itemExists != null) {
-      // Decrement the quantity of the item in the user's cart
+      // Remove the item in the user's cart
       setCartItems(cartItems.filter((item) => item.id !== productToRemoveId));
     }
 
@@ -111,10 +154,11 @@ function CartPage({ token }) {
   };
 
   // Given a productId, add to the quantity of the item in the user's cart
-  const incrementQuantity = (productId) => {
+  const incrementQuantity = async (productId) => {
     if (productId === null) {
       return;
     }
+    // Update Product Quantity on the Frontend
     const itemExists = cartItems.find((item) => item.id === productId);
     if (itemExists != null) {
       // Check that the item's quantity is not more than 100 (maximum product limit)
@@ -124,7 +168,7 @@ function CartPage({ token }) {
         );
         return;
       }
-      // Decrement the quantity of the item in the user's cart
+      // Increment the quantity of the item in the user's cart
       setCartItems(
         cartItems.map((item) =>
           item.id === productId
@@ -160,14 +204,49 @@ function CartPage({ token }) {
     }
   };
 
+  // Updates the quantities of each product in the user's cart in the backend.
+  // This function is run when the user opens up the "Payment" Section in the Cart Page,
+  // as well as when the Cart Page first renders
+  const updateCartItemQuantities = async () => {
+    // Update Product Quantites on the Backend
+    cartItems.map(async (item) => {
+      const productDetails = {
+        uid: Cookies.get('user'),
+        productId: item.id,
+        productQuantity: 1,
+        productImage: item.imageUrl,
+        productName: item.itemName,
+        productPrice: item.itemPrice,
+      };
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(productDetails),
+      };
+      const response = await fetch('/cart', requestOptions);
+      if (response.status === 500) {
+        alert('Error 500');
+      } else if (response.status === 400) {
+        alert('Failed to update product quantity! Error 400');
+      } else if (response.status === 200) {
+        const data = await response.json();
+        console.log('Updated quantity: ', data);
+      }
+    });
+  };
+
   return (
     <div className='CartPage'>
       <h2 style={{ fontSize: '24px' }}>SHOPPING CART</h2>
       <Cart
         cartItems={cartItems}
-        incrementQuantity={incrementQuantity}
-        decrementQuantity={decrementQuantity}
+        // incrementQuantity={incrementQuantity}
+        // decrementQuantity={decrementQuantity}
         handleRemove={handleRemove}
+        handleQuantity={handleQuantity}
       />
       {/* {cartItems} */}
       {/* <Accordian title='Items' content={cartItems} /> */}

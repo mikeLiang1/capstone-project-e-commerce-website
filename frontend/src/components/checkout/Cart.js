@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Card, IconButton } from '@material-ui/core';
 import DeleteIcon from '@mui/icons-material/Delete';
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
+import {
+  Select,
+  FormControl,
+  Card,
+  IconButton,
+  InputLabel,
+  MenuItem,
+} from '@material-ui/core';
+import Cookies from 'js-cookie';
 
 import './Cart.css';
 
-function Cart({
-  cartItems,
-  incrementQuantity,
-  decrementQuantity,
-  handleRemove,
-}) {
+function Cart({ cartItems, handleQuantity, handleRemove }) {
   const [totalPrice, setTotalPrice] = useState(0);
+  const [quantity, setQuantity] = useState();
+  const [productId, setProductId] = useState('');
 
   useEffect(() => {
     let total = 0;
@@ -22,6 +25,19 @@ function Cart({
     });
     setTotalPrice(total);
   }, [cartItems]);
+
+  const changeQuantity = (e) => {
+    console.log('ChangeQuantity');
+    setQuantity(e.target.value);
+  };
+
+  const handleClick = (id) => {
+    setProductId(id);
+  };
+
+  useEffect(() => {
+    handleQuantity(productId, quantity);
+  }, [quantity]);
 
   return (
     <div className='Cart-cart-items'>
@@ -61,27 +77,33 @@ function Cart({
                 <p>{item.itemName}</p>
               </div>
               <div className='CartItem-quantity'>
-                <IconButton
-                  onClick={() => {
-                    decrementQuantity(item.id);
-                  }}
-                  size='small'
-                  style={{ margin: '0 8px' }}
-                >
-                  <RemoveIcon fontSize='small' />
-                </IconButton>
-                <div className='CartItem-quantity-display'>
-                  {item.itemQuantity}
-                </div>
-                <IconButton
-                  onClick={() => {
-                    incrementQuantity(item.id);
-                  }}
-                  size='small'
-                  style={{ margin: '0 8px' }}
-                >
-                  <AddIcon fontSize='small' />
-                </IconButton>
+                <FormControl fullWidth>
+                  <InputLabel
+                    id='demo-controlled-open-select-label'
+                    variant='standard'
+                  >
+                    Quantity
+                  </InputLabel>
+                  <Select
+                    labelId='demo-controlled-open-select-label'
+                    onChange={changeQuantity}
+                    value={quantity ?? item.itemQuantity}
+                    onClick={() => {
+                      handleClick(item.id);
+                    }}
+                  >
+                    <MenuItem value={1}>1</MenuItem>
+                    <MenuItem value={2}>2</MenuItem>
+                    <MenuItem value={3}>3</MenuItem>
+                    <MenuItem value={4}>4</MenuItem>
+                    <MenuItem value={5}>5</MenuItem>
+                    <MenuItem value={6}>6</MenuItem>
+                    <MenuItem value={7}>7</MenuItem>
+                    <MenuItem value={8}>8</MenuItem>
+                    <MenuItem value={9}>9</MenuItem>
+                    <MenuItem value={10}>10</MenuItem>
+                  </Select>
+                </FormControl>
               </div>
               <div className='CartItem-price'>
                 ${item.itemPrice}

@@ -11,7 +11,13 @@ import CloseIcon from '@material-ui/icons/Close';
 import Cookies from 'js-cookie';
 
 import { initializeApp } from 'firebase/app';
-import { getDownloadURL, getStorage, ref, uploadBytes, deleteObject } from 'firebase/storage';
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytes,
+  deleteObject,
+} from 'firebase/storage';
 
 import ReviewContainer from '../buttons-and-sections/ReviewContainer.js';
 import Accordian from '../buttons-and-sections/Accordian.js';
@@ -49,7 +55,8 @@ function ItemPage({ match }) {
   const [reviewsLen, setReviewsLen] = useState(10);
   const [units, setUnits] = useState(0);
   const [reviewIds, setReviewIds] = useState(0);
-  const reviewNewImgInitialState = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+  const reviewNewImgInitialState =
+    'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
   const [reviewNewImg, setReviewNewImg] = useState(reviewNewImgInitialState);
   const reviewInitialState = {
     product_id: match.params.itemId,
@@ -63,7 +70,7 @@ function ItemPage({ match }) {
     image: '',
     date_posted: '',
     review_id: 0,
-  }
+  };
   const [review, setReview] = useState(reviewInitialState);
   const [user, setUser] = useState({
     id: '',
@@ -142,18 +149,19 @@ function ItemPage({ match }) {
       },
     };
     if (Cookies.get('user') !== '') {
-      fetch(`/auth/user/${Cookies.get('user')}`, requestOptions).then(async response => {
-        try {
-          const data = await response.json();
-          setUser(data);
-          console.log('response data', data);
-          console.log(user);
+      fetch(`/auth/user/${Cookies.get('user')}`, requestOptions).then(
+        async (response) => {
+          try {
+            const data = await response.json();
+            setUser(data);
+            console.log('response data', data);
+            console.log(user);
+          } catch (error) {
+            console.log('Error happened');
+            console.error(error);
+          }
         }
-        catch (error) {
-          console.log('Error happened');
-          console.error(error);
-        }
-      })
+      );
     }
   }
 
@@ -172,13 +180,14 @@ function ItemPage({ match }) {
       return;
     }
 
-    
     // Uploading image to retrieve link
     if (reviewNewImg instanceof Blob) {
       //const storageRef = ref(storage, reviewNewImg.name);
       const storageRef = ref(storage, `Review_images/${reviewNewImg.name}`);
       let snapshot = await uploadBytes(storageRef, reviewNewImg);
-      let url = await getDownloadURL(ref(storage, `Review_images/${reviewNewImg.name}`));
+      let url = await getDownloadURL(
+        ref(storage, `Review_images/${reviewNewImg.name}`)
+      );
       review.image = url;
     }
 
@@ -218,8 +227,7 @@ function ItemPage({ match }) {
       };
 
       setReviewIds(reviewIds + 1);
-    }
-    else {
+    } else {
       // edit reviews array
       const idx = reviews.map((o) => o.user_id).indexOf(user.id);
       var newArr = reviews;
@@ -256,8 +264,7 @@ function ItemPage({ match }) {
         const data = await response.json();
         if (onEdit) {
           alert('Review successfully editted!');
-        }
-        else {
+        } else {
           alert('Review successfully posted!');
         }
         console.log('response data', data);
@@ -315,8 +322,7 @@ function ItemPage({ match }) {
           if (reviews[i].likes.includes(user.id)) {
             const idx = reviews[i].likes.indexOf(user.id);
             newArr[i].likes.splice(idx, 1);
-          }
-          else {
+          } else {
             newArr[i].likes.push(user.id);
           }
         }
@@ -350,7 +356,7 @@ function ItemPage({ match }) {
       try {
         const data = await response.json();
         console.log('response data', data);
-        setReview(reviewInitialState);  // should i put it after
+        setReview(reviewInitialState); // should i put it after
       } catch (error) {
         console.log('Error happened');
         console.error(error);
@@ -376,11 +382,9 @@ function ItemPage({ match }) {
   const handleReviewButton = (e) => {
     if (Cookies.get('user') === '') {
       alert('Only logged in users can write reviews!');
-    }
-    else if (reviews.some(e => e.user_id === user.id)) {
+    } else if (reviews.some((e) => e.user_id === user.id)) {
       alert('You can write only one review for each product!');
-    }
-    else {
+    } else {
       setModalOpen(true);
     }
   };
@@ -392,7 +396,7 @@ function ItemPage({ match }) {
   const handleLoadButton = (e) => {
     if (reviewsLen >= reviews.length) {
       alert('No more reviews to be loaded!');
-      return
+      return;
     }
     if (reviewsSort === 'default') {
       setReviewsShow(reviews.slice((reviewsLen + 10) * -1).reverse());
@@ -400,6 +404,7 @@ function ItemPage({ match }) {
     setReviewsLen(reviewsLen + 10);
   };
 
+  // Add Item to the User's Cart
   const addTocart = async () => {
     // const uid = Cookies.get('user');
     // const productId = match.params.itemId;
@@ -505,24 +510,23 @@ function ItemPage({ match }) {
           <div id='review-section'>
             <ReviewAccordian
               title={accordianName}
-              content={reviewsShow
-                .map((rev, id) => (
-                  <ReviewContainer
-                    key={id}
-                    first_name={rev.first_name}
-                    last_name={rev.last_name}
-                    star_rating={rev.star_rating}
-                    title={rev.title}
-                    content={rev.content}
-                    likes={rev.likes.length}
-                    image={rev.image}
-                    date_posted={rev.date_posted}
-                    is_original_poster={rev.user_id === user.id}
-                    is_liked={rev.likes.includes(user.id)}
-                    rev_id={rev.review_id}
-                    func={updateReviews}
-                  />
-                ))}
+              content={reviewsShow.map((rev, id) => (
+                <ReviewContainer
+                  key={id}
+                  first_name={rev.first_name}
+                  last_name={rev.last_name}
+                  star_rating={rev.star_rating}
+                  title={rev.title}
+                  content={rev.content}
+                  likes={rev.likes.length}
+                  image={rev.image}
+                  date_posted={rev.date_posted}
+                  is_original_poster={rev.user_id === user.id}
+                  is_liked={rev.likes.includes(user.id)}
+                  rev_id={rev.review_id}
+                  func={updateReviews}
+                />
+              ))}
               writeFunc={handleReviewButton}
               sortFunc={handleSortButton}
               loadFunc={handleLoadButton}
@@ -561,9 +565,15 @@ function ItemPage({ match }) {
                     <img
                       className='review-image'
                       src={
-                        reviewNewImg instanceof Blob ? URL.createObjectURL(reviewNewImg) : reviewNewImg
+                        reviewNewImg instanceof Blob
+                          ? URL.createObjectURL(reviewNewImg)
+                          : reviewNewImg
                       }
-                      alt={reviewNewImg instanceof Blob ? reviewNewImg.name : 'media'}
+                      alt={
+                        reviewNewImg instanceof Blob
+                          ? reviewNewImg.name
+                          : 'media'
+                      }
                     />
                   </div>
                   <Typography style={{ fontSize: '12pt' }}>
@@ -581,7 +591,12 @@ function ItemPage({ match }) {
                         setReview({ ...review, star_rating: newValue });
                       }}
                     />
-                    <Typography style={{ fontSize: '11pt', color: review.star_rating === 0 ? 'red' : 'black' }}>
+                    <Typography
+                      style={{
+                        fontSize: '11pt',
+                        color: review.star_rating === 0 ? 'red' : 'black',
+                      }}
+                    >
                       Click to rate!
                     </Typography>
                   </div>

@@ -3,18 +3,14 @@ import TextButton from '../buttons-and-sections/TextButton.js';
 import { Link } from 'react-router-dom';
 
 import './CartPage.css';
-import CartItem from '../buttons-and-sections/CartItem.js';
 import Accordian from '../buttons-and-sections/Accordian.js';
 import CustomerDetailsSection from './CustomerDetailsSection.js';
 import Cookies from 'js-cookie';
+import CheckoutPage from './CheckoutPage.js';
+import Cart from './Cart.js';
 
 function CartPage({ token }) {
-  // TODO: useEffect to retrieve information from the backend about the current user's
-  // cart, including: Items, Quantity of Items, Personal Information/Details
   const [cartItems, setCartItems] = useState([]);
-  // const [cartAccordian, setCartAccordian] = useState(
-  //   <Accordian title='Items' content={cartItems} />
-  // );
 
   const [customerDetails, setCustomerDetails] = useState({
     id: '',
@@ -42,24 +38,18 @@ function CartPage({ token }) {
       alert('Failed to get Cart!');
     } else if (response.status === 200) {
       const cartData = await response.json();
-      console.log('Fetch cart: ');
+      console.log('Fetch cart: ', cartData);
       let items = [];
       for (var i = 0; i < cartData.cart.length; i++) {
         items.push({
           id: cartData.cart[i].product,
-          content: (
-            <CartItem
-              itemName={cartData.cart[i].name}
-              imageUrl={cartData.cart[i].image}
-              itemQuantity={cartData.cart[i].quantity}
-              itemPrice={cartData.cart[i].price}
-              productRouteId={cartData.cart[i].product}
-              handleRemove={handleRemove}
-            />
-          ),
+          itemName: cartData.cart[i].name,
+          imageUrl: cartData.cart[i].image,
+          itemQuantity: cartData.cart[i].quantity,
+          itemPrice: cartData.cart[i].price,
         });
       }
-      setCartItems(items);
+      setCartItems([...items]);
     }
   };
 
@@ -73,7 +63,7 @@ function CartPage({ token }) {
     };
 
     const response = await fetch(`/auth/user/${token}`, requestOptions);
-    if (response.status != 200) {
+    if (response.status !== 200) {
       alert('Failed to get Customer Details!');
     } else if (response.status === 200) {
       const data = await response.json();
@@ -82,18 +72,65 @@ function CartPage({ token }) {
   };
 
   useEffect(() => {
+    // updateCartItemQuantities();
     getCartDetails();
     getCustomerDetails();
   }, []);
 
-  useEffect(() => {
-    console.log('Changed');
-    console.log('Changed: ', cartItems);
-  }, [cartItems]);
+  const handleQuantity = async (productToChangeQuantityId, newQuantity) => {
+    console.log('handleQuantity run...');
+    // Frontend Change Item Quantity
+    if (productToChangeQuantityId === null) {
+      return;
+    }
+    const itemExists = cartItems.find(
+      (item) => item.id === productToChangeQuantityId
+    );
+    if (itemExists != null) {
+      // Change the quantity of the item in the user's cart
+      setCartItems(
+        cartItems.map((item) =>
+          item.id === productToChangeQuantityId
+            ? { ...itemExists, itemQuantity: newQuantity }
+            : item
+        )
+      );
+    }
+    // Backend Change Item Quantity
+    const productDetails = {
+      uid: Cookies.get('user'),
+      productId: productToChangeQuantityId,
+      productQuantity: newQuantity,
+    };
+    const requestOptions = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(productDetails),
+    };
 
+    const response = await fetch('/cart', requestOptions);
+    if (response.status != 200) {
+      alert('Failed to remove from Cart!');
+    } else if (response.status === 200) {
+      const data = await response.json();
+    }
+  };
+
+  // Given a productId, remove it from the cartItems list (displayed to the user)
   const handleRemove = async (productToRemoveId) => {
-    // Given a productId, remove it from the cartItems list (displayed to the user)
-    console.log('Hello!', cartItems);
+    // Frontend Remove Item from Cart
+    if (productToRemoveId === null) {
+      return;
+    }
+    const itemExists = cartItems.find((item) => item.id === productToRemoveId);
+    if (itemExists != null) {
+      // Remove the item in the user's cart
+      setCartItems(cartItems.filter((item) => item.id !== productToRemoveId));
+    }
+
     // Backend Remove Item from Cart
     const cartRemoveBody = {
       uid: Cookies.get('user'),
@@ -110,25 +147,107 @@ function CartPage({ token }) {
 
     const response = await fetch('/cart', requestOptions);
     if (response.status != 200) {
-      alert('Failed to reove from Cart!');
+      alert('Failed to remove from Cart!');
     } else if (response.status === 200) {
       const data = await response.json();
     }
-    // Frontend Remove Item from Cart
-    getCartDetails();
-    // setCartItems(cartItems.filter((item) => item.id !== productToRemoveId));
   };
 
-  // useEffect(() => {
-  //   setCartAccordian(<Accordian title='Items' content={cartItems} />);
-  // }, [cartItems]);
+  // Given a productId, add to the quantity of the item in the user's cart
+  const incrementQuantity = async (productId) => {
+    if (productId === null) {
+      return;
+    }
+    // Update Product Quantity on the Frontend
+    const itemExists = cartItems.find((item) => item.id === productId);
+    if (itemExists != null) {
+      // Check that the item's quantity is not more than 100 (maximum product limit)
+      if (itemExists.itemQuantity > 99) {
+        alert(
+          'Unable to increase the quantity further! You have reached the maximum purchase quantity!'
+        );
+        return;
+      }
+      // Increment the quantity of the item in the user's cart
+      setCartItems(
+        cartItems.map((item) =>
+          item.id === productId
+            ? { ...itemExists, itemQuantity: itemExists.itemQuantity + 1 }
+            : item
+        )
+      );
+    }
+  };
+
+  // Given a productId, subtract from the quantity of the item in the user's cart
+  const decrementQuantity = (productId) => {
+    if (productId === null) {
+      return;
+    }
+    const itemExists = cartItems.find((item) => item.id === productId);
+    if (itemExists != null) {
+      // Check that the item's quantity is not less than 1
+      if (itemExists.itemQuantity < 2) {
+        alert(
+          'Unable to decrease the quantity further! If you wish to remove this item from your cart, please use the remove button'
+        );
+        return;
+      }
+      // Decrement the quantity of the item in the user's cart
+      setCartItems(
+        cartItems.map((item) =>
+          item.id === productId
+            ? { ...itemExists, itemQuantity: itemExists.itemQuantity - 1 }
+            : item
+        )
+      );
+    }
+  };
+
+  // Updates the quantities of each product in the user's cart in the backend.
+  // This function is run when the user opens up the "Payment" Section in the Cart Page,
+  // as well as when the Cart Page first renders
+  const updateCartItemQuantities = async () => {
+    // Update Product Quantites on the Backend
+    cartItems.map(async (item) => {
+      const productDetails = {
+        uid: Cookies.get('user'),
+        productId: item.id,
+        productQuantity: 1,
+        productImage: item.imageUrl,
+        productName: item.itemName,
+        productPrice: item.itemPrice,
+      };
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(productDetails),
+      };
+      const response = await fetch('/cart', requestOptions);
+      if (response.status === 500) {
+        alert('Error 500');
+      } else if (response.status === 400) {
+        alert('Failed to update product quantity! Error 400');
+      } else if (response.status === 200) {
+        const data = await response.json();
+        console.log('Updated quantity: ', data);
+      }
+    });
+  };
 
   return (
     <div className='CartPage'>
       <h2 style={{ fontSize: '24px' }}>SHOPPING CART</h2>
-      {cartItems.map((item) => (
-        <div>{item.content}</div>
-      ))}
+      <Cart
+        cartItems={cartItems}
+        // incrementQuantity={incrementQuantity}
+        // decrementQuantity={decrementQuantity}
+        handleRemove={handleRemove}
+        handleQuantity={handleQuantity}
+      />
       {/* {cartItems} */}
       {/* <Accordian title='Items' content={cartItems} /> */}
       <Accordian
@@ -142,9 +261,7 @@ function CartPage({ token }) {
           />
         }
       />
-      <Link to={'/checkout'}>
-        <TextButton buttonName='Checkout' buttonType='submit' />
-      </Link>
+      <Accordian title='Payment' content={<CheckoutPage />} />
     </div>
   );
 }

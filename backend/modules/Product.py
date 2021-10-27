@@ -92,7 +92,10 @@ class Product(Resource):
         if doc.exists is not True:
             return {'error': 'product doesn\'t exist'}
         
-        newReviews = args.reviews
+        if not args.reviews:
+            newReviews = []
+        else:
+            newReviews = args.reviews
 
         if args.review is not None:
             if newReviews is None:

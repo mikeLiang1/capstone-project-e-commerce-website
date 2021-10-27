@@ -7,6 +7,7 @@ export default function BasicTextField({
   value,
   handleChange,
   type,
+  id,
 }) {
   return (
     <Box
@@ -18,11 +19,9 @@ export default function BasicTextField({
       autoComplete='off'
     >
       <TextField
-        id='outlined-multiline-flexible'
-        label={textName}
+        id={id}
         type={type}
-        multiline
-        maxRows={8}
+        label={textName}
         size='small'
         value={value}
         onChange={handleChange}

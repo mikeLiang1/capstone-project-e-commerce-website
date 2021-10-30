@@ -5,19 +5,56 @@ import CreditCardForm from "./CreditCardForm";
 import Button from "@material-ui/core/Button";
 import TextButton from "../buttons-and-sections/TextButton";
 import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
 
 import Tick from "../../images/Tick.png";
 
 import "./CheckoutPage.css";
 
-function CheckoutPage() {
+function CheckoutPage({ cartData, customerDetails }) {
   const [open, setOpen] = useState("box closed");
   const [dialogOpen, setDialog] = useState(false);
 
-  function handleClick() {
+  const handleClick = async () => {
     setOpen("box open");
     setDialog(true);
-  }
+    const today = new Date();
+
+    for (var i = 0; i < cartData.length; i++) {
+      const newBody = {
+        uid: Cookies.get("user"),
+        productId: cartData[i].id,
+        productName: cartData[i].itemName,
+        productImage: cartData[i].imageUrl,
+        productQuantity: cartData[i].itemQuantity,
+        productPrice: cartData[i].itemPrice,
+        orderPlaced:
+          today.getDate() +
+          " " +
+          today.toLocaleString("default", { month: "long" }) +
+          " " +
+          today.getFullYear(),
+        deliveryInfo: customerDetails.content.address,
+      };
+      console.log(newBody);
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(newBody),
+      };
+
+      const response = await fetch(
+        "/user/add/purchase_history",
+        requestOptions
+      );
+      if (response.status != 200) {
+        alert("Failed to add to purchase history!");
+      }
+    }
+  };
 
   return (
     <div style={{ minHeight: "650px" }}>
@@ -44,7 +81,9 @@ function CheckoutPage() {
       >
         <div className="checkoutContent">
           <img height="50px" width="50px" src={Tick} />
-          <p style={{ paddingTop: "20px" }}>Hey Colin Hon,</p>
+          <p style={{ paddingTop: "20px" }}>
+            Hey {customerDetails.content.first} {customerDetails.content.last},
+          </p>
 
           <p style={{ fontWeight: 700, fontSize: "20px" }}>
             Your order is confirmed!

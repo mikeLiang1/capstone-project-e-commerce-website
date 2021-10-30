@@ -8,11 +8,10 @@ import SmallItemContainer from '../buttons-and-sections/SmallItemContainer';
 import Button from '@mui/material/Button';
 import Slide from '@mui/material/Slide';
 import Card from './Card';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
+import Cookies from 'js-cookie';
 
 import './SurveyPage.css';
 
@@ -25,6 +24,12 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 function SurveyPage() {
   const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  function randomIntFromInterval(min, max) {
+    // min and max included
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+  const rndInt = randomIntFromInterval(1, 10);
   const [dialogOpen, setDialog] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [result, setResult] = useState(['Default', '', '99']);
@@ -54,7 +59,28 @@ function SurveyPage() {
     setOpen(false);
   };
 
-  const addToCart = () => {
+  const addToCart = async () => {
+    const addToCartBody = {
+      uid: Cookies.get('user'),
+      productId: products[0].id,
+      productQuantity: 1,
+    };
+    console.log(addToCartBody);
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(addToCartBody),
+    };
+
+    const response = await fetch('/cart', requestOptions);
+    if (response.status != 200) {
+      alert('Failed to add to cart!');
+    } else if (response.status === 200) {
+      const data = await response.json();
+    }
     setTimeout(() => gone.clear() || set((i) => to(i)), 600);
     setDialog(false);
     setOpen(true);
@@ -103,6 +129,7 @@ function SurveyPage() {
             name: data.products[i].content.name,
             img: data.products[i].content.image,
             price: data.products[i].content.price,
+            id: data.products[i].content.id,
           });
         }
         setProducts(items);
@@ -186,8 +213,8 @@ function SurveyPage() {
         <div className='dialogContent'>
           <DialogTitle>{'RECOMMENDED PRODUCT!'}</DialogTitle>
           <SmallItemContainer
-            itemName={products[0].name}
-            imageUrl={products[0].img}
+            itemName={products[rndInt].name}
+            imageUrl={products[rndInt].img}
           />
           <b>RRP: ${products[0].price}</b>
           <DialogActions>

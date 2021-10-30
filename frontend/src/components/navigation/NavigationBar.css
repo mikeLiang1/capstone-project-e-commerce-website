@@ -10,6 +10,7 @@
   padding-top: 16px;
   width: 400px;
   text-align: left;
+  display: flex;
 }
 
 .NavigationBar-links-right {
@@ -42,4 +43,54 @@
   font-weight: var(--bold-font-weight);
   text-align: center;
   padding-top: 16px;
+}
+
+.products {
+  border: none;
+  background-color: var(--primary-colour-white);
+}
+
+.products:hover {
+  color: var(--secondary-colour-orange);
+}
+
+.products li {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.products li:hover {
+  background-color: whitesmoke;
+}
+
+.products ul {
+  position: absolute;
+  background: white;
+  margin-top: 10px;
+  width: 20%;
+  height: 10%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  list-style: none;
+  border-radius: 5px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-10px);
+  transition: all 0.4s ease;
+}
+
+.products a {
+  color: black;
+  text-decoration: none;
+}
+
+.products button:focus + ul {
+  opacity: 1;
+  pointer-events: all;
+  transform: translate(0px);
 }

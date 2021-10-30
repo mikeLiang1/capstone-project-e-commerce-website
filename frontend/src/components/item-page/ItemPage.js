@@ -79,6 +79,7 @@ function ItemPage({ match }) {
   const [ratings, setRatings] = useState('');
   const [accordianName, setAccordianName] = useState('');
   const [onEdit, setOnEdit] = useState(false);
+  const [totalStars, setTotalStars] = useState(new Map());
   const fileInput = React.useRef(null);
 
   // Get item data
@@ -108,10 +109,20 @@ function ItemPage({ match }) {
       setAccordianName(`Reviews (${data.data.reviews.length})`);
 
       // Calculate avg star ratings
+      // Set total stars
       var avg = 0;
-      for (var i = 0; i < data.data.reviews.length; i++) {
-        avg += data.data.reviews[i].star_rating;
+      const reviewsNum = data.data.reviews.length;
+      const star_map = new Map();
+      for (var i = 1; i <= 5; i++) star_map.set(i, 0);
+      for (var i = 0; i < reviewsNum; i++) {
+        const star_val = data.data.reviews[i].star_rating;
+        avg += star_val;
+        star_map.set(star_val, (star_map.get(star_val)) + 1);
       }
+      //for (var i = 1; i <= 5; i++) star_map.set(i, (star_map.get(i)) / reviewsNum * 100);
+      star_map.set('total', reviewsNum);
+      setTotalStars(star_map);
+
       if (avg !== 0 && data.data.reviews.length !== 0) {
         avg /= data.data.reviews.length;
         var rounded = Math.round(avg * 10) / 10;
@@ -492,6 +503,7 @@ function ItemPage({ match }) {
           <div id='review-section'>
             <ReviewAccordian
               title={accordianName}
+              totalStars={totalStars}
               content={reviewsShow
                 .map((rev, id) => (
                   <ReviewContainer

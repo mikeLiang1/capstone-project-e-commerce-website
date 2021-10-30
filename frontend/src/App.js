@@ -18,6 +18,7 @@ import PreviousOrders from "./components/account/PreviousOrders";
 import Cookies from "js-cookie";
 import { render } from "@testing-library/react";
 import MysteryBoxOpen from "./components/mystery-box/MysteryBoxOpen";
+import PaymentPopup from "./components/checkout/PaymentPopup";
 
 function App() {
   const [admin, setAdmin] = useState(Cookies.get("admin"));
@@ -100,6 +101,7 @@ function App() {
             exact
             component={MysteryBoxOpen}
           />
+          <Route path="paymentComplete" exact component={PaymentPopup} />
         </Switch>
         {/* <Footer /> */}
         {/* <NavigationBarUser /> */}

@@ -1,0 +1,38 @@
+.MysteryBoxAnimation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.MysteryBoxAnimation-text {
+  text-align: center;
+  padding: 80px 0;
+}
+
+.MysteryBoxAnimation-opening {
+  display: flex;
+  flex-direction: row;
+  align-items: left;
+  background-color: blue;
+  min-width: 800px;
+  max-width: 1000px;
+  overflow: hidden;
+}
+
+.MysteryBoxAnimation-item {
+  display: flex;
+  /* cubic-bezier(0.29, 0.69, 0.51, 1) */
+  /* animation: spin 1s both 3 linear; */
+  /* cubic-bezier(0, 1.03, 0.79, 0.98) */
+  /* cubic-bezier(.14,.89,.48,.87) */
+  animation: spin 8s both cubic-bezier(0.14, 0.89, 0.48, 0.87) 1;
+}
+
+@keyframes spin {
+  from {
+    transform: translateX(-3320px);
+  }
+  to {
+    transform: translateX(-83px);
+  }
+}

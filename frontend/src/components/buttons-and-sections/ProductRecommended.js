@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Cookies from "js-cookie";
 import LargeItemContainer from "./LargeItemContainer";
 
 import "./RecommendedSection.css";
 
-function RecommendedSection() {
+function ProductRecommended({ productID }) {
   const [products, setProducts] = useState([]);
 
   const getProducts = async () => {
@@ -17,7 +16,7 @@ function RecommendedSection() {
     };
 
     const response = await fetch(
-      `/recommended/${Cookies.get("user")}`,
+      `/recommended_product/${productID}`,
       requestOptions
     );
 
@@ -61,4 +60,4 @@ function RecommendedSection() {
   );
 }
 
-export default RecommendedSection;
+export default ProductRecommended;

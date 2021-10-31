@@ -10,6 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Cookies from "js-cookie";
 import TextButton from "../buttons-and-sections/TextButton.js";
+import ProductRecommended from "../buttons-and-sections/ProductRecommended.js";
 
 import { initializeApp } from "firebase/app";
 import {
@@ -685,6 +686,7 @@ function ItemPage({ match }) {
           </Modal>
         </div>
       </div>
+      <ProductRecommended productID={match.params.itemId}></ProductRecommended>
     </div>
   );
 }

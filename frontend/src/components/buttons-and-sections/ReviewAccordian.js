@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Button, LinearProgress, Grid } from '@material-ui/core';
+import { Button, LinearProgress, Grid, Typography } from '@material-ui/core';
+import { linearProgressClasses } from '@mui/material';
+import { styled } from '@material-ui/styles';
 
 import Arrow from '../../images/angle-down.svg';
 
@@ -25,6 +27,19 @@ function ReviewAccordian({ title, totalStars, content, writeFunc, sortFunc, load
   // make linear progress bar fatter
   // change 1 star to 1★
   // fix scroll bar, it counts margintop of contents
+  // remove load more button
+
+  const RatingDistributionBar = styled(LinearProgress)(({ theme }) => ({
+    height: 10,
+    borderRadius: 5,
+    [`&.${linearProgressClasses.colorPrimary}`]: {
+      backgroundColor: '#C4C4C4',
+    },
+    [`& .${linearProgressClasses.bar}`]: {
+      borderRadius: 5,
+      backgroundColor: '#F2E912',
+    },
+  }));
 
   useEffect(() => {
     setHeight(`${refHeight.current.scrollHeight}px`);
@@ -37,7 +52,7 @@ function ReviewAccordian({ title, totalStars, content, writeFunc, sortFunc, load
   return (
     <div className='Accordian'>
       <button onClick={toggleState} className='Accordian-visible'>
-        <span>{title}</span>
+        <Typography className='Accordian-title' variant='h5'>{title}</Typography>
         <img className={toggle && 'active'} src={Arrow} />
       </button>
       <div
@@ -45,97 +60,116 @@ function ReviewAccordian({ title, totalStars, content, writeFunc, sortFunc, load
         style={{ height: toggle ? `${height}` : '0px' }}
         ref={refHeight}
       >
-        <div className='Accordian-buttons-top'>
-          <div className='Accordian-star-ratings'>
-            <p>Rating Snapshot</p>
-            <Grid container spacing={1}>
-              <Grid item xs={2}>
-                <p>1 star</p>
+        <div className='Accordian-top-misc' style={{ display: toggle===true ? 'block' : 'none' }}>
+          <div className='Accordian-star-ratings-wrapper'>
+            <Grid
+              container
+              spacing={1}
+              direction='column'
+              alignItems='flex-start'
+            >
+              <Grid item>
+                <Typography variant='h6'>Rating Snapshot</Typography>
               </Grid>
-              <Grid item xs={8}>
-                <LinearProgress variant='determinate' value={totalStars.get(1) / reviewsNum * 100}/>
-              </Grid>
-              <Grid item xs={1}>
-                <p>{totalStars.get(1)}</p>
-              </Grid>
-              <Grid item xs={2}>
-                <p>2 star</p>
-              </Grid>
-              <Grid item xs={8}>
-                <LinearProgress variant='determinate' value={totalStars.get(2) / reviewsNum * 100}/>
-              </Grid>
-              <Grid item xs={1}>
-                <p>{totalStars.get(2)}</p>
-              </Grid>
-              <Grid item xs={2}>
-                <p>3 star</p>
-              </Grid>
-              <Grid item xs={8}>
-                <LinearProgress variant='determinate' value={totalStars.get(3) / reviewsNum * 100}/>
-              </Grid>
-              <Grid item xs={1}>
-                <p>{totalStars.get(3)}</p>
-              </Grid>
-              <Grid item xs={2}>
-                <p>4 star</p>
-              </Grid>
-              <Grid item xs={8}>
-                <LinearProgress variant='determinate' value={totalStars.get(4) / reviewsNum * 100}/>
-              </Grid>
-              <Grid item xs={1}>
-                <p>{totalStars.get(4)}</p>
-              </Grid>
-              <Grid item xs={2}>
-                <p>5 star</p>
-              </Grid>
-              <Grid item xs={8}>
-                <LinearProgress variant='determinate' value={totalStars.get(5) / reviewsNum * 100}/>
-              </Grid>
-              <Grid item xs={1}>
-                <p>{totalStars.get(5)}</p>
+              <Grid
+                item
+                xs={10}
+                sm
+                container
+                spacing={1}
+                alignItems='center'
+                justifyContent='center'
+              >
+                <Grid item xs={2}>
+                  <Typography>1★</Typography>
+                </Grid>
+                <Grid item xs={8}>
+                  <RatingDistributionBar variant='determinate' value={totalStars.get(1) / reviewsNum * 100}/>
+                </Grid>
+                <Grid item xs={1}>
+                  <Typography>{totalStars.get(1)}</Typography>
+                </Grid>
+                <Grid item xs={2}>
+                  <Typography>2★</Typography>
+                </Grid>
+                <Grid item xs={8}>
+                  <RatingDistributionBar variant='determinate' value={totalStars.get(2) / reviewsNum * 100}/>
+                </Grid>
+                <Grid item xs={1}>
+                  <Typography>{totalStars.get(2)}</Typography>
+                </Grid>
+                <Grid item xs={2}>
+                <Typography>3★</Typography>
+                </Grid>
+                <Grid item xs={8}>
+                  <RatingDistributionBar variant='determinate' value={totalStars.get(3) / reviewsNum * 100}/>
+                </Grid>
+                <Grid item xs={1}>
+                  <Typography>{totalStars.get(3)}</Typography>
+                </Grid>
+                <Grid item xs={2}>
+                  <Typography>4★</Typography>
+                </Grid>
+                <Grid item xs={8}>
+                  <RatingDistributionBar variant='determinate' value={totalStars.get(4) / reviewsNum * 100}/>
+                </Grid>
+                <Grid item xs={1}>
+                  <Typography>{totalStars.get(4)}</Typography>
+                </Grid>
+                <Grid item xs={2}>
+                  <Typography>5★</Typography>
+                </Grid>
+                <Grid item xs={8}>
+                  <RatingDistributionBar variant='determinate' value={totalStars.get(5) / reviewsNum * 100}/>
+                </Grid>
+                <Grid item xs={1}>
+                  <Typography>{totalStars.get(5)}</Typography>
+                </Grid>
               </Grid>
             </Grid> 
           </div>
-					<Button
-            onClick={() => {
-              sortFunc();
-            }}
-            style={{
-              backgroundColor: '#000000',
-              color: '#FFFFFF',
-              borderRadius: '16px',
-              width: '200px',
-            }}
-            size='large'
-            variant='contained'
-          >
-            Sort reviews
-          </Button>
-          <Button
-            onClick={() => {
-              writeFunc();
-            }}
-            style={{
-              backgroundColor: '#000000',
-              color: '#FFFFFF',
-              borderRadius: '16px',
-              width: '200px',
-            }}
-            size='large'
-            variant='contained'
-          >
-            Write a review
-          </Button>
+          <div className='Accordian-buttons-top'>
+            <Button
+              onClick={() => {
+                sortFunc();
+              }}
+              style={{
+                backgroundColor: '#000000',
+                color: '#FFFFFF',
+                borderRadius: '16px',
+                width: '200px',
+              }}
+              size='large'
+              variant='contained'
+            >
+              Sort reviews
+            </Button>
+            <Button
+              onClick={() => {
+                writeFunc();
+              }}
+              style={{
+                backgroundColor: '#000000',
+                color: '#FFFFFF',
+                borderRadius: '16px',
+                width: '200px',
+              }}
+              size='large'
+              variant='contained'
+            >
+              Write a review
+            </Button>
+          </div>
         </div>
-        <div className='Accordian-content' style={{ display: toggle===true ? 'block' : 'none', marginTop: '190px' }}>{content}</div>
+        <div className='Accordian-content' style={{ display: toggle===true ? 'block' : 'none' }}>{content}</div>
         <div>
           <Button
             onClick={() => {
               loadFunc();
             }}
             style={{
-              backgroundColor: '#000000',
-              color: '#FFFFFF',
+              backgroundColor: '#C4C4C4',
+              color: '#000000',
               borderRadius: '16px',
               width: '400px',
               marginBottom: '30px'
@@ -143,7 +177,7 @@ function ReviewAccordian({ title, totalStars, content, writeFunc, sortFunc, load
             size='large'
             variant='contained'
           >
-            Load more reviews...
+            Load More
           </Button>
         </div>
       </div>

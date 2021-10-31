@@ -44,7 +44,7 @@ function ItemPage({ match }) {
   const [price, setPrice] = useState(0);
   const [tag, setTag] = useState('');
   const [reviews, setReviews] = useState([]);
-  const [reviewsSort, setReviewsSort] = useState('default');
+  const [reviewsSort, setReviewsSort] = useState('date(newest)');
   const [reviewsShow, setReviewsShow] = useState([]);
   const [reviewsLen, setReviewsLen] = useState(10);
   const [units, setUnits] = useState(0);
@@ -103,7 +103,7 @@ function ItemPage({ match }) {
       setPrice(data.data.price);
       setTag(data.data.tag);
       setReviews(data.data.reviews);
-      setReviewsShow(data.data.reviews.slice(-10).reverse());
+      setReviewsShow(data.data.reviews.reverse());
       setUnits(data.data.units_sold);
       setReviewIds(data.data.review_ids);
       setAccordianName(`Reviews (${data.data.reviews.length})`);
@@ -119,8 +119,6 @@ function ItemPage({ match }) {
         avg += star_val;
         star_map.set(star_val, (star_map.get(star_val)) + 1);
       }
-      //for (var i = 1; i <= 5; i++) star_map.set(i, (star_map.get(i)) / reviewsNum * 100);
-      star_map.set('total', reviewsNum);
       setTotalStars(star_map);
 
       if (avg !== 0 && data.data.reviews.length !== 0) {
@@ -176,7 +174,6 @@ function ItemPage({ match }) {
     
     // Uploading image to retrieve link
     if (reviewNewImg instanceof Blob) {
-      //const storageRef = ref(storage, reviewNewImg.name);
       const storageRef = ref(storage, `Review_images/${reviewNewImg.name}`);
       let snapshot = await uploadBytes(storageRef, reviewNewImg);
       let url = await getDownloadURL(ref(storage, `Review_images/${reviewNewImg.name}`));
@@ -386,18 +383,46 @@ function ItemPage({ match }) {
     }
   };
 
-  const handleSortButton = (e) => {
-    setReviewsSort('default');
+  // Sort reviews if user selects sorting method
+  const handleSortButton = (sortMethod) => {
+    setReviewsSort(sortMethod);
+
+    if (sortMethod === 'date(newest)') {
+      setReviewsShow(reviews);
+    }
+    else if (sortMethod === 'date(oldest)') {
+      setReviewsShow(reviews.slice().reverse());
+    }
+    else if (sortMethod === 'ratings(highest)') {
+      setReviewsShow(reviews.slice().sort(function(a, b) {
+        var rev_a = a.star_rating;
+        var rev_b = b.star_rating;
+        if (rev_a > rev_b) return -1;
+        if (rev_a < rev_b) return 1;
+        return 0;
+      }));
+    }
+    else if (sortMethod === 'ratings(lowest)') {
+      setReviewsShow(reviews.slice().sort(function(a, b) {
+        var rev_a = a.star_rating;
+        var rev_b = b.star_rating;
+        if (rev_a < rev_b) return -1;
+        if (rev_a > rev_b) return 1;
+        return 0;
+      }));
+    }
+    else if (sortMethod === 'likes received') {
+      setReviewsShow(reviews.slice().sort(function(a, b) {
+        var rev_a = a.likes.length;
+        var rev_b = b.likes.length;
+        if (rev_a > rev_b) return -1;
+        if (rev_a < rev_b) return 1;
+        return 0;
+      }));
+    }
   };
 
   const handleLoadButton = (e) => {
-    if (reviewsLen >= reviews.length) {
-      alert('No more reviews to be loaded!');
-      return
-    }
-    if (reviewsSort === 'default') {
-      setReviewsShow(reviews.slice((reviewsLen + 10) * -1).reverse());
-    }
     setReviewsLen(reviewsLen + 10);
   };
 
@@ -504,7 +529,11 @@ function ItemPage({ match }) {
             <ReviewAccordian
               title={accordianName}
               totalStars={totalStars}
+              totalReviewsNum={reviews.length}
+              currentReviewsNum={reviewsLen}
+              sortMethod={reviewsSort}
               content={reviewsShow
+                .slice(0, reviewsLen)
                 .map((rev, id) => (
                   <ReviewContainer
                     key={id}

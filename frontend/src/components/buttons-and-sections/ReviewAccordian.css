@@ -60,23 +60,29 @@
 .Accordian-top-misc {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  align-items: flex-start;
   width: 100%;
-  background-color: azure;
+  padding-bottom: 20px;
 }
 
 .Accordian-buttons-top {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  align-items: flex-start;
   height: 40px;
-  background-color: aqua;
 }
 
 .Accordian-star-ratings-wrapper {
   display: flex;
   flex-direction: column;
   width: 50%;
-  background-color: bisque;
+}
+
+.Accordian-content {
+  padding-top: 30px;
+}
+
+.sort-menuitem {
+  width: 300px;
+  text-align: center;
 }

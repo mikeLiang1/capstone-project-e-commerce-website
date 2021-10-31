@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Button, LinearProgress, Grid, Typography } from '@material-ui/core';
+import { Button, LinearProgress, Grid, Typography, Menu, MenuItem, Fade, ListItemText } from '@material-ui/core';
 import { linearProgressClasses } from '@mui/material';
-import { styled } from '@material-ui/styles';
+import { styled } from '@mui/material/styles';
 
 import Arrow from '../../images/angle-down.svg';
 
@@ -17,20 +17,23 @@ import './ReviewAccordian.css';
 
 */
 
-function ReviewAccordian({ title, totalStars, content, writeFunc, sortFunc, loadFunc }) {
+function ReviewAccordian
+({ title, totalStars, totalReviewsNum, currentReviewsNum, sortMethod, content, writeFunc, sortFunc, loadFunc }) {
   const [toggle, setToggle] = useState(false);
   const [height, setHeight] = useState();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+
+  // Prevent division by zero
+  var reviewsNum;
+  if (totalReviewsNum === 0) reviewsNum = 1;
+  else reviewsNum = totalReviewsNum;
 
   const refHeight = useRef();
-  const reviewsNum = totalStars.get('total');
-  //todo rating snapshot to left
-  // make linear progress bar fatter
-  // change 1 star to 1★
-  // fix scroll bar, it counts margintop of contents
-  // remove load more button
 
   const RatingDistributionBar = styled(LinearProgress)(({ theme }) => ({
-    height: 10,
+    height: 13,
     borderRadius: 5,
     [`&.${linearProgressClasses.colorPrimary}`]: {
       backgroundColor: '#C4C4C4',
@@ -49,6 +52,19 @@ function ReviewAccordian({ title, totalStars, content, writeFunc, sortFunc, load
     setToggle(!toggle);
   };
 
+  const handleMenu = (e) => {
+    setAnchorEl(e.currentTarget);
+  };
+
+  const handleMenuSelect = (selected_sort) => {
+    sortFunc(selected_sort);
+    handleMenuClose();
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <div className='Accordian'>
       <button onClick={toggleState} className='Accordian-visible'>
@@ -61,89 +77,46 @@ function ReviewAccordian({ title, totalStars, content, writeFunc, sortFunc, load
         ref={refHeight}
       >
         <div className='Accordian-top-misc' style={{ display: toggle===true ? 'block' : 'none' }}>
-          <div className='Accordian-star-ratings-wrapper'>
-            <Grid
-              container
-              spacing={1}
-              direction='column'
-              alignItems='flex-start'
-            >
-              <Grid item>
-                <Typography variant='h6'>Rating Snapshot</Typography>
-              </Grid>
-              <Grid
-                item
-                xs={10}
-                sm
-                container
-                spacing={1}
-                alignItems='center'
-                justifyContent='center'
-              >
-                <Grid item xs={2}>
-                  <Typography>1★</Typography>
-                </Grid>
-                <Grid item xs={8}>
-                  <RatingDistributionBar variant='determinate' value={totalStars.get(1) / reviewsNum * 100}/>
-                </Grid>
-                <Grid item xs={1}>
-                  <Typography>{totalStars.get(1)}</Typography>
-                </Grid>
-                <Grid item xs={2}>
-                  <Typography>2★</Typography>
-                </Grid>
-                <Grid item xs={8}>
-                  <RatingDistributionBar variant='determinate' value={totalStars.get(2) / reviewsNum * 100}/>
-                </Grid>
-                <Grid item xs={1}>
-                  <Typography>{totalStars.get(2)}</Typography>
-                </Grid>
-                <Grid item xs={2}>
-                <Typography>3★</Typography>
-                </Grid>
-                <Grid item xs={8}>
-                  <RatingDistributionBar variant='determinate' value={totalStars.get(3) / reviewsNum * 100}/>
-                </Grid>
-                <Grid item xs={1}>
-                  <Typography>{totalStars.get(3)}</Typography>
-                </Grid>
-                <Grid item xs={2}>
-                  <Typography>4★</Typography>
-                </Grid>
-                <Grid item xs={8}>
-                  <RatingDistributionBar variant='determinate' value={totalStars.get(4) / reviewsNum * 100}/>
-                </Grid>
-                <Grid item xs={1}>
-                  <Typography>{totalStars.get(4)}</Typography>
-                </Grid>
-                <Grid item xs={2}>
-                  <Typography>5★</Typography>
-                </Grid>
-                <Grid item xs={8}>
-                  <RatingDistributionBar variant='determinate' value={totalStars.get(5) / reviewsNum * 100}/>
-                </Grid>
-                <Grid item xs={1}>
-                  <Typography>{totalStars.get(5)}</Typography>
-                </Grid>
-              </Grid>
-            </Grid> 
-          </div>
           <div className='Accordian-buttons-top'>
             <Button
-              onClick={() => {
-                sortFunc();
-              }}
+              onClick={handleMenu}
               style={{
                 backgroundColor: '#000000',
                 color: '#FFFFFF',
                 borderRadius: '16px',
-                width: '200px',
+                width: '300px',
               }}
               size='large'
               variant='contained'
             >
-              Sort reviews
+              Sort by: {sortMethod}
             </Button>
+            <Menu
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleMenuClose}
+              MenuListProps={{
+                'aria-labelledby': 'basic-button'
+              }}
+              TransitionComponent={Fade}
+              style={{ marginTop: '50px' }}
+            >
+              <MenuItem onClick={() => {handleMenuSelect('date(newest)')}} style={{ width: '300px' }}>
+                <ListItemText style={{ textAlign: 'center' }}>Date(Newest)</ListItemText>
+              </MenuItem>
+              <MenuItem onClick={() => {handleMenuSelect('date(oldest)')}} style={{ width: '300px' }}>
+                <ListItemText style={{ textAlign: 'center' }}>Date(Oldest)</ListItemText>
+              </MenuItem>
+              <MenuItem onClick={() => {handleMenuSelect('ratings(highest)')}} style={{ width: '300px' }}>
+                <ListItemText style={{ textAlign: 'center' }}>Ratings(Highest)</ListItemText>
+              </MenuItem>
+              <MenuItem onClick={() => {handleMenuSelect('ratings(lowest)')}} style={{ width: '300px' }}>
+                <ListItemText style={{ textAlign: 'center' }}>Ratings(Lowest)</ListItemText>
+              </MenuItem>
+              <MenuItem onClick={() => {handleMenuSelect('likes received')}} style={{ width: '300px' }}>
+                <ListItemText style={{ textAlign: 'center' }}>Likes Received</ListItemText>
+              </MenuItem>
+            </Menu>
             <Button
               onClick={() => {
                 writeFunc();
@@ -160,8 +133,91 @@ function ReviewAccordian({ title, totalStars, content, writeFunc, sortFunc, load
               Write a review
             </Button>
           </div>
+          <Grid
+            container
+            spacing={1}
+            direction='column'
+            alignItems='flex-start'
+            className='Accordian-star-ratings-wrapper'
+            style={{ marginTop: '-40px', width: '50%' }}
+          >
+            <Grid item>
+              <Typography variant='h6' style={{ marginLeft: '30px' }}>Rating Snapshot</Typography>
+            </Grid>
+            <Grid
+              item
+              xs={10}
+              sm
+              container
+              spacing={1}
+              alignItems='center'
+              justifyContent='center'
+            >
+              <Grid item xs={2}>
+                <Typography>1★</Typography>
+              </Grid>
+              <Grid item xs={8}>
+                <RatingDistributionBar variant='determinate' value={totalStars.get(1) / reviewsNum * 100}/>
+              </Grid>
+              <Grid item xs={1}>
+                <Typography>{totalStars.get(1)}</Typography>
+              </Grid>
+              <Grid item xs={2}>
+                <Typography>2★</Typography>
+              </Grid>
+              <Grid item xs={8}>
+                <RatingDistributionBar variant='determinate' value={totalStars.get(2) / reviewsNum * 100}/>
+              </Grid>
+              <Grid item xs={1}>
+                <Typography>{totalStars.get(2)}</Typography>
+              </Grid>
+              <Grid item xs={2}>
+              <Typography>3★</Typography>
+              </Grid>
+              <Grid item xs={8}>
+                <RatingDistributionBar variant='determinate' value={totalStars.get(3) / reviewsNum * 100}/>
+              </Grid>
+              <Grid item xs={1}>
+                <Typography>{totalStars.get(3)}</Typography>
+              </Grid>
+              <Grid item xs={2}>
+                <Typography>4★</Typography>
+              </Grid>
+              <Grid item xs={8}>
+                <RatingDistributionBar variant='determinate' value={totalStars.get(4) / reviewsNum * 100}/>
+              </Grid>
+              <Grid item xs={1}>
+                <Typography>{totalStars.get(4)}</Typography>
+              </Grid>
+              <Grid item xs={2}>
+                <Typography>5★</Typography>
+              </Grid>
+              <Grid item xs={8}>
+                <RatingDistributionBar variant='determinate' value={totalStars.get(5) / reviewsNum * 100}/>
+              </Grid>
+              <Grid item xs={1}>
+                <Typography>{totalStars.get(5)}</Typography>
+              </Grid>
+            </Grid>
+          </Grid>
         </div>
-        <div className='Accordian-content' style={{ display: toggle===true ? 'block' : 'none' }}>{content}</div>
+        <div
+          className='Accordian-content'
+          style={{ display: toggle===true ? 'block' : 'none' }}
+        >
+          {content}
+        </div>
+        <div
+          className='Accordian-content'
+          style={{ display: toggle===true && totalReviewsNum === 0 ? 'block' : 'none' }}
+        >
+          <Typography
+            variant='h4'
+            style={{ paddingTop: '80px', paddingBottom: '100px' }}
+          >
+            No reviews to show
+          </Typography>
+        </div>
         <div>
           <Button
             onClick={() => {
@@ -172,7 +228,8 @@ function ReviewAccordian({ title, totalStars, content, writeFunc, sortFunc, load
               color: '#000000',
               borderRadius: '16px',
               width: '400px',
-              marginBottom: '30px'
+              marginBottom: '30px',
+              display: toggle===true && currentReviewsNum < totalReviewsNum ? 'block' : 'none'
             }}
             size='large'
             variant='contained'

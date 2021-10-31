@@ -509,6 +509,9 @@ function ItemPage({ match }) {
           <Typography variant="body">{desc}</Typography>
         </div>
         <div className="ItemPage-flex-vert">
+          <ProductRecommended
+            productID={match.params.itemId}
+          ></ProductRecommended>
           <div id="review-section">
             <ReviewAccordian
               title={accordianName}
@@ -686,7 +689,6 @@ function ItemPage({ match }) {
           </Modal>
         </div>
       </div>
-      <ProductRecommended productID={match.params.itemId}></ProductRecommended>
     </div>
   );
 }

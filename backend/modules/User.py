@@ -24,6 +24,8 @@ parser.add_argument('productQuantity', type=int)
 parser.add_argument('productImage', type=str)
 parser.add_argument('productName', type=str)
 parser.add_argument('productPrice', type=int)
+parser.add_argument('orderPlaced', type=str)
+parser.add_argument('deliveryInfo', type=str)
 
 # Pyrebase
 config = {
@@ -36,6 +38,7 @@ config = {
 
 firebase = pyrebase.initialize_app(config)
 authP = firebase.auth()
+
 
 class User_Get(Resource):
     # Get user info
@@ -97,7 +100,7 @@ class User(Resource):
         
 class User_add_productID(Resource):
     # given a productid, add to users purchase history
-    def post(self, productID):
+    def post(self):
         args = parser.parse_args()
         
         info = authP.get_account_info(args.uid)
@@ -107,7 +110,8 @@ class User_add_productID(Resource):
         doc_ref = db.collection(u'users').document(email)
 
         if user_exists(doc_ref):
-            doc_ref.update({u'purchase_history': firestore.ArrayUnion([productID])})
+            doc_ref.update({u"purchase_history": firestore.ArrayUnion([{"product": args.productId, "quantity": args.productQuantity,
+                "name": args.productName, "image": args.productImage, "price": args.productPrice, "orderPlaced": args.orderPlaced, "deliveryInfo": args.deliveryInfo}])})
 
             return {"message": "Success"}
 
@@ -298,3 +302,15 @@ def user_exists(doc_ref):
     doc = doc_ref.get()
     return doc.exists
 
+class remove_cart(Resource):
+    def delete(self):
+        args = parser.parse_args()
+        # Get the user's information
+        info = authP.get_account_info(args.uid)
+        email = info['users'][0]['email']
+        doc_ref = db.collection(u'users').document(email)
+        if user_exists(doc_ref):
+            doc_ref.update({u'cart': firestore.DELETE_FIELD})
+            doc_ref.update({u'cart': []})
+
+            return {"message": "cart successfully removed"}

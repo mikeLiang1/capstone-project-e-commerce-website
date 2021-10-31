@@ -1,44 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import TextButton from '../buttons-and-sections/TextButton.js';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import TextButton from "../buttons-and-sections/TextButton.js";
+import { Link } from "react-router-dom";
 
-import './CartPage.css';
-import Accordian from '../buttons-and-sections/Accordian.js';
-import CustomerDetailsSection from './CustomerDetailsSection.js';
-import Cookies from 'js-cookie';
-import CheckoutPage from './CheckoutPage.js';
-import Cart from './Cart.js';
+import "./CartPage.css";
+import Accordian from "../buttons-and-sections/Accordian.js";
+import CustomerDetailsSection from "./CustomerDetailsSection.js";
+import Cookies from "js-cookie";
+import CheckoutPage from "./CheckoutPage.js";
+import Cart from "./Cart.js";
 
 function CartPage({ token }) {
   const [cartItems, setCartItems] = useState([]);
 
   const [customerDetails, setCustomerDetails] = useState({
-    id: '',
+    id: "",
     content: {
-      first: '',
-      last: '',
-      address: '',
+      first: "",
+      last: "",
+      address: "",
     },
   });
 
   const getCartDetails = async () => {
     const requestOptions = {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
     };
 
     const response = await fetch(
-      `/cart/${Cookies.get('user')}`,
+      `/cart/${Cookies.get("user")}`,
       requestOptions
     );
     if (response.status != 200) {
-      alert('Failed to get Cart!');
+      alert("Failed to get Cart!");
     } else if (response.status === 200) {
       const cartData = await response.json();
-      console.log('Fetch cart: ', cartData);
+      console.log("Fetch cart: ", cartData);
       let items = [];
       for (var i = 0; i < cartData.cart.length; i++) {
         items.push({
@@ -55,16 +55,16 @@ function CartPage({ token }) {
 
   const getCustomerDetails = async () => {
     const requestOptions = {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
     };
 
     const response = await fetch(`/auth/user/${token}`, requestOptions);
     if (response.status !== 200) {
-      alert('Failed to get Customer Details!');
+      alert("Failed to get Customer Details!");
     } else if (response.status === 200) {
       const data = await response.json();
       setCustomerDetails(data);
@@ -78,7 +78,7 @@ function CartPage({ token }) {
   }, []);
 
   const handleQuantity = async (productToChangeQuantityId, newQuantity) => {
-    console.log('handleQuantity run...');
+    console.log("handleQuantity run...");
     // Frontend Change Item Quantity
     if (productToChangeQuantityId === null) {
       return;
@@ -98,22 +98,22 @@ function CartPage({ token }) {
     }
     // Backend Change Item Quantity
     const productDetails = {
-      uid: Cookies.get('user'),
+      uid: Cookies.get("user"),
       productId: productToChangeQuantityId,
       productQuantity: newQuantity,
     };
     const requestOptions = {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
       body: JSON.stringify(productDetails),
     };
 
-    const response = await fetch('/cart', requestOptions);
+    const response = await fetch("/cart", requestOptions);
     if (response.status != 200) {
-      alert('Failed to remove from Cart!');
+      alert("Failed to remove from Cart!");
     } else if (response.status === 200) {
       const data = await response.json();
     }
@@ -133,21 +133,21 @@ function CartPage({ token }) {
 
     // Backend Remove Item from Cart
     const cartRemoveBody = {
-      uid: Cookies.get('user'),
+      uid: Cookies.get("user"),
       productId: productToRemoveId,
     };
     const requestOptions = {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
       body: JSON.stringify(cartRemoveBody),
     };
 
-    const response = await fetch('/cart', requestOptions);
+    const response = await fetch("/cart", requestOptions);
     if (response.status != 200) {
-      alert('Failed to remove from Cart!');
+      alert("Failed to remove from Cart!");
     } else if (response.status === 200) {
       const data = await response.json();
     }
@@ -164,7 +164,7 @@ function CartPage({ token }) {
       // Check that the item's quantity is not more than 100 (maximum product limit)
       if (itemExists.itemQuantity > 99) {
         alert(
-          'Unable to increase the quantity further! You have reached the maximum purchase quantity!'
+          "Unable to increase the quantity further! You have reached the maximum purchase quantity!"
         );
         return;
       }
@@ -189,7 +189,7 @@ function CartPage({ token }) {
       // Check that the item's quantity is not less than 1
       if (itemExists.itemQuantity < 2) {
         alert(
-          'Unable to decrease the quantity further! If you wish to remove this item from your cart, please use the remove button'
+          "Unable to decrease the quantity further! If you wish to remove this item from your cart, please use the remove button"
         );
         return;
       }
@@ -211,7 +211,7 @@ function CartPage({ token }) {
     // Update Product Quantites on the Backend
     cartItems.map(async (item) => {
       const productDetails = {
-        uid: Cookies.get('user'),
+        uid: Cookies.get("user"),
         productId: item.id,
         productQuantity: 1,
         productImage: item.imageUrl,
@@ -219,28 +219,37 @@ function CartPage({ token }) {
         productPrice: item.itemPrice,
       };
       const requestOptions = {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
+          "Content-Type": "application/json",
+          Accept: "application/json",
         },
         body: JSON.stringify(productDetails),
       };
-      const response = await fetch('/cart', requestOptions);
+      const response = await fetch("/cart", requestOptions);
       if (response.status === 500) {
-        alert('Error 500');
+        alert("Error 500");
       } else if (response.status === 400) {
-        alert('Failed to update product quantity! Error 400');
+        alert("Failed to update product quantity! Error 400");
       } else if (response.status === 200) {
         const data = await response.json();
-        console.log('Updated quantity: ', data);
+        console.log("Updated quantity: ", data);
       }
     });
   };
 
+  // If the cart contains a mystery box
+  for (const key in cartItems) {
+    const item = cartItems[key]
+    
+    if (item.itemName.includes("MYSTERY BOX")) {
+      console.log('mysterybox FOUND')
+    }
+  }
+
   return (
-    <div className='CartPage'>
-      <h2 style={{ fontSize: '24px' }}>SHOPPING CART</h2>
+    <div className="CartPage">
+      <h2 style={{ fontSize: "24px" }}>SHOPPING CART</h2>
       <Cart
         cartItems={cartItems}
         // incrementQuantity={incrementQuantity}
@@ -251,7 +260,7 @@ function CartPage({ token }) {
       {/* {cartItems} */}
       {/* <Accordian title='Items' content={cartItems} /> */}
       <Accordian
-        title='Customer Details'
+        title="Customer Details"
         content={
           <CustomerDetailsSection
             firstName={customerDetails.content.first}
@@ -261,7 +270,15 @@ function CartPage({ token }) {
           />
         }
       />
-      <Accordian title='Payment' content={<CheckoutPage />} />
+      <Accordian
+        title="Payment"
+        content={
+          <CheckoutPage
+            cartData={cartItems}
+            customerDetails={customerDetails}
+          />
+        }
+      />
     </div>
   );
 }

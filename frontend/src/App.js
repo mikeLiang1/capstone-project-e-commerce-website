@@ -18,6 +18,8 @@ import PreviousOrders from "./components/account/PreviousOrders";
 import Cookies from "js-cookie";
 import { render } from "@testing-library/react";
 import MysteryBoxOpen from "./components/mystery-box/MysteryBoxOpen";
+import ExplorePage from "./components/explore/ExplorePage";
+import "tailwindcss/tailwind.css";
 
 function App() {
   const [admin, setAdmin] = useState(Cookies.get("admin"));
@@ -95,6 +97,7 @@ function App() {
           <Route path="/previousorders" exact component={PreviousOrders} />
           <Route path="/mysterybox" exact component={MysteryBoxPage} />
           <Route path="/account" exact component={AccountPage} />
+          <Route path="/explore/:tag" exact component={ExplorePage} />
           <Route
             path="/mysterybox/open/:boxName"
             exact

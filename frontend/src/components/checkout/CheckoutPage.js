@@ -53,6 +53,19 @@ function CheckoutPage({ cartData, customerDetails }) {
       if (response.status != 200) {
         alert("Failed to add to purchase history!");
       }
+
+      const cartRemoveBody = {
+        uid: Cookies.get("user"),
+      };
+      const requestOptionsDelete = {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(cartRemoveBody),
+      };
+      const response2 = await fetch("/remove_cart", requestOptionsDelete);
     }
   };
 

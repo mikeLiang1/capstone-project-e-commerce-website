@@ -37,6 +37,7 @@ config = {
 firebase = pyrebase.initialize_app(config)
 authP = firebase.auth()
 
+
 class User_Get(Resource):
     # Get user info
     def get(self, uid):
@@ -277,3 +278,15 @@ def user_exists(doc_ref):
     doc = doc_ref.get()
     return doc.exists
 
+class remove_cart(Resource):
+    def delete(self):
+        args = parser.parse_args()
+        # Get the user's information
+        info = authP.get_account_info(args.uid)
+        email = info['users'][0]['email']
+        doc_ref = db.collection(u'users').document(email)
+        if user_exists(doc_ref):
+            doc_ref.update({u'cart': firestore.DELETE_FIELD})
+            doc_ref.update({u'cart': []})
+
+            return {"message": "cart successfully removed"}

@@ -8,6 +8,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import SmallItemContainer from '../buttons-and-sections/SmallItemContainer'
+import Cookies from 'js-cookie';
 
 import './MysteryBoxOpen.scss'
 
@@ -59,6 +60,22 @@ function MysteryBoxOpen({ match }) {
     const productData = await productResponse.json()
     
     setResult([productData.data.name, productData.data.image, productData.data.price])
+    
+    const addToCartBody = {
+      uid: Cookies.get('user'),
+      productId: ID
+    };
+    console.log(addToCartBody);
+    const addOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(addToCartBody),
+    };
+
+    await fetch('/cart/add_free', addOptions);
   }
   
   useEffect(() => {

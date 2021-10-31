@@ -87,7 +87,7 @@ function Cart({ cartItems, handleQuantity, handleRemove }) {
                   <Select
                     labelId='demo-controlled-open-select-label'
                     onChange={changeQuantity}
-                    value={quantity ?? item.itemQuantity}
+                    defaultValue={item.itemQuantity}
                     onClick={() => {
                       handleClick(item.id);
                     }}

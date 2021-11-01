@@ -31,7 +31,10 @@ function MysteryBoxAnimation() {
       },
     };
 
-    const response = await fetch('/mystery_box/deluxe_box/open');
+    const response = await fetch(
+      '/mystery_box/deluxe_box/open',
+      requestOptions
+    );
     if (response.status === 500) {
       alert('Error 500');
     } else if (response.status === 400) {
@@ -41,30 +44,53 @@ function MysteryBoxAnimation() {
       console.log('Deluxe Mystery Box Data: ', mysteryBoxData);
       const winningId = mysteryBoxData.opened[0];
       // Get the winning item's data
-      const prizeResponse = await fetch(`/product/${mysteryBoxData.opened[0]}`);
+      const prizeResponse = await fetch(
+        `/product/${winningId}`,
+        requestOptions
+      );
       const prizeData = await prizeResponse.json();
       console.log('PrizeData: ', prizeData);
       var prizeInformation = {
         productId: mysteryBoxData.opened[0],
         image: prizeData.data.image,
+        price: prizeData.data.price,
       };
-
       setPrize(prizeInformation);
 
       // Set the list of possible items in the mystery box
       var possibleItemsTemp = [];
-      for (var i = 0; i < mysteryBoxData.possible.length; i++) {
-        // Make a fetch request for each possible item to get the product details
-        const productResponse = await fetch(
-          `/product/${mysteryBoxData.possible[i]}`,
-          requestOptions
-        );
-        const productData = await productResponse.json();
-        possibleItemsTemp.push(productData);
-        setPossibleItems(possibleItemsTemp);
+      for (var key in mysteryBoxData.possible) {
+        possibleItemsTemp.push({
+          productId: key,
+          chance: mysteryBoxData.possible[key],
+          image: '',
+          price: 0,
+        });
+      }
+      // Order the list of possible items by chance [highest chance first, ... , lowest chance last]
+      possibleItemsTemp.sort(compare);
+
+      // For each possible item, except for the winning item, get the item's data
+      for (var i = 0; i < possibleItemsTemp.length; i++) {
+        // Skip fetch request if item is the winning item, since we already fetched it's details
+        if (possibleItemsTemp[i].productId === winningId) {
+          possibleItemsTemp[i].image = prizeData.data.image;
+          possibleItemsTemp[i].price = prizeData.data.price;
+        } else {
+          // Make a fetch request for each possible item to get the product details
+          const itemResponse = await fetch(
+            `/product/${possibleItemsTemp[i].productId}`,
+            requestOptions
+          );
+          const itemData = await itemResponse.json();
+          possibleItemsTemp[i].image = itemData.data.image;
+          possibleItemsTemp[i].price = itemData.data.price;
+        }
       }
     }
+    console.log('After fetch requests... ', possibleItemsTemp);
 
+    // Set the possible items and the prize retrieved from the backend
     var initialisedItems = [];
     for (var i = 0; i < 30; i++) {
       if (i === 2) {
@@ -79,13 +105,42 @@ function MysteryBoxAnimation() {
           ),
         });
       } else {
+        // Select random weighted item
+        var randomItem = randomChoice(possibleItemsTemp);
+        console.log('Iteration: ' + i + ' Chosen Item: ', randomItem);
         initialisedItems.push({
           id: i,
-          content: <MediumItemContainer />,
+          content: (
+            <MediumItemContainer
+              imageUrl={randomItem.image}
+              productRouteId={randomItem.productId}
+            />
+          ),
         });
       }
     }
     setItems([...initialisedItems]);
+  };
+
+  const compare = (possibleItem01, possibleItem02) => {
+    if (possibleItem01.chance < possibleItem02.chance) {
+      return 1;
+    }
+    if (possibleItem01.chance > possibleItem02.chance) {
+      return -1;
+    }
+    return 0;
+  };
+
+  const randomChoice = (possibleItemList) => {
+    const threshold = Math.random() * 100;
+    var total = 0;
+    for (let i = 0; i < possibleItemList.length; i++) {
+      total += possibleItemList[i].chance;
+      if (threshold <= total) {
+        return possibleItemList[i];
+      }
+    }
   };
 
   useEffect(() => {

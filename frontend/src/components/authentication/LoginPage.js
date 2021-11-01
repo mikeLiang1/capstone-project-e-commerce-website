@@ -62,42 +62,43 @@ function LoginPage({ token, handleLogin, setAdmin }) {
   };
 
   return (
-    <div className='LoginPage'>
-      <form className='LoginPage-login-section' onSubmit={loginRequest}>
-        <h3 style={{ fontSize: '24px' }}>LOGIN</h3>
-        <div className='LoginPage-form-group'>
-          <BasicTextField
-            textName='Email'
-            type='email'
-            value={email}
-            handleChange={(e) => setEmail(e.target.value)}
-            type='email'
-          />
+    <div>
+      <div className='LoginPage'>
+        <form className='LoginPage-login-section' onSubmit={loginRequest}>
+          <h3 style={{ fontSize: '24px' }}>LOGIN</h3>
+          <div className='LoginPage-form-group'>
+            <BasicTextField
+              textName='Email'
+              type='email'
+              value={email}
+              handleChange={(e) => setEmail(e.target.value)}
+              type='email'
+            />
+          </div>
+          <div className='LoginPage-form-group'>
+            <BasicTextField
+              textName='Password'
+              id='outlined-password-input'
+              type='password'
+              value={password}
+              handleChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <br />
+          <TextButton buttonName='Sign In' buttonType='submit' />
+        </form>
+        <div className='LoginPage-register-section'>
+          <h3 style={{ fontSize: '24px' }}>REGISTER</h3>
+          <p>
+            Register an account with{' '}
+            <span style={{ color: '#FF7A00' }}>NOCTA TECHNOLOGY</span> for a
+            more personalised experience.
+          </p>
+          <Link to='/register' className='LoginPage-register-link'>
+            <TextButton buttonName='Register' buttonType='button' />
+          </Link>
         </div>
-        <div className='LoginPage-form-group'>
-          <BasicTextField
-            textName='Password'
-            id='outlined-password-input'
-            type='password'
-            value={password}
-            handleChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <br />
-        <TextButton buttonName='Sign In' buttonType='submit' />
-      </form>
-      <div className='LoginPage-register-section'>
-        <h3 style={{ fontSize: '24px' }}>REGISTER</h3>
-        <p>
-          Register an account with{' '}
-          <span style={{ color: '#FF7A00' }}>NOCTA TECHNOLOGY</span> for a more
-          personalised experience.
-        </p>
-        <Link to='/register' className='LoginPage-register-link'>
-          <TextButton buttonName='Register' buttonType='button' />
-        </Link>
       </div>
-
       <Stack spacing={2} sx={{ width: '100%' }}>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
           <Alert onClose={handleClose} severity='error' sx={{ width: '100%' }}>

@@ -110,55 +110,56 @@ function RegisterPage({ token, handleLogin }) {
   };
 
   return (
-    <div className='RegisterPage'>
-      <form onSubmit={registerRequest}>
-        <h3 style={{ fontSize: '24px' }}>REGISTER</h3>
-        <div className='RegisterPage-form-group'>
-          <BasicTextField
-            textName='Email'
-            value={email}
-            handleChange={(e) => setEmail(e.target.value)}
-          />
+    <div>
+      <div className='RegisterPage'>
+        <form onSubmit={registerRequest}>
+          <h3 style={{ fontSize: '24px' }}>REGISTER</h3>
+          <div className='RegisterPage-form-group'>
+            <BasicTextField
+              textName='Email'
+              value={email}
+              handleChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className='RegisterPage-form-group'>
+            <BasicTextField
+              textName='First Name'
+              value={fname}
+              handleChange={(e) => setFirstName(e.target.value)}
+            />
+          </div>
+          <div className='RegisterPage-form-group'>
+            <BasicTextField
+              textName='Last Name'
+              value={lname}
+              handleChange={(e) => setLastName(e.target.value)}
+            />
+          </div>
+          <div className='RegisterPage-form-group'>
+            <BasicTextField
+              textName='Password'
+              id='outlined-password-input'
+              type='password'
+              value={password}
+              handleChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <div className='RegisterPage-form-group'>
+            <BasicTextField
+              textName='Confirm Password'
+              id='outlined-password-input'
+              type='password'
+              value={confirmPassword}
+              handleChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </div>
+          <br />
+          <TextButton buttonName='Register' buttonType='submit' />
+        </form>
+        <div className='RegisterPage-image-container'>
+          <img className='RegisterPage-image' src={RegisterPageImage}></img>
         </div>
-        <div className='RegisterPage-form-group'>
-          <BasicTextField
-            textName='First Name'
-            value={fname}
-            handleChange={(e) => setFirstName(e.target.value)}
-          />
-        </div>
-        <div className='RegisterPage-form-group'>
-          <BasicTextField
-            textName='Last Name'
-            value={lname}
-            handleChange={(e) => setLastName(e.target.value)}
-          />
-        </div>
-        <div className='RegisterPage-form-group'>
-          <BasicTextField
-            textName='Password'
-            id='outlined-password-input'
-            type='password'
-            value={password}
-            handleChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <div className='RegisterPage-form-group'>
-          <BasicTextField
-            textName='Confirm Password'
-            id='outlined-password-input'
-            type='password'
-            value={confirmPassword}
-            handleChange={(e) => setConfirmPassword(e.target.value)}
-          />
-        </div>
-        <br />
-        <TextButton buttonName='Register' buttonType='submit' />
-      </form>
-      <div className='RegisterPage-image-container'>
-        <img className='RegisterPage-image' src={RegisterPageImage}></img>
       </div>
-
       <Stack spacing={2} sx={{ width: '100%' }}>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
           <Alert onClose={handleClose} severity='error' sx={{ width: '100%' }}>

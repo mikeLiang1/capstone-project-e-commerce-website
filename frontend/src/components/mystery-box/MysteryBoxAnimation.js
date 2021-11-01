@@ -5,8 +5,9 @@ import AngleUp from '../../images/angle-up-orange.svg';
 import AngleDown from '../../images/angle-down-orange.svg';
 import './MysteryBoxAnimation.css';
 import MysteryBoxSpinner from './MysteryBoxSpinner';
+import Cookies from 'js-cookie';
 
-function MysteryBoxAnimation() {
+function MysteryBoxAnimation({ match }) {
   var initial = [];
   for (var i = 0; i < 30; i++) {
     initial.push({
@@ -32,14 +33,16 @@ function MysteryBoxAnimation() {
       },
     };
 
-    const response = await fetch('/mystery_box/nocta_box/open', requestOptions);
+    const response = await fetch(
+      `/mystery_box/${match.params.boxName}/open`,
+      requestOptions
+    );
     if (response.status === 500) {
       alert('Error 500');
     } else if (response.status === 400) {
       alert('Failed to update product quantity! Error 400');
     } else if (response.status === 200) {
       const mysteryBoxData = await response.json();
-      console.log('Deluxe Mystery Box Data: ', mysteryBoxData);
       const winningId = mysteryBoxData.opened[0];
       // Get the winning item's data
       const prizeResponse = await fetch(
@@ -54,6 +57,23 @@ function MysteryBoxAnimation() {
         price: prizeData.data.price,
       };
       setPrize(prizeInformation);
+
+      // Add the winning item to the user's cart free of charge
+      const addToCartBody = {
+        uid: Cookies.get('user'),
+        productId: winningId,
+      };
+      console.log(addToCartBody);
+      const addOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(addToCartBody),
+      };
+
+      await fetch('/cart/add_free', addOptions);
 
       // Set the list of possible items in the mystery box
       var possibleItemsTemp = [];

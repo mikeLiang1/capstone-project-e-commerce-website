@@ -73,7 +73,7 @@ function CartPage({ token }) {
           console.log('mysterybox FOUND');
           let boxName = cartData.cart[i].name;
           // Parse boxname here
-          setContainsBox(cartData.cart[i].name);
+          setContainsBox(cartData.cart[i].product);
         }
       }
       setCartItems([...items]);

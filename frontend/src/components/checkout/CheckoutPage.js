@@ -70,10 +70,11 @@ function CheckoutPage({ cartData, customerDetails, mysteryBox }) {
     }
   };
 
-  if (mysteryBox) {
-    mysteryBox = mysteryBox.replace(' MYSTERY ', '_');
-    mysteryBox = mysteryBox.toLowerCase();
-  }
+  // if (mysteryBox) {
+  //   console.log('Name: ', mysteryBox);
+  //   mysteryBox = mysteryBox.replace(' MYSTERY ', '_');
+  //   mysteryBox = mysteryBox.toLowerCase();
+  // }
 
   return (
     <div style={{ minHeight: '650px' }}>
@@ -115,7 +116,7 @@ function CheckoutPage({ cartData, customerDetails, mysteryBox }) {
           >
             {mysteryBox ? (
               <Link
-                to={'/mysterybox/open/' + mysteryBox}
+                to={'/mysterybox/opening/' + mysteryBox}
                 className='checkout-link'
               >
                 <TextButton buttonName='Open Mystery Box'></TextButton>

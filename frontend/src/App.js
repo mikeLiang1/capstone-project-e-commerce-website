@@ -105,7 +105,7 @@ function App() {
             component={MysteryBoxOpen}
           />
           <Route
-            path='/mysterybox/opening'
+            path='/mysterybox/opening/:boxName'
             exact
             component={MysteryBoxAnimation}
           />

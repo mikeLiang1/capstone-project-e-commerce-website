@@ -1,27 +1,3 @@
-<<<<<<< HEAD
-import "./App.css";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import React, { useState, useEffect } from "react";
-import HomePageGuest from "./components/home/HomePageGuest";
-import NavigationBar from "./components/navigation/NavigationBar";
-import AddProductPage from "./components/add-products/AddProductPage";
-import LoginPage from "./components/authentication/LoginPage";
-import RegisterPage from "./components/authentication/RegisterPage";
-import AdminDashboardPage from "./components/admin-dashboard/AdminDashboardPage";
-import ItemPage from "./components/item-page/ItemPage";
-import MysteryBoxPage from "./components/mystery-box/MysteryBoxPage";
-import AdminHomePage from "./components/admin-home/AdminHomePage";
-import CheckoutPage from "./components/checkout/CheckoutPage";
-import CartPage from "./components/checkout/CartPage";
-import AccountPage from "./components/account/AccountPage";
-import SurveyPage from "./components/survey/SurveyPage";
-import PreviousOrders from "./components/account/PreviousOrders";
-import Cookies from "js-cookie";
-import { render } from "@testing-library/react";
-import MysteryBoxOpen from "./components/mystery-box/MysteryBoxOpen";
-import ExplorePage from "./components/explore/ExplorePage";
-import "tailwindcss/tailwind.css";
-=======
 import './App.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
@@ -43,7 +19,8 @@ import Cookies from 'js-cookie';
 import { render } from '@testing-library/react';
 import MysteryBoxOpen from './components/mystery-box/MysteryBoxOpen';
 import MysteryBoxAnimation from './components/mystery-box/MysteryBoxAnimation';
->>>>>>> case-opening-spin-animation
+import ExplorePage from './components/explore/ExplorePage';
+import 'tailwindcss/tailwind.css';
 
 function App() {
   const [admin, setAdmin] = useState(Cookies.get('admin'));
@@ -118,10 +95,10 @@ function App() {
               <RegisterPage token={token} handleLogin={handleLogin} />
             )}
           />
-          <Route path="/previousorders" exact component={PreviousOrders} />
-          <Route path="/mysterybox" exact component={MysteryBoxPage} />
-          <Route path="/account" exact component={AccountPage} />
-          <Route path="/explore/:tag" exact component={ExplorePage} />
+          <Route path='/previousorders' exact component={PreviousOrders} />
+          <Route path='/mysterybox' exact component={MysteryBoxPage} />
+          <Route path='/account' exact component={AccountPage} />
+          <Route path='/explore/:tag' exact component={ExplorePage} />
           <Route
             path='/mysterybox/open/:boxName'
             exact

@@ -31,6 +31,7 @@ function SurveyPage() {
 
   const rndInt = randomIntFromInterval(0, 9);
   const [dialogOpen, setDialog] = useState(false);
+  const [error, setError] = useState('');
   const [open, setOpen] = React.useState(false);
   const [result, setResult] = useState(['Default', '', '99']);
   const [products, setProducts] = useState([
@@ -119,7 +120,8 @@ function SurveyPage() {
       const response = await fetch('/product/1/11', requestOptions);
 
       if (response.status !== 200) {
-        alert('Failed to get Products!');
+        setError('Failed to get Products!');
+        setOpen(true);
       } else if (response.status === 200) {
         const data = await response.json();
         let items = [];
@@ -233,7 +235,7 @@ function SurveyPage() {
             severity='success'
             sx={{ width: '100%' }}
           >
-            Added To Cart!
+            {error}
           </Alert>
         </Snackbar>
       </Stack>

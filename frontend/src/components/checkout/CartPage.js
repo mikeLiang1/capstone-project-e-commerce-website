@@ -18,13 +18,10 @@ function CartPage({ token }) {
     return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
   });
   const [cartItems, setCartItems] = useState([]);
-<<<<<<< HEAD
   const [containsBox, setContainsBox] = useState(false);
 
-=======
   const [open, setOpen] = useState(false);
   const [error, setError] = useState('');
->>>>>>> main
   const [customerDetails, setCustomerDetails] = useState({
     id: '',
     content: {
@@ -70,12 +67,12 @@ function CartPage({ token }) {
           itemQuantity: cartData.cart[i].quantity,
           itemPrice: cartData.cart[i].price,
         });
-        
-        if (cartData.cart[i].name.includes("MYSTERY BOX")) {
-          console.log('mysterybox FOUND')
-          let boxName = cartData.cart[i].name
+
+        if (cartData.cart[i].name.includes('MYSTERY BOX')) {
+          console.log('mysterybox FOUND');
+          let boxName = cartData.cart[i].name;
           // Parse boxname here
-          setContainsBox(cartData.cart[i].name)
+          setContainsBox(cartData.cart[i].name);
         }
       }
       setCartItems([...items]);

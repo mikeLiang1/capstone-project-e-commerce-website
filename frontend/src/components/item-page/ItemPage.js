@@ -141,7 +141,15 @@ function ItemPage({ match }) {
       setPrice(data.data.price);
       setTag(data.data.tag);
       setReviews(data.data.reviews);
-      setReviewsShow(data.data.reviews.reverse());
+      setReviewsShow(
+        data.data.reviews.slice().sort(function (a, b) {
+          var rev_a = a.review_id;
+          var rev_b = b.review_id;
+          if (rev_a > rev_b) return -1;
+          if (rev_a < rev_b) return 1;
+          return 0;
+        })
+      );
       setUnits(data.data.units_sold);
       setReviewIds(data.data.review_ids);
       setAccordianName(`Reviews (${data.data.reviews.length})`);
@@ -443,9 +451,25 @@ function ItemPage({ match }) {
     setReviewsSort(sortMethod);
 
     if (sortMethod === 'date(newest)') {
-      setReviewsShow(reviews);
+      setReviewsShow(
+        reviews.slice().sort(function (a, b) {
+          var rev_a = a.review_id;
+          var rev_b = b.review_id;
+          if (rev_a > rev_b) return -1;
+          if (rev_a < rev_b) return 1;
+          return 0;
+        })
+      );
     } else if (sortMethod === 'date(oldest)') {
-      setReviewsShow(reviews.slice().reverse());
+      setReviewsShow(
+        reviews.slice().sort(function (a, b) {
+          var rev_a = a.review_id;
+          var rev_b = b.review_id;
+          if (rev_a < rev_b) return -1;
+          if (rev_a > rev_b) return 1;
+          return 0;
+        })
+      );
     } else if (sortMethod === 'ratings(highest)') {
       setReviewsShow(
         reviews.slice().sort(function (a, b) {

@@ -1,0 +1,15 @@
+.MediumItemContainer {
+  height: 200px;
+  width: 200px;
+  margin: 8px 8px;
+}
+
+.MediumItemContainer-image-container {
+  /* Centers the image vertically and horizontally in the div/container */
+  display: block;
+  margin: auto;
+}
+
+.MediumItemContainer-image {
+  width: 120px;
+}

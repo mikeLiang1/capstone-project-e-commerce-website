@@ -1,10 +1,17 @@
-import React, { useState, useEffect } from "react";
-import Cookies from "js-cookie";
-import LargeItemContainer from "./LargeItemContainer";
+import React, { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
+import LargeItemContainer from './LargeItemContainer';
+import Stack from '@mui/material/Stack';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
-import "./RecommendedSection.css";
+import './RecommendedSection.css';
 
 function RecommendedSection() {
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
+  });
+  const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
     { id: 1, content: <LargeItemContainer /> },
     { id: 2, content: <LargeItemContainer /> },
@@ -20,22 +27,30 @@ function RecommendedSection() {
 
   const [products, setProducts] = useState([]);
 
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   const getProducts = async () => {
     const requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
     };
 
     const response = await fetch(
-      `/recommended/${Cookies.get("user")}`,
+      `/recommended/${Cookies.get('user')}`,
       requestOptions
     );
 
     if (response.status !== 200) {
-      alert("Login to get Recommended products!");
+      setOpen(true);
     } else if (response.status === 200) {
       const data = await response.json();
       let items = [];
@@ -55,11 +70,11 @@ function RecommendedSection() {
   }, []);
 
   return (
-    <div className="RecommendedSection">
-      <div className="RecommendedSection-information">
-        <h2 style={{ fontSize: "24px" }}>RECOMMENDED</h2>
+    <div className='RecommendedSection'>
+      <div className='RecommendedSection-information'>
+        <h2 style={{ fontSize: '24px' }}>RECOMMENDED</h2>
       </div>
-      <div className="RecommendedSection-products-section">
+      <div className='RecommendedSection-products-section'>
         {products.map((item, id) => (
           <div key={id}>
             <LargeItemContainer
@@ -70,6 +85,13 @@ function RecommendedSection() {
           </div>
         ))}
       </div>
+      <Stack spacing={2} sx={{ width: '100%' }}>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity='error' sx={{ width: '100%' }}>
+            Login to get Recommended products!
+          </Alert>
+        </Snackbar>
+      </Stack>
     </div>
   );
 }

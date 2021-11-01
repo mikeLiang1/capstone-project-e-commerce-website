@@ -73,13 +73,11 @@
 #product-description {
   width: 70%;
   margin: 64px auto 0;
-  border-bottom-style: solid;
-  border-width: 1px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  padding-bottom: 70px;
+  padding-bottom: 30px;
 }
 
 #modal-review {
@@ -175,7 +173,7 @@
 .ItemPage-flex-vert {
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 70%;
   justify-content: center;
   text-align: center;
   margin-bottom: 30px;

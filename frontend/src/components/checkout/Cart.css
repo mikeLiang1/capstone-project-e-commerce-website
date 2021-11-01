@@ -38,12 +38,17 @@
 
 .CartItem {
   display: flex;
+  transition: transform 1s;
 }
 
 .CartItem-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.CartItem:hover {
+  transform: translateX(20px);
 }
 
 .CartItem-image {
@@ -83,8 +88,4 @@
 .CartItem-remove-button {
   border: none;
   background-color: transparent;
-}
-
-.CartItem-remove-button:hover {
-  color: var(--secondary-colour-orange);
 }

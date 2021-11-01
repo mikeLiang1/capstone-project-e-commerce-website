@@ -29,8 +29,9 @@ function SurveyPage() {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
-  const rndInt = randomIntFromInterval(1, 10);
+  const rndInt = randomIntFromInterval(0, 9);
   const [dialogOpen, setDialog] = useState(false);
+  const [error, setError] = useState('');
   const [open, setOpen] = React.useState(false);
   const [result, setResult] = useState(['Default', '', '99']);
   const [products, setProducts] = useState([
@@ -77,7 +78,8 @@ function SurveyPage() {
 
     const response = await fetch('/cart', requestOptions);
     if (response.status != 200) {
-      alert('Failed to add to cart!');
+      setError('Failed to add to cart!');
+      setOpen(true);
     } else if (response.status === 200) {
       const data = await response.json();
     }
@@ -119,7 +121,8 @@ function SurveyPage() {
       const response = await fetch('/product/1/11', requestOptions);
 
       if (response.status !== 200) {
-        alert('Failed to get Products!');
+        setError('Failed to get Products!');
+        setOpen(true);
       } else if (response.status === 200) {
         const data = await response.json();
         let items = [];
@@ -216,7 +219,7 @@ function SurveyPage() {
             itemName={products[rndInt].name}
             imageUrl={products[rndInt].img}
           />
-          <b>RRP: ${products[0].price}</b>
+          <b>RRP: ${products[rndInt].price}</b>
           <DialogActions>
             <Button onClick={() => addToCart()}>Add to Cart</Button>
           </DialogActions>
@@ -233,7 +236,7 @@ function SurveyPage() {
             severity='success'
             sx={{ width: '100%' }}
           >
-            Added To Cart!
+            {error}
           </Alert>
         </Snackbar>
       </Stack>

@@ -87,7 +87,7 @@ function TrendingSection() {
       <Stack spacing={2} sx={{ width: '100%' }}>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
           <Alert onClose={handleClose} severity='error' sx={{ width: '100%' }}>
-            Failed to get Trending Products
+            Failed to get Trending Products!
           </Alert>
         </Snackbar>
       </Stack>

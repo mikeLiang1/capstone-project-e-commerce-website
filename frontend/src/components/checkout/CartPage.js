@@ -11,6 +11,7 @@ import Cart from './Cart.js';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import './CartPage.css';
 
 function CartPage({ token }) {
   const Alert = React.forwardRef(function Alert(props, ref) {

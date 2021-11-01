@@ -11,6 +11,7 @@ import Cart from "./Cart.js";
 
 function CartPage({ token }) {
   const [cartItems, setCartItems] = useState([]);
+  const [containsBox, setContainsBox] = useState(false);
 
   const [customerDetails, setCustomerDetails] = useState({
     id: "",
@@ -48,6 +49,13 @@ function CartPage({ token }) {
           itemQuantity: cartData.cart[i].quantity,
           itemPrice: cartData.cart[i].price,
         });
+        
+        if (cartData.cart[i].name.includes("MYSTERY BOX")) {
+          console.log('mysterybox FOUND')
+          let boxName = cartData.cart[i].name
+          // Parse boxname here
+          setContainsBox(cartData.cart[i].name)
+        }
       }
       setCartItems([...items]);
     }
@@ -238,15 +246,6 @@ function CartPage({ token }) {
     });
   };
 
-  // If the cart contains a mystery box
-  for (const key in cartItems) {
-    const item = cartItems[key]
-    
-    if (item.itemName.includes("MYSTERY BOX")) {
-      console.log('mysterybox FOUND')
-    }
-  }
-
   return (
     <div className="CartPage">
       <h2 style={{ fontSize: "24px" }}>SHOPPING CART</h2>
@@ -276,6 +275,7 @@ function CartPage({ token }) {
           <CheckoutPage
             cartData={cartItems}
             customerDetails={customerDetails}
+            mysteryBox={containsBox}
           />
         }
       />

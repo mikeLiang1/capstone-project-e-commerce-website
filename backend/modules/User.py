@@ -292,7 +292,7 @@ class add_free_item(Resource):
             cart = doc.to_dict().get('cart')
 
             doc_ref.update({u"cart": firestore.ArrayUnion([{"product": args.productId, "quantity": 1,
-            "name": '[Mystery Box]' + productInfo['name'], "image": productInfo['image'], "price": 0}])})
+            "name": '[Mystery Box] ' + productInfo['name'], "image": productInfo['image'], "price": 0}])})
             
             return {"message": "Added to Cart!"}
         else:

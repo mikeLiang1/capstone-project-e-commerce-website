@@ -11,7 +11,7 @@ import Tick from "../../images/Tick.png";
 
 import "./CheckoutPage.css";
 
-function CheckoutPage({ cartData, customerDetails }) {
+function CheckoutPage({ cartData, customerDetails, mysteryBox }) {
   const [open, setOpen] = useState("box closed");
   const [dialogOpen, setDialog] = useState(false);
 
@@ -68,6 +68,11 @@ function CheckoutPage({ cartData, customerDetails }) {
       const response2 = await fetch("/remove_cart", requestOptionsDelete);
     }
   };
+  
+  if (mysteryBox) {
+    mysteryBox = mysteryBox.replace(' MYSTERY ', '_')
+    mysteryBox = mysteryBox.toLowerCase()
+  }
 
   return (
     <div style={{ minHeight: "650px" }}>
@@ -107,12 +112,20 @@ function CheckoutPage({ cartData, customerDetails }) {
               flexDirection: "column",
             }}
           >
-            <Link to="/previousorders" className="checkout-link">
-              <TextButton buttonName="View Orders"></TextButton>
-            </Link>
-            <Link to="/" className="checkout-link">
-              <TextButton buttonName="Continue Shopping"></TextButton>
-            </Link>
+            {mysteryBox ? (
+              <Link to={"/mysterybox/open/" + mysteryBox} className="checkout-link">
+                <TextButton buttonName="Open Mystery Box"></TextButton>
+              </Link>
+            ) : (
+              <div>
+                <Link to="/previousorders" boxName='hello' className="checkout-link">
+                  <TextButton buttonName="View Orders"></TextButton>
+                </Link>
+                <Link to="/" className="checkout-link">
+                  <TextButton buttonName="Continue Shopping"></TextButton>
+                </Link>
+              </div>
+            )}
           </DialogActions>
         </div>
       </Dialog>

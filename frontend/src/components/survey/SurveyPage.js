@@ -204,27 +204,6 @@ function SurveyPage() {
           />
         ))}
       </div>
-      <Dialog
-        open={dialogOpen}
-        TransitionComponent={Transition}
-        keepMounted
-        aria-describedby='alert-dialog-slide-description'
-      >
-        <div className='dialogContent'>
-          <DialogTitle>{'RECOMMENDED PRODUCT!'}</DialogTitle>
-          <SmallItemContainer
-            itemName={products[rndInt].name}
-            imageUrl={products[rndInt].img}
-          />
-          <b>RRP: ${products[rndInt].price}</b>
-          <DialogActions>
-            <Button onClick={() => addToCart()}>Add to Cart</Button>
-          </DialogActions>
-          <DialogActions>
-            <Button onClick={() => restart()}>Retry</Button>
-          </DialogActions>
-        </div>
-      </Dialog>
 
       <Stack spacing={2} sx={{ width: '100%' }}>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>

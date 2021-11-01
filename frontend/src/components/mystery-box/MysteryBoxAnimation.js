@@ -16,10 +16,11 @@ function MysteryBoxAnimation() {
   }
 
   const [items, setItems] = useState(initial);
-  const [possibleItems, setPossibleItems] = useState([]);
   const [prize, setPrize] = useState({
     productId: '',
     image: '',
+    name: '',
+    price: 0,
   });
 
   // TODO: Get mystery box from the user's cart
@@ -31,10 +32,7 @@ function MysteryBoxAnimation() {
       },
     };
 
-    const response = await fetch(
-      '/mystery_box/deluxe_box/open',
-      requestOptions
-    );
+    const response = await fetch('/mystery_box/nocta_box/open', requestOptions);
     if (response.status === 500) {
       alert('Error 500');
     } else if (response.status === 400) {
@@ -135,6 +133,8 @@ function MysteryBoxAnimation() {
   const randomChoice = (possibleItemList) => {
     const threshold = Math.random() * 100;
     var total = 0;
+    // Loop through our possible items to find out which item and it's corresponding weight
+    // will belong inside the threshold. We need to keep a running couunt of our weights
     for (let i = 0; i < possibleItemList.length; i++) {
       total += possibleItemList[i].chance;
       if (threshold <= total) {
@@ -156,11 +156,7 @@ function MysteryBoxAnimation() {
         <p>Opening Mystery Box...</p>
       </div>
       <img src={AngleDown} className='MysteryBoxAnimation-pointer' />
-      <MysteryBoxSpinner
-        key={items}
-        items={items}
-        possibleItems={possibleItems}
-      />
+      <MysteryBoxSpinner items={items} prize={prize} />
       <img src={AngleUp} className='MysteryBoxAnimation-pointer' />
     </div>
   );

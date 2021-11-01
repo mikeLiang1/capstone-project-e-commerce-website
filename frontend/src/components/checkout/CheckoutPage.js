@@ -35,7 +35,7 @@ function CheckoutPage({ cartData, customerDetails, mysteryBox }) {
           ' ' +
           today.getFullYear(),
         deliveryInfo: customerDetails.content.address,
-        productCategory: cartData[i].itemCategory + 'H',
+        productCategory: cartData[i].itemCategory,
       };
       console.log(newBody);
       const requestOptions = {

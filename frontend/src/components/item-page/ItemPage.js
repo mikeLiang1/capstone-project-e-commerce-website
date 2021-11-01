@@ -1,40 +1,43 @@
-import React, { useEffect, useState } from "react";
-import { Button } from "@material-ui/core";
-import BasicSelect from "../buttons-and-sections/BasicSelect.js";
-import TextField from "@mui/material/TextField";
-import Modal from "react-modal";
-import { Typography } from "@material-ui/core";
-import Rating from "@mui/material/Rating";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
-import Cookies from "js-cookie";
-import TextButton from "../buttons-and-sections/TextButton.js";
+import React, { useEffect, useState } from 'react';
+import { Button } from '@material-ui/core';
+import BasicSelect from '../buttons-and-sections/BasicSelect.js';
+import TextField from '@mui/material/TextField';
+import Modal from 'react-modal';
+import { Typography } from '@material-ui/core';
+import Rating from '@mui/material/Rating';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import Cookies from 'js-cookie';
+import Stack from '@mui/material/Stack';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import TextButton from '../buttons-and-sections/TextButton.js';
 
-import { initializeApp } from "firebase/app";
+import { initializeApp } from 'firebase/app';
 import {
   getDownloadURL,
   getStorage,
   ref,
   uploadBytes,
   deleteObject,
-} from "firebase/storage";
+} from 'firebase/storage';
 
-import ReviewContainer from "../buttons-and-sections/ReviewContainer.js";
-import Accordian from "../buttons-and-sections/Accordian.js";
-import ReviewAccordian from "../buttons-and-sections/ReviewAccordian.js";
-import "./ItemPage.css";
+import ReviewContainer from '../buttons-and-sections/ReviewContainer.js';
+import Accordian from '../buttons-and-sections/Accordian.js';
+import ReviewAccordian from '../buttons-and-sections/ReviewAccordian.js';
+import './ItemPage.css';
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyAVOqrvODx6KS-xBGs5guJTrKBJjduEjRI",
-  authDomain: "nocta-tech.firebaseapp.com",
-  projectId: "nocta-tech",
-  storageBucket: "nocta-tech.appspot.com",
-  messagingSenderId: "1002605988200",
-  appId: "1:1002605988200:web:e91efebc3765fd58b0eedd",
-  measurementId: "G-5HBFEX2BNM",
+  apiKey: 'AIzaSyAVOqrvODx6KS-xBGs5guJTrKBJjduEjRI',
+  authDomain: 'nocta-tech.firebaseapp.com',
+  projectId: 'nocta-tech',
+  storageBucket: 'nocta-tech.appspot.com',
+  messagingSenderId: '1002605988200',
+  appId: '1:1002605988200:web:e91efebc3765fd58b0eedd',
+  measurementId: 'G-5HBFEX2BNM',
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
@@ -42,65 +45,81 @@ const firebaseApp = initializeApp(firebaseConfig);
 const storage = getStorage(firebaseApp);
 
 function ItemPage({ match }) {
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
+  });
+
   // pass in item id
-  const productId = "B0Si9HGHqL0IQ7EzItpK";
-  const [category, setCategory] = useState("");
-  const [desc, setDesc] = useState("");
-  const [img, setImg] = useState("");
-  const [name, setName] = useState("");
+  const productId = 'B0Si9HGHqL0IQ7EzItpK';
+  const [category, setCategory] = useState('');
+  const [desc, setDesc] = useState('');
+  const [img, setImg] = useState('');
+  const [name, setName] = useState('');
   const [price, setPrice] = useState(0);
-  const [tag, setTag] = useState("");
+  const [tag, setTag] = useState('');
+  const [open, setOpen] = useState(false);
+  const [error, setError] = useState('');
   const [reviews, setReviews] = useState([]);
-  const [reviewsSort, setReviewsSort] = useState("default");
+  const [reviewsSort, setReviewsSort] = useState('date(newest)');
   const [reviewsShow, setReviewsShow] = useState([]);
   const [reviewsLen, setReviewsLen] = useState(10);
   const [units, setUnits] = useState(0);
   const [reviewIds, setReviewIds] = useState(0);
   const reviewNewImgInitialState =
-    "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+    'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
   const [reviewNewImg, setReviewNewImg] = useState(reviewNewImgInitialState);
   const reviewInitialState = {
     product_id: match.params.itemId,
-    user_id: "",
-    first_name: "",
-    last_name: "",
+    user_id: '',
+    first_name: '',
+    last_name: '',
     star_rating: 0,
-    title: "",
-    content: "",
+    title: '',
+    content: '',
     likes: [],
-    image: "",
-    date_posted: "",
+    image: '',
+    date_posted: '',
     review_id: 0,
   };
   const [review, setReview] = useState(reviewInitialState);
   const [user, setUser] = useState({
-    id: "",
+    id: '',
     content: {
-      first: "",
-      last: "",
-      address: "",
+      first: '',
+      last: '',
+      address: '',
     },
   });
   const [modalOpen, setModalOpen] = useState(false);
-  const list = ["1", "2", "3", "4", "5"];
-  const [quantity, setQuantity] = useState("");
-  const [ratings, setRatings] = useState("");
-  const [accordianName, setAccordianName] = useState("");
+  const list = ['1', '2', '3', '4', '5'];
+  const [quantity, setQuantity] = useState('');
+  const [type, setType] = useState('');
+  const [ratings, setRatings] = useState('');
+  const [accordianName, setAccordianName] = useState('');
   const [onEdit, setOnEdit] = useState(false);
+  const [totalStars, setTotalStars] = useState(new Map());
   const fileInput = React.useRef(null);
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   // Get item data
   async function getItemData() {
     const requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     };
     const requestOptionsPost = {
-      method: "Post",
+      method: 'Post',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     };
 
@@ -110,7 +129,9 @@ function ItemPage({ match }) {
       requestOptionsPost
     );
     if (res.status === 400) {
-      alert("Product not found!");
+      setError('Product not found!');
+      setType('error');
+      setOpen(true);
     } else if (res.status === 200) {
       const data = await res.json();
       setCategory(data.data.category);
@@ -120,16 +141,24 @@ function ItemPage({ match }) {
       setPrice(data.data.price);
       setTag(data.data.tag);
       setReviews(data.data.reviews);
-      setReviewsShow(data.data.reviews.slice(-10).reverse());
+      setReviewsShow(data.data.reviews.reverse());
       setUnits(data.data.units_sold);
       setReviewIds(data.data.review_ids);
       setAccordianName(`Reviews (${data.data.reviews.length})`);
 
       // Calculate avg star ratings
+      // Set total stars
       var avg = 0;
-      for (var i = 0; i < data.data.reviews.length; i++) {
-        avg += data.data.reviews[i].star_rating;
+      const reviewsNum = data.data.reviews.length;
+      const star_map = new Map();
+      for (var i = 1; i <= 5; i++) star_map.set(i, 0);
+      for (var i = 0; i < reviewsNum; i++) {
+        const star_val = data.data.reviews[i].star_rating;
+        avg += star_val;
+        star_map.set(star_val, star_map.get(star_val) + 1);
       }
+      setTotalStars(star_map);
+
       if (avg !== 0 && data.data.reviews.length !== 0) {
         avg /= data.data.reviews.length;
         var rounded = Math.round(avg * 10) / 10;
@@ -143,22 +172,22 @@ function ItemPage({ match }) {
   // Get logged-in user's info
   async function getUserData() {
     const requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
     };
-    if (Cookies.get("user") !== "") {
-      fetch(`/auth/user/${Cookies.get("user")}`, requestOptions).then(
+    if (Cookies.get('user') !== '') {
+      fetch(`/auth/user/${Cookies.get('user')}`, requestOptions).then(
         async (response) => {
           try {
             const data = await response.json();
             setUser(data);
-            console.log("response data", data);
+            console.log('response data', data);
             console.log(user);
           } catch (error) {
-            console.log("Error happened");
+            console.log('Error happened');
             console.error(error);
           }
         }
@@ -169,21 +198,22 @@ function ItemPage({ match }) {
   // Post new review
   async function postReview() {
     // Check all inputs present
-    var errmsg = "";
-    if (review.star_rating === 0) errmsg += "star ratings, ";
-    if (review.title === "") errmsg += "title, ";
-    if (review.content === "") errmsg += "content";
-    errmsg = errmsg.replace(/, $/, "");
+    var errmsg = '';
+    if (review.star_rating === 0) errmsg += 'star ratings, ';
+    if (review.title === '') errmsg += 'title, ';
+    if (review.content === '') errmsg += 'content';
+    errmsg = errmsg.replace(/, $/, '');
     console.log(errmsg);
 
-    if (errmsg !== "") {
-      alert(`Please complete the following fields: ${errmsg}`);
+    if (errmsg !== '') {
+      setError(`Please complete the following fields: ${errmsg}`);
+      setType('error');
+      setOpen(true);
       return;
     }
 
     // Uploading image to retrieve link
     if (reviewNewImg instanceof Blob) {
-      //const storageRef = ref(storage, reviewNewImg.name);
       const storageRef = ref(storage, `Review_images/${reviewNewImg.name}`);
       let snapshot = await uploadBytes(storageRef, reviewNewImg);
       let url = await getDownloadURL(
@@ -197,7 +227,7 @@ function ItemPage({ match }) {
     if (onEdit === false) {
       var today = new Date();
       today.setHours(today.getHours() + 9);
-      const newDate = today.toISOString().replace("T", " ").substring(0, 19);
+      const newDate = today.toISOString().replace('T', ' ').substring(0, 19);
       setReview({ ...review, date_posted: newDate });
       const newReviewIds = reviewIds + 1;
 
@@ -235,7 +265,7 @@ function ItemPage({ match }) {
       newArr[idx] = review;
 
       // If image removed
-      if (reviewNewImg === null) newArr[idx].image = "";
+      if (reviewNewImg === null) newArr[idx].image = '';
 
       newBody = {
         product_id: match.params.itemId,
@@ -252,10 +282,10 @@ function ItemPage({ match }) {
     }
 
     const requestOptionsPut = {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
       body: JSON.stringify(newBody),
     };
@@ -264,19 +294,25 @@ function ItemPage({ match }) {
       try {
         const data = await response.json();
         if (onEdit) {
-          alert("Review successfully editted!");
+          setError('Review successfully editted!');
+          setType('success');
+          setOpen(true);
         } else {
-          alert("Review successfully posted!");
+          setError('Review successfully posted!');
+          setType('success');
+          setOpen(true);
         }
-        console.log("response data", data);
+        console.log('response data', data);
         setModalOpen(false);
         setOnEdit(false);
         setReviewNewImg(reviewNewImgInitialState);
         setReview(reviewInitialState);
         window.location.reload();
       } catch (error) {
-        alert("Review could not be posted", error);
-        console.log("Error happened");
+        setError('Review could not be posted', error);
+        setType('error');
+        setOpen(true);
+        console.log('Error happened');
         console.error(error);
       }
     });
@@ -284,8 +320,10 @@ function ItemPage({ match }) {
 
   // Update/Delete existing reviews
   async function updateReviews(review_id, command) {
-    if (Cookies.get("user") === "") {
-      alert("Only logged in users can do this task!");
+    if (Cookies.get('user') === '') {
+      setError('Only logged in users can do this task!');
+      setType('error');
+      setOpen(true);
       return;
     }
 
@@ -295,20 +333,26 @@ function ItemPage({ match }) {
     for (var i = 0; i < reviews.length; i++) {
       if (reviews[i].review_id === review_id) {
         // For delete and edit, make sure to check current user is the writer of the review
-        if (command === "delete") {
+        if (command === 'delete') {
           if (reviews[i].user_id !== user.id) {
-            alert("You are not an original writer of this review!");
+            setError('You are not an original writer of this review!');
+            setType('error');
+            setOpen(true);
             return;
           }
           newArr.splice(i, 1);
-          alert("Successfully deleted the review!");
+          setError('Successfully deleted the review!');
+          setType('success');
+          setOpen(true);
           window.location.reload();
         }
 
         // For edit, simply open modal and return from the function
-        else if (command === "edit") {
+        else if (command === 'edit') {
           if (reviews[i].user_id !== user.id) {
-            alert("You are not an original writer of this review!");
+            setError('You are not an original writer of this review!');
+            setType('error');
+            setOpen(true);
             return;
           }
           setReview(reviews[i]);
@@ -319,7 +363,7 @@ function ItemPage({ match }) {
         }
 
         // For like, remove like if user has liked the review, otherwise like the review
-        else if (command === "like") {
+        else if (command === 'like') {
           if (reviews[i].likes.includes(user.id)) {
             const idx = reviews[i].likes.indexOf(user.id);
             newArr[i].likes.splice(idx, 1);
@@ -345,10 +389,10 @@ function ItemPage({ match }) {
     };
 
     const requestOptionsPut = {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
       body: JSON.stringify(newBody),
     };
@@ -356,10 +400,10 @@ function ItemPage({ match }) {
     fetch(`/product`, requestOptionsPut).then(async (response) => {
       try {
         const data = await response.json();
-        console.log("response data", data);
+        console.log('response data', data);
         setReview(reviewInitialState); // should i put it after
       } catch (error) {
-        console.log("Error happened");
+        console.log('Error happened');
         console.error(error);
       }
     });
@@ -381,27 +425,61 @@ function ItemPage({ match }) {
   };
 
   const handleReviewButton = (e) => {
-    if (Cookies.get("user") === "") {
-      alert("Only logged in users can write reviews!");
+    if (Cookies.get('user') === '') {
+      setError('Only logged in users can write reviews!');
+      setType('error');
+      setOpen(true);
     } else if (reviews.some((e) => e.user_id === user.id)) {
-      alert("You can write only one review for each product!");
+      setError('You can write only one review for each product!');
+      setType('error');
+      setOpen(true);
     } else {
       setModalOpen(true);
     }
   };
 
-  const handleSortButton = (e) => {
-    setReviewsSort("default");
+  // Sort reviews if user selects sorting method
+  const handleSortButton = (sortMethod) => {
+    setReviewsSort(sortMethod);
+
+    if (sortMethod === 'date(newest)') {
+      setReviewsShow(reviews);
+    } else if (sortMethod === 'date(oldest)') {
+      setReviewsShow(reviews.slice().reverse());
+    } else if (sortMethod === 'ratings(highest)') {
+      setReviewsShow(
+        reviews.slice().sort(function (a, b) {
+          var rev_a = a.star_rating;
+          var rev_b = b.star_rating;
+          if (rev_a > rev_b) return -1;
+          if (rev_a < rev_b) return 1;
+          return 0;
+        })
+      );
+    } else if (sortMethod === 'ratings(lowest)') {
+      setReviewsShow(
+        reviews.slice().sort(function (a, b) {
+          var rev_a = a.star_rating;
+          var rev_b = b.star_rating;
+          if (rev_a < rev_b) return -1;
+          if (rev_a > rev_b) return 1;
+          return 0;
+        })
+      );
+    } else if (sortMethod === 'likes received') {
+      setReviewsShow(
+        reviews.slice().sort(function (a, b) {
+          var rev_a = a.likes.length;
+          var rev_b = b.likes.length;
+          if (rev_a > rev_b) return -1;
+          if (rev_a < rev_b) return 1;
+          return 0;
+        })
+      );
+    }
   };
 
   const handleLoadButton = (e) => {
-    if (reviewsLen >= reviews.length) {
-      alert("No more reviews to be loaded!");
-      return;
-    }
-    if (reviewsSort === "default") {
-      setReviewsShow(reviews.slice((reviewsLen + 10) * -1).reverse());
-    }
     setReviewsLen(reviewsLen + 10);
   };
 
@@ -411,7 +489,7 @@ function ItemPage({ match }) {
     // const productId = match.params.itemId;
     // const productQuantity = quantity;
     const addToCartBody = {
-      uid: Cookies.get("user"),
+      uid: Cookies.get('user'),
       productId: match.params.itemId,
       productQuantity: quantity,
       productImage: img,
@@ -420,21 +498,25 @@ function ItemPage({ match }) {
     };
     console.log(addToCartBody);
     const requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
       body: JSON.stringify(addToCartBody),
     };
 
-    const response = await fetch("/cart", requestOptions);
+    const response = await fetch('/cart', requestOptions);
     if (response.status != 200) {
-      alert("Failed to add to cart!");
+      setError('Failed to add to cart!');
+      setType('error');
+      setOpen(true);
     } else if (response.status === 200) {
       const data = await response.json();
       // TODO: Implement "Succefully Added to Cart" Pop-up
-      alert("Added to Cart!");
+      setError('Added to Cart!');
+      setType('success');
+      setOpen(true);
     }
   };
 
@@ -444,47 +526,47 @@ function ItemPage({ match }) {
   }, []);
 
   return (
-    <div id="ItemPage">
-      <div id="product-category">
-        <Typography style={{ marginLeft: "30px", marginTop: "10px" }}>
+    <div id='ItemPage'>
+      <div id='product-category'>
+        <Typography style={{ marginLeft: '30px', marginTop: '10px' }}>
           {category}
         </Typography>
       </div>
-      <div id="ItemPage-flex">
-        <div id="product-wrapper">
-          <img id="product-image" src={img} alt={img} />
-          <div id="product-info">
+      <div id='ItemPage-flex'>
+        <div id='product-wrapper'>
+          <img id='product-image' src={img} alt={img} />
+          <div id='product-info'>
             <Typography
-              variant="h4"
-              style={{ fontWeight: "700", marginBottom: "50px" }}
+              variant='h4'
+              style={{ fontWeight: '700', marginBottom: '50px' }}
             >
               {name}
             </Typography>
-            <div id="product-ratings">
+            <div id='product-ratings'>
               <Rating
-                name="customized-1"
+                name='customized-1'
                 defaultValue={1}
                 max={1}
-                size="large"
+                size='large'
                 readOnly
               />
-              <Typography variant="h6">{ratings}</Typography>
+              <Typography variant='h6'>{ratings}</Typography>
             </div>
             <Typography
-              variant="h4"
-              style={{ fontWeight: "600", marginTop: "30px" }}
+              variant='h4'
+              style={{ fontWeight: '600', marginTop: '30px' }}
             >
               ${price}
             </Typography>
             <Typography
-              variant="body1"
-              style={{ marginTop: "50px", marginBottom: "20px" }}
+              variant='body1'
+              style={{ marginTop: '50px', marginBottom: '20px' }}
             >
               Tag: {tag}
             </Typography>
-            <div id="product-info-buttons">
+            <div id='product-info-buttons'>
               <BasicSelect
-                name="Quantity"
+                name='Quantity'
                 list={list}
                 selected={quantity}
                 handleChange={(e) => setQuantity(e.target.value)}
@@ -493,25 +575,29 @@ function ItemPage({ match }) {
                 onClick={() => {
                   addTocart();
                 }}
-                type="submit"
-                id="add-cart-button"
+                type='submit'
+                id='add-cart-button'
               >
                 Add to cart
               </Button>
             </div>
           </div>
         </div>
-        <div id="product-description">
-          <Typography variant="h5" style={{ marginBottom: "30px" }}>
+        <div id='product-description'>
+          <Typography variant='h5' style={{ marginBottom: '30px' }}>
             Description
           </Typography>
-          <Typography variant="body">{desc}</Typography>
+          <Typography variant='body'>{desc}</Typography>
         </div>
-        <div className="ItemPage-flex-vert">
-          <div id="review-section">
+        <div className='ItemPage-flex-vert'>
+          <div id='review-section'>
             <ReviewAccordian
               title={accordianName}
-              content={reviewsShow.map((rev, id) => (
+              totalStars={totalStars}
+              totalReviewsNum={reviews.length}
+              currentReviewsNum={reviewsLen}
+              sortMethod={reviewsSort}
+              content={reviewsShow.slice(0, reviewsLen).map((rev, id) => (
                 <ReviewContainer
                   key={id}
                   first_name={rev.first_name}
@@ -537,17 +623,17 @@ function ItemPage({ match }) {
             isOpen={modalOpen}
             style={{
               zIndex: 1,
-              overlay: { backgroundColor: "rgba(0,0,0, 0.5)" },
+              overlay: { backgroundColor: 'rgba(0,0,0, 0.5)' },
               content: {
-                top: "50px",
-                left: "250px",
-                right: "250px",
-                bottom: "50px",
+                top: '50px',
+                left: '250px',
+                right: '250px',
+                bottom: '50px',
               },
             }}
           >
             <IconButton
-              style={{ float: "right" }}
+              style={{ float: 'right' }}
               onClick={() => {
                 setModalOpen(false);
                 setOnEdit(false);
@@ -556,15 +642,15 @@ function ItemPage({ match }) {
             >
               <CloseIcon />
             </IconButton>
-            <div id="modal-review">
-              <Typography variant="h5">My Review for:</Typography>
-              <Typography variant="h5">{name}</Typography>
-              <div id="review-space-between">
-                <div id="review-images-section">
-                  <img className="review-image" src={img} alt={img} />
-                  <div id="file-upload-section">
+            <div id='modal-review'>
+              <Typography variant='h5'>My Review for:</Typography>
+              <Typography variant='h5'>{name}</Typography>
+              <div id='review-space-between'>
+                <div id='review-images-section'>
+                  <img className='review-image' src={img} alt={img} />
+                  <div id='file-upload-section'>
                     <img
-                      className="review-image"
+                      className='review-image'
                       src={
                         reviewNewImg instanceof Blob
                           ? URL.createObjectURL(reviewNewImg)
@@ -573,17 +659,17 @@ function ItemPage({ match }) {
                       alt={
                         reviewNewImg instanceof Blob
                           ? reviewNewImg.name
-                          : "media"
+                          : 'media'
                       }
                     />
                   </div>
-                  <Typography style={{ fontSize: "12pt" }}>
+                  <Typography style={{ fontSize: '12pt' }}>
                     Image uploaded
                   </Typography>
                 </div>
-                <div id="review-inputs-section">
-                  <div id="review-space-between">
-                    <Typography style={{ fontSize: "11pt", color: "#FF7A00" }}>
+                <div id='review-inputs-section'>
+                  <div id='review-space-between'>
+                    <Typography style={{ fontSize: '11pt', color: '#FF7A00' }}>
                       Overall Rating*
                     </Typography>
                     <Rating
@@ -594,8 +680,8 @@ function ItemPage({ match }) {
                     />
                     <Typography
                       style={{
-                        fontSize: "11pt",
-                        color: review.star_rating === 0 ? "red" : "black",
+                        fontSize: '11pt',
+                        color: review.star_rating === 0 ? 'red' : 'black',
                       }}
                     >
                       Click to rate!
@@ -603,29 +689,29 @@ function ItemPage({ match }) {
                   </div>
                   <Divider style={{ zIndex: 2 }} />
                   <br />
-                  <Typography className="Itempage-review-text">
+                  <Typography className='Itempage-review-text'>
                     Review Title*
                   </Typography>
                   <TextField
-                    label="Title"
-                    error={review.title === "" ? true : false}
+                    label='Title'
+                    error={review.title === '' ? true : false}
                     multiline
                     maxRows={8}
                     value={review.title}
                     onChange={(e) =>
                       setReview({ ...review, title: e.target.value })
                     }
-                    style={{ width: "400px" }}
+                    style={{ width: '400px' }}
                   />
                   <br />
                   <Divider style={{ zIndex: 2 }} />
                   <br />
-                  <Typography className="Itempage-review-text">
+                  <Typography className='Itempage-review-text'>
                     Review*
                   </Typography>
                   <TextField
-                    label="Content"
-                    error={review.content === "" ? true : false}
+                    label='Content'
+                    error={review.content === '' ? true : false}
                     multiline
                     maxRows={5}
                     value={review.content}
@@ -633,13 +719,13 @@ function ItemPage({ match }) {
                       setReview({ ...review, content: e.target.value })
                     }
                     minRows={5}
-                    style={{ width: "400px" }}
+                    style={{ width: '400px' }}
                   />
                   <br />
-                  <div id="review-photo-buttons">
+                  <div id='review-photo-buttons'>
                     <Button
-                      variant="outlined"
-                      style={{ width: "170px" }}
+                      variant='outlined'
+                      style={{ width: '170px' }}
                       onClick={() => {
                         handleClick();
                       }}
@@ -647,14 +733,14 @@ function ItemPage({ match }) {
                       Add photo
                     </Button>
                     <input
-                      id="file-upload"
+                      id='file-upload'
                       ref={fileInput}
                       onChange={handleChange}
-                      type="file"
+                      type='file'
                     />
                     <Button
-                      variant="outlined"
-                      style={{ width: "170px" }}
+                      variant='outlined'
+                      style={{ width: '170px' }}
                       onClick={() => {
                         handleRemove();
                       }}
@@ -666,18 +752,18 @@ function ItemPage({ match }) {
                 </div>
               </div>
               <Button
-                id="post-review-button"
-                size="large"
+                id='post-review-button'
+                size='large'
                 onClick={() => postReview()}
-                style={{ display: onEdit ? "none" : "block" }}
+                style={{ display: onEdit ? 'none' : 'block' }}
               >
                 Post Review
               </Button>
               <Button
-                id="post-review-button"
-                size="large"
+                id='post-review-button'
+                size='large'
                 onClick={() => postReview()}
-                style={{ display: onEdit ? "block" : "none" }}
+                style={{ display: onEdit ? 'block' : 'none' }}
               >
                 Edit Review
               </Button>
@@ -685,6 +771,13 @@ function ItemPage({ match }) {
           </Modal>
         </div>
       </div>
+      <Stack spacing={2} sx={{ width: '100%' }}>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity={type} sx={{ width: '100%' }}>
+            {error}
+          </Alert>
+        </Snackbar>
+      </Stack>
     </div>
   );
 }

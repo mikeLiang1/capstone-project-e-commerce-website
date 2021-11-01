@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { Button } from '@material-ui/core';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -7,14 +6,13 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import Typography from '@mui/material/Typography'
+import Typography from '@mui/material/Typography';
 
 import './AddProductPage.css';
 
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getDownloadURL, getStorage, ref, uploadBytes} from "firebase/storage";
-import { maxHeight } from '@mui/system';
+import { initializeApp } from 'firebase/app';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -81,7 +79,7 @@ function AddProductPage() {
     setImage('');
     fileInput.current.value = null;
     setAddPhoto('block');
-  }
+  };
 
   const handleChange = (e) => {
     if (e.target.files[0]) {
@@ -91,7 +89,7 @@ function AddProductPage() {
   };
 
   //now
-  
+
   return (
     <div id='AddProductPage'>
       <Box sx={{ maxWidth: '50%' }}>
@@ -101,11 +99,26 @@ function AddProductPage() {
         <Typography variant='body1'>
           (leave it as None if it does not belong to any Category)
         </Typography>
-        <Box sx={{ display: 'flex', marginTop: '20px', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography>
-            Category (if applicable):
-          </Typography>
-          <FormControl sx={{ width: '350px', height: '53px', marginLeft: '30px', backgroundColor: '#000000', borderRadius: '15px', textAlign: 'center', marginRight: '20px' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            marginTop: '20px',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <Typography>Category (if applicable):</Typography>
+          <FormControl
+            sx={{
+              width: '350px',
+              height: '53px',
+              marginLeft: '30px',
+              backgroundColor: '#000000',
+              borderRadius: '15px',
+              textAlign: 'center',
+              marginRight: '20px',
+            }}
+          >
             <InputLabel sx={{ color: '#FFFFFF' }}>Category</InputLabel>
             <Select
               value={details.category}
@@ -126,7 +139,15 @@ function AddProductPage() {
       <Box sx={{ display: 'flex', marginTop: '40px', height: '80%' }}>
         <Box id='file-upload-wrapper'>
           <Box id='file-upload-section'>
-            <img style={{ maxWidth: '100%', maxHeight: '400px', objectFit: 'contain' }} src={image? URL.createObjectURL(image) : null} alt={image? image.name : null}/>
+            <img
+              style={{
+                maxWidth: '100%',
+                maxHeight: '400px',
+                objectFit: 'contain',
+              }}
+              src={image ? URL.createObjectURL(image) : null}
+              alt={image ? image.name : null}
+            />
           </Box>
           <Box id='file-upload-buttons'>
             <Button
@@ -143,7 +164,12 @@ function AddProductPage() {
             >
               Upload Photo
             </Button>
-            <input id='file-upload' ref={fileInput} onChange={handleChange} type='file' />
+            <input
+              id='file-upload'
+              ref={fileInput}
+              onChange={handleChange}
+              type='file'
+            />
             <Button
               onClick={() => {
                 handleRemove();
@@ -159,25 +185,27 @@ function AddProductPage() {
               Remove Photo
             </Button>
           </Box>
-        </Box>   
+        </Box>
         <Box id='inputs-section'>
           <div>
             <Box
               component='form'
               sx={{
-                '& .MuiTextField-root': { m: 1, width: '25ch' }
+                '& .MuiTextField-root': { m: 1, width: '25ch' },
               }}
               noValidate
               autoComplete='off'
-              style = {{ width: '400px'}}
+              style={{ width: '400px' }}
             >
               <TextField
                 label='Product Name'
                 multiline
                 maxRows={8}
                 value={details.name}
-                onChange={(e) => setDetails({ ...details, name: e.target.value })}
-                style = {{ width: '400px'}}
+                onChange={(e) =>
+                  setDetails({ ...details, name: e.target.value })
+                }
+                style={{ width: '400px' }}
               />
             </Box>
           </div>
@@ -189,7 +217,7 @@ function AddProductPage() {
               }}
               noValidate
               autoComplete='off'
-              style = {{ width: '400px'}}
+              style={{ width: '400px' }}
             >
               <TextField
                 label='Price'
@@ -199,7 +227,7 @@ function AddProductPage() {
                 onChange={(e) =>
                   setDetails({ ...details, price: e.target.value })
                 }
-                style = {{ width: '400px'}}
+                style={{ width: '400px' }}
               />
             </Box>
           </div>
@@ -211,16 +239,18 @@ function AddProductPage() {
               }}
               noValidate
               autoComplete='off'
-              className = 'formWidth'
+              className='formWidth'
             >
               <TextField
                 label='Tag'
                 multiline
                 maxRows={8}
                 value={details.tag}
-                onChange={(e) => setDetails({ ...details, tag: e.target.value })}
+                onChange={(e) =>
+                  setDetails({ ...details, tag: e.target.value })
+                }
                 fullWidth
-                style = {{ width: '400px'}}
+                style={{ width: '400px' }}
               />
             </Box>
           </div>
@@ -232,7 +262,7 @@ function AddProductPage() {
               }}
               noValidate
               autoComplete='off'
-              style = {{ width: '400px'}}
+              style={{ width: '400px' }}
             >
               <TextField
                 label='Description'
@@ -243,7 +273,7 @@ function AddProductPage() {
                   setDetails({ ...details, description: e.target.value })
                 }
                 minRows={5}
-                style = {{ width: '400px'}}
+                style={{ width: '400px' }}
               />
             </Box>
           </div>

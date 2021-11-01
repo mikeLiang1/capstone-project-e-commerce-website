@@ -495,6 +495,7 @@ function ItemPage({ match }) {
       productImage: img,
       productName: name,
       productPrice: price,
+      productCategory: category,
     };
     console.log(addToCartBody);
     const requestOptions = {

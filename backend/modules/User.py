@@ -24,6 +24,7 @@ parser.add_argument('productQuantity', type=int)
 parser.add_argument('productImage', type=str)
 parser.add_argument('productName', type=str)
 parser.add_argument('productPrice', type=int)
+parser.add_argument('productCategory', type=str)
 parser.add_argument('orderPlaced', type=str)
 parser.add_argument('deliveryInfo', type=str)
 
@@ -111,7 +112,7 @@ class User_add_productID(Resource):
 
         if user_exists(doc_ref):
             doc_ref.update({u"purchase_history": firestore.ArrayUnion([{"product": args.productId, "quantity": args.productQuantity,
-                "name": args.productName, "image": args.productImage, "price": args.productPrice, "orderPlaced": args.orderPlaced, "deliveryInfo": args.deliveryInfo}])})
+                "name": args.productName, "image": args.productImage, "price": args.productPrice, "orderPlaced": args.orderPlaced, "deliveryInfo": args.deliveryInfo, "category": args.productCategory}])})
 
             return {"message": "Success"}
 
@@ -167,17 +168,17 @@ class User_cart(Resource):
                     existingQuantity = item['quantity']
                     # 2. Delete the array element (the product from the cart)
                     doc_ref.update({u"cart": firestore.ArrayRemove([{"product": args.productId, "quantity": existingQuantity,
-                    "name": args.productName, "image": args.productImage, "price": args.productPrice}])})
+                    "name": args.productName, "image": args.productImage, "price": args.productPrice, "category": args.productCategory}])})
                     # doc_ref.update({u"cart": filter(lambda itemId: itemId != args.productId,doc.get('cart'))})
                     # 3. Add the product back to the cart with the updated quantity
                     newQuantity = existingQuantity + args.productQuantity
                     doc_ref.update({u"cart": firestore.ArrayUnion([{"product": args.productId, "quantity": newQuantity,
-                "name": args.productName, "image": args.productImage, "price": args.productPrice}])})
+                "name": args.productName, "image": args.productImage, "price": args.productPrice, "category": args.productCategory}])})
                     addConfirmed = True
             # The product doesn't exist in the user's cart, so add it to the user's cart
             if addConfirmed == False:
                 doc_ref.update({u"cart": firestore.ArrayUnion([{"product": args.productId, "quantity": args.productQuantity,
-                "name": args.productName, "image": args.productImage, "price": args.productPrice}])})
+                "name": args.productName, "image": args.productImage, "price": args.productPrice, "category": args.productCategory}])})
                 addConfirmed = True
             return {"message": "Added to Cart!"}
         else:
@@ -205,14 +206,15 @@ class User_cart(Resource):
                     productName = item['name']
                     productImage = item['image']
                     productPrice = item['price']
+                    productCategory = item['category']
                     # Update the new quantity of the product
                     # 1. Delete the array element (the product from the cart)
                     doc_ref.update({u"cart": firestore.ArrayRemove([{"product": item['product'], "quantity": item['quantity'],
-                    "name": item['name'], "image": item['image'], "price": item['price']}])})
+                    "name": item['name'], "image": item['image'], "price": item['price'], "category": item['category']}])})
                     # 2. Add the product back to the cart with the updated quantity
                     newQuantity = args.productQuantity
                     doc_ref.update({u"cart": firestore.ArrayUnion([{"product": productId, "quantity": newQuantity,
-                "name": productName, "image": productImage, "price": productPrice}])})
+                "name": productName, "image": productImage, "price": productPrice, "category": productCategory}])})
                     changeConfirmed = True
                     return {"message": "Successfully updated quantity of the product!"}
         if changeConfirmed == False:
@@ -231,12 +233,12 @@ class User_cart(Resource):
             # Confirms that the product has been removed from the user's cart
             removeConfirmed = False
             # Check if product exists in the user's cart
-            for item in cart:
+            for item in cart: 
                 # If the product exists in the user's cart, remove from cart
                 if item.get("product") == args.productId:
                     # Remove the item from the cart
                     doc_ref.update({u"cart": firestore.ArrayRemove([{"product": args.productId, "quantity": item['quantity'], 
-                    "name": item["name"], "image": item['image'], "price": item['price']}])})
+                    "name": item["name"], "image": item['image'], "price": item['price'], "category": item['category']}])})
                     removeConfirmed = True
                     return {"message": "Removed from Cart!"}
             # The product doesn't exist in the user's cart, so failed to remove

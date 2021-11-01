@@ -66,6 +66,7 @@ function CartPage({ token }) {
           imageUrl: cartData.cart[i].image,
           itemQuantity: cartData.cart[i].quantity,
           itemPrice: cartData.cart[i].price,
+          itemCategory: cartData.cart[i].category,
         });
 
         if (cartData.cart[i].name.includes('MYSTERY BOX')) {

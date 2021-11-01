@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 
 function ExplorePage({ match }) {
   const tag = match.params.tag;
-  console.log(tag);
 
   async function getItems() {
     const requestOptions = {

@@ -78,7 +78,8 @@ function SurveyPage() {
 
     const response = await fetch('/cart', requestOptions);
     if (response.status != 200) {
-      alert('Failed to add to cart!');
+      setError('Failed to add to cart!');
+      setOpen(true);
     } else if (response.status === 200) {
       const data = await response.json();
     }

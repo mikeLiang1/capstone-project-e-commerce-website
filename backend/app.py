@@ -8,6 +8,7 @@ from modules.SignIn import SignIn
 from modules.mystery_box import *
 from modules.Product import *
 from modules.Admin_dashboard import *
+from modules.Explore import *
 
 app = Flask(__name__)
 api = Api(app)
@@ -97,6 +98,7 @@ api.add_resource(User_cart, "/cart")
 api.add_resource(User_purchase_history, "/purchase_history/<string:uid>")
 api.add_resource(User_get_cart, "/cart/<string:uid>")
 api.add_resource(get_recommend, "/recommended/<string:uid>")
+api.add_resource(Explore, '/explore/<string:tag>')
 
 if __name__ == "__main__":
     app.run(debug=True)

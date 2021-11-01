@@ -4,13 +4,28 @@ import { Link, useHistory } from 'react-router-dom';
 import BasicTextField from '../buttons-and-sections/BasicTextField.js';
 import { TextField } from '@material-ui/core';
 import TextButton from '../buttons-and-sections/TextButton.js';
+import Stack from '@mui/material/Stack';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 import './LoginPage.css';
 
 function LoginPage({ token, handleLogin, setAdmin }) {
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
+  });
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [open, setOpen] = useState(false);
   let history = useHistory();
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const loginRequest = async (e) => {
     // Prevents the default action of the page refreshing
@@ -30,7 +45,7 @@ function LoginPage({ token, handleLogin, setAdmin }) {
     const response = await fetch('/auth/signin', requestOptions);
 
     if (response.status === 400) {
-      alert('Incorrect details entered! Please try again.');
+      setOpen(true);
     } else if (response.status === 200) {
       const data = await response.json();
       if (email === 'admin@admin.com') {
@@ -82,6 +97,14 @@ function LoginPage({ token, handleLogin, setAdmin }) {
           <TextButton buttonName='Register' buttonType='button' />
         </Link>
       </div>
+
+      <Stack spacing={2} sx={{ width: '100%' }}>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity='error' sx={{ width: '100%' }}>
+            Incorrect details entered! Please try again!
+          </Alert>
+        </Snackbar>
+      </Stack>
     </div>
   );
 }

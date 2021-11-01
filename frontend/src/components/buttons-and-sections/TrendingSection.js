@@ -1,10 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
-import LargeItemContainer from "./LargeItemContainer";
+import LargeItemContainer from './LargeItemContainer';
 
-import "./TrendingSection.css";
+import './TrendingSection.css';
+import Stack from '@mui/material/Stack';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 function TrendingSection() {
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
+  });
+
   const [items, setItems] = useState([
     { id: 1, content: <LargeItemContainer /> },
     { id: 2, content: <LargeItemContainer /> },
@@ -17,22 +24,30 @@ function TrendingSection() {
     { id: 9, content: <LargeItemContainer /> },
     { id: 10, content: <LargeItemContainer /> },
   ]);
-
+  const [open, setOpen] = useState(false);
   const [products, setProducts] = useState([]);
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const getProducts = async () => {
     const requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
     };
 
-    const response = await fetch("/product_visited", requestOptions);
+    const response = await fetch('/product_visited', requestOptions);
 
     if (response.status !== 200) {
-      alert("Failed to get Trending Products!");
+      setOpen(true);
     } else if (response.status === 200) {
       const data = await response.json();
       let items = [];
@@ -54,11 +69,11 @@ function TrendingSection() {
   }, []);
 
   return (
-    <div className="TrendingSection">
-      <div className="TrendingSection-information">
-        <h2 style={{ fontSize: "24px" }}>TRENDING</h2>
+    <div className='TrendingSection'>
+      <div className='TrendingSection-information'>
+        <h2 style={{ fontSize: '24px' }}>TRENDING</h2>
       </div>
-      <div className="TrendingSection-products-section">
+      <div className='TrendingSection-products-section'>
         {products.map((item, id) => (
           <div key={id}>
             <LargeItemContainer
@@ -69,6 +84,13 @@ function TrendingSection() {
           </div>
         ))}
       </div>
+      <Stack spacing={2} sx={{ width: '100%' }}>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity='error' sx={{ width: '100%' }}>
+            Failed to get Trending Products
+          </Alert>
+        </Snackbar>
+      </Stack>
     </div>
   );
 }

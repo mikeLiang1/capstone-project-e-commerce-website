@@ -29,7 +29,7 @@ function SurveyPage() {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
-  const rndInt = randomIntFromInterval(1, 10);
+  const rndInt = randomIntFromInterval(0, 9);
   const [dialogOpen, setDialog] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [result, setResult] = useState(['Default', '', '99']);
@@ -216,7 +216,7 @@ function SurveyPage() {
             itemName={products[rndInt].name}
             imageUrl={products[rndInt].img}
           />
-          <b>RRP: ${products[0].price}</b>
+          <b>RRP: ${products[rndInt].price}</b>
           <DialogActions>
             <Button onClick={() => addToCart()}>Add to Cart</Button>
           </DialogActions>

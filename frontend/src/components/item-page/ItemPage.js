@@ -93,7 +93,7 @@ function ItemPage({ match }) {
   const [modalOpen, setModalOpen] = useState(false);
   const list = ['1', '2', '3', '4', '5'];
   const [quantity, setQuantity] = useState('');
-  const [type, setType] = useState('');
+
   const [ratings, setRatings] = useState('');
   const [accordianName, setAccordianName] = useState('');
   const [onEdit, setOnEdit] = useState(false);

@@ -168,6 +168,7 @@ class User_cart(Resource):
             # Check if product exists in the user's cart
             for item in cart:
                 # If the product exists in the user's cart, update the quantity
+                if item.get("product") == args.productId:
                     # Add the new quantity to the existing quantity in the cart
                     # Since there is currently no way to update a single array element (let alone a field in a specific
                     # dictionary in an array of dictionaries - which in this case "cart" is an array of dictionaries),

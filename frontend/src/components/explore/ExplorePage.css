@@ -47,6 +47,18 @@
   border-width: 1px;
 }
 
+#ExplorePage-sort-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap:wrap;
+  width: 300px;
+  margin-right: auto;
+  margin-left: 21.3%;
+  margin-top: 50px;
+}
+
 #ExplorePage-items-section {
   display: flex;
   flex-direction: row;
@@ -57,7 +69,6 @@
   flex-shrink: 0;
   width: 80%;
   margin-left: 20%;
-  margin-top: 80px;
 }
 
 #ExplorePage-empty-text {

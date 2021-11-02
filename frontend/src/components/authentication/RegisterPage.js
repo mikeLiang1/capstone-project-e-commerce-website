@@ -6,28 +6,39 @@ import TextButton from '../buttons-and-sections/TextButton.js';
 
 import RegisterPageImage from '../../images/RegisterPageImage.png';
 import BasicTextField from '../buttons-and-sections/BasicTextField';
-import Alert from '../buttons-and-sections/Alert';
+import Stack from '@mui/material/Stack';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 function RegisterPage({ token, handleLogin }) {
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
+  });
+
   const [email, setEmail] = useState('');
   const [fname, setFirstName] = useState('');
   const [lname, setLastName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [open, setOpen] = useState(false);
   const [alertBarState, setAlertBarState] = useState({
     open: false,
     message: '',
   });
   let history = useHistory();
+  const [error, setError] = useState('');
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   // Function that handles the textfields input and opens up the Alert snackbar
   const handleInput = (newState) => {
     setAlertBarState({ open: true, ...newState });
-  };
-
-  // Function that handles the close of the Alert snackbar
-  const handleClose = () => {
-    setAlertBarState({ open: false, ...alertBarState });
   };
 
   const registerRequest = async (e) => {
@@ -36,32 +47,33 @@ function RegisterPage({ token, handleLogin }) {
 
     // Check that the email address is valid
     if (/\S+@\S+\.\S+/.test(email) === false) {
-      alert('Email address is not valid! Please try again');
+      setError('Email address is not valid! Please try again');
+      setOpen(true);
       return;
     }
     // Check that the first name and last names are valid
     if (fname.length < 1) {
-      alert('Please enter a valid first name.');
+      setError('Please enter a valid first name.');
+      setOpen(true);
       return;
     }
     if (lname.length < 1) {
-      alert('Please enter a valid last name.');
+      setError('Please enter a valid last name.');
+      setOpen(true);
       return;
     }
     // Check that password entered is more than 6 characters long
     if (password.length < 6) {
-      setAlertBarState({
-        message:
-          'Password must be longer than 6 characters. Please enter a different password',
-      });
-      alert(
+      setError(
         'Password must be longer than 6 characters. Please enter a different password.'
       );
+      setOpen(true);
       return;
     }
     // Check that the passwords match
     if (password !== confirmPassword) {
-      alert('Passwords do not match. Please try again.');
+      setError('Passwords do not match. Please try again.');
+      setOpen(true);
       return;
     }
 
@@ -98,59 +110,63 @@ function RegisterPage({ token, handleLogin }) {
   };
 
   return (
-    <div className='RegisterPage'>
-      <form onSubmit={registerRequest}>
-        <h3 style={{ fontSize: '24px' }}>REGISTER</h3>
-        <div className='RegisterPage-form-group'>
-          <BasicTextField
-            textName='Email'
-            value={email}
-            handleChange={(e) => setEmail(e.target.value)}
-          />
+    <div>
+      <div className='RegisterPage'>
+        <form onSubmit={registerRequest}>
+          <h3 style={{ fontSize: '24px' }}>REGISTER</h3>
+          <div className='RegisterPage-form-group'>
+            <BasicTextField
+              textName='Email'
+              value={email}
+              handleChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className='RegisterPage-form-group'>
+            <BasicTextField
+              textName='First Name'
+              value={fname}
+              handleChange={(e) => setFirstName(e.target.value)}
+            />
+          </div>
+          <div className='RegisterPage-form-group'>
+            <BasicTextField
+              textName='Last Name'
+              value={lname}
+              handleChange={(e) => setLastName(e.target.value)}
+            />
+          </div>
+          <div className='RegisterPage-form-group'>
+            <BasicTextField
+              textName='Password'
+              id='outlined-password-input'
+              type='password'
+              value={password}
+              handleChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <div className='RegisterPage-form-group'>
+            <BasicTextField
+              textName='Confirm Password'
+              id='outlined-password-input'
+              type='password'
+              value={confirmPassword}
+              handleChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </div>
+          <br />
+          <TextButton buttonName='Register' buttonType='submit' />
+        </form>
+        <div className='RegisterPage-image-container'>
+          <img className='RegisterPage-image' src={RegisterPageImage}></img>
         </div>
-        <div className='RegisterPage-form-group'>
-          <BasicTextField
-            textName='First Name'
-            value={fname}
-            handleChange={(e) => setFirstName(e.target.value)}
-          />
-        </div>
-        <div className='RegisterPage-form-group'>
-          <BasicTextField
-            textName='Last Name'
-            value={lname}
-            handleChange={(e) => setLastName(e.target.value)}
-          />
-        </div>
-        <div className='RegisterPage-form-group'>
-          <BasicTextField
-            textName='Password'
-            id='outlined-password-input'
-            type='password'
-            value={password}
-            handleChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <div className='RegisterPage-form-group'>
-          <BasicTextField
-            textName='Confirm Password'
-            id='outlined-password-input'
-            type='password'
-            value={confirmPassword}
-            handleChange={(e) => setConfirmPassword(e.target.value)}
-          />
-        </div>
-        <br />
-        <TextButton buttonName='Register' buttonType='submit' />
-      </form>
-      <div className='RegisterPage-image-container'>
-        <img className='RegisterPage-image' src={RegisterPageImage}></img>
       </div>
-      {/* <Alert
-        open={alertBarState.open}
-        message={alertBarState.message}
-        handleClose={handleClose}
-      /> */}
+      <Stack spacing={2} sx={{ width: '100%' }}>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity='error' sx={{ width: '100%' }}>
+            {error}
+          </Alert>
+        </Snackbar>
+      </Stack>
     </div>
   );
 }

@@ -1,11 +1,39 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import LargeItemContainer from "./LargeItemContainer";
+import Stack from "@mui/material/Stack";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 import "./RecommendedSection.css";
 
 function RecommendedSection() {
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+  const [open, setOpen] = useState(false);
+  const [items, setItems] = useState([
+    { id: 1, content: <LargeItemContainer /> },
+    { id: 2, content: <LargeItemContainer /> },
+    { id: 3, content: <LargeItemContainer /> },
+    { id: 4, content: <LargeItemContainer /> },
+    { id: 5, content: <LargeItemContainer /> },
+    { id: 6, content: <LargeItemContainer /> },
+    { id: 7, content: <LargeItemContainer /> },
+    { id: 8, content: <LargeItemContainer /> },
+    { id: 9, content: <LargeItemContainer /> },
+    { id: 10, content: <LargeItemContainer /> },
+  ]);
+
   const [products, setProducts] = useState([]);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const getProducts = async () => {
     const requestOptions = {
@@ -22,7 +50,7 @@ function RecommendedSection() {
     );
 
     if (response.status !== 200) {
-      alert("Login to get Recommended products!");
+      setOpen(true);
     } else if (response.status === 200) {
       const data = await response.json();
       let items = [];
@@ -57,6 +85,13 @@ function RecommendedSection() {
           </div>
         ))}
       </div>
+      <Stack spacing={2} sx={{ width: "100%" }}>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+            Login to get Recommended products!
+          </Alert>
+        </Snackbar>
+      </Stack>
     </div>
   );
 }

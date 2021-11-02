@@ -8,6 +8,7 @@ from modules.SignIn import SignIn
 from modules.mystery_box import *
 from modules.Product import *
 from modules.Admin_dashboard import *
+from modules.Explore import *
 
 app = Flask(__name__)
 api = Api(app)
@@ -88,6 +89,7 @@ api.add_resource(SignIn, "/auth/signin")
 api.add_resource(mystery_box, "/mystery_box/<string:box_name>")
 api.add_resource(mystery_box_open, "/mystery_box/<string:box_name>/open")
 api.add_resource(Product_range, "/product/<int:min>/<int:max>")
+api.add_resource(Product_all, "/product/all")
 api.add_resource(User_add_productID, "/user/add/purchase_history")
 api.add_resource(Units_sold, "/units_sold")
 api.add_resource(Total_revenue, "/total_revenue")
@@ -97,6 +99,8 @@ api.add_resource(User_cart, "/cart")
 api.add_resource(User_purchase_history, "/purchase_history/<string:uid>")
 api.add_resource(User_get_cart, "/cart/<string:uid>")
 api.add_resource(get_recommend, "/recommended/<string:uid>")
+api.add_resource(add_free_item, "/cart/add_free")
+api.add_resource(Explore, '/explore/<string:tag>')
 api.add_resource(remove_cart, "/remove_cart")
 api.add_resource(get_recommend_product, "/recommended_product/<string:productID>")
 

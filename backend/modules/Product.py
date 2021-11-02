@@ -213,3 +213,14 @@ class get_recommend_product(Resource):
             
         print(recommended)
         return {"recommended_items": recommended}
+class Product_all(Resource):
+    def get(self):
+        product_list = []
+        
+        docs = db.collection('products').stream()
+        
+        for doc in docs:
+            info = doc.to_dict()
+            product_list.append({"category": info['category'], "id": doc.id, "title": info['name']}) 
+        
+        return {"products": product_list}

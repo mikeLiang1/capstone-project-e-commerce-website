@@ -14,18 +14,8 @@ export default function validateInfo(values) {
   errors.message = 'An unknown error occured. Please try again later';
   errors.cname = false;
   errors.cnumber = false;
-  errors.ctype = false;
   errors.cexp = false;
   errors.ccvv = false;
-  errors.cpostal = false;
-
-  if (values.cardPostalCode === null || !values.cardPostalCode.trim()) {
-    errors.message = 'Credit card postal code is not complete';
-  } else if (creditCard.postalCode.isValid) {
-    errors.cpostal = true;
-  } else {
-    errors.message = 'Credit card postal code is invalid';
-  }
 
   //Card CVV expiration
   if (values.cardSecurityCode === null || !values.cardSecurityCode.trim()) {
@@ -43,22 +33,6 @@ export default function validateInfo(values) {
     errors.cexp = true;
   } else {
     errors.message = 'Credit card expiration date is invalid';
-  }
-
-  //Card Type Verification
-  if (
-    values.cardType === null ||
-    !values.cardType.trim() ||
-    creditCard.card === null
-  ) {
-    errors.message = 'Credit card type is not complete';
-  } else if (
-    creditCard.card.type &&
-    creditCard.card.type.toUpperCase() === values.cardType.toUpperCase()
-  ) {
-    errors.ctype = true;
-  } else {
-    errors.message = 'Credit card type is invalid';
   }
 
   //Card Number Verification
@@ -79,14 +53,7 @@ export default function validateInfo(values) {
     errors.message = 'Cardholder name is invalid';
   }
 
-  if (
-    errors.ctype &&
-    errors.cname &&
-    errors.cnumber &&
-    errors.cexp &&
-    errors.cpostal &&
-    errors.ccvv
-  ) {
+  if (errors.cname && errors.cnumber && errors.cexp && errors.ccvv) {
     errors.variant = 'success';
     errors.message = 'Credit Card is valid';
   }

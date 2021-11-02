@@ -1,0 +1,37 @@
+.MysteryBoxSpinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.MysteryBoxSpinner-opening {
+  display: flex;
+  flex-direction: row;
+  border-style: solid;
+  border-radius: 20px;
+  border-color: #e8e8e8;
+  background-color: #e8e8e8;
+  padding: 16px 0;
+  min-width: 800px;
+  max-width: 1000px;
+  overflow: hidden;
+}
+
+.MysteryBoxSpinner-item {
+  display: flex;
+  /* cubic-bezier(0.29, 0.69, 0.51, 1) */
+  /* animation: spin 1s both 3 linear; */
+  /* cubic-bezier(0, 1.03, 0.79, 0.98) */
+  /* cubic-bezier(.14,.89,.48,.87) */
+  animation: spin 8s both 3s cubic-bezier(0.14, 0.89, 0.48, 0.87) 1;
+}
+
+@keyframes spin {
+  from {
+    transform: translateX(-4800px);
+  }
+  to {
+    /* Prize is the 3rd Item from the Start */
+    transform: translateX(-40px);
+  }
+}

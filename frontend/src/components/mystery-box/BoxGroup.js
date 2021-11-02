@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 
 import TextButton from "../buttons-and-sections/TextButton";
-
+import { Button } from '@material-ui/core';
+import Cookies from 'js-cookie';
+import SmallItemContainer from "../buttons-and-sections/SmallItemContainer";
 import { Link } from "react-router-dom";
 
 import "./MysteryBoxPage.css";
-import SmallItemContainer from "../buttons-and-sections/SmallItemContainer";
+
 
 function BoxGroup({ boxName }) {
   // Dummy data
@@ -13,6 +15,7 @@ function BoxGroup({ boxName }) {
   title = title.replace("_", " MYSTERY ");
   const [price, setPrice] = useState("999.99");
   const [img, setIMG] = useState("");
+  const [ID, setID] = useState("")
   const [products, setProducts] = useState([
     {
       itemName: "",
@@ -78,17 +81,10 @@ function BoxGroup({ boxName }) {
       setPrice(data.box_data.Price);
       setIMG(data.box_data.Image);
 
-      if (boxName === "standard_box") {
-        console.log(img);
-      }
-
       // Parse products
-
-      console.log("PRINTING FOR " + boxName);
       let products = [];
       for (var ID of Object.keys(data.box_data.Products)) {
         const chance = data.box_data.Products[ID];
-        console.log(`chance is ${chance}`);
         const productOptions = {
           method: "GET",
           headers: {
@@ -117,7 +113,6 @@ function BoxGroup({ boxName }) {
           routeId: ID,
           background: background,
         });
-        console.log(productData.data);
       }
 
       function compare(a, b) {
@@ -135,6 +130,40 @@ function BoxGroup({ boxName }) {
       setProducts(products);
     }
   }
+  
+  // Add Item to the User's Cart
+  const addTocart = async () => {
+    console.log("CLICKED?")
+    // const uid = Cookies.get('user');
+    // const productId = match.params.itemId;
+    // const productQuantity = quantity;
+    const addToCartBody = {
+      uid: Cookies.get('user'),
+      productId: boxName,
+      productQuantity: 1,
+      productImage: img,
+      productName: title,
+      productPrice: price,
+    };
+    console.log(addToCartBody);
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(addToCartBody),
+    };
+
+    const response = await fetch('/cart', requestOptions);
+    if (response.status != 200) {
+      alert('Failed to add to cart!');
+    } else if (response.status === 200) {
+      const data = await response.json();
+      // TODO: Implement "Succefully Added to Cart" Pop-up
+      alert('Added to Cart!');
+    }
+  };
 
   useEffect(() => {
     boxRequest();
@@ -151,12 +180,12 @@ function BoxGroup({ boxName }) {
           <b>${price}</b>
         </div>
         <img height="200" width="200" src={img} />
-        <Link
-          to={"/mysterybox/open/" + boxName}
-          style={{ textDecoration: "none" }}
+        <TextButton
+          handleClick={addTocart}
+          buttonName="Add to Cart"
         >
-          <TextButton buttonName="Add to cart" buttonType="submit" />
-        </Link>
+          Add to cart
+        </TextButton>
       </div>
       <div className="boxContents">
         Prize Pool:

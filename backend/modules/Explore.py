@@ -15,9 +15,9 @@ class Explore(Resource):
     docs = db.collection(u'products').stream()
     for doc in docs:
         # change all strings to lower case so that they can string match
-        if(tag in doc.get('category').lower()):
+        if(tag in doc.get('category').lower() and not any(d['id'] == doc.id for d in product_list)):
           product_list.append({"content": doc.to_dict(), "id": doc.id})
-        if(tag in doc.get('tag').lower()):
+        if(tag in doc.get('tag').lower() and not any(d['id'] == doc.id for d in product_list)):
           product_list.append({"content": doc.to_dict(), "id": doc.id})
 
     return {'products': product_list}

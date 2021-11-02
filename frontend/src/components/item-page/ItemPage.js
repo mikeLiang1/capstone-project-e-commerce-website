@@ -99,6 +99,7 @@ function ItemPage({ match }) {
   const [onEdit, setOnEdit] = useState(false);
   const [totalStars, setTotalStars] = useState(new Map());
   const fileInput = React.useRef(null);
+  const [loaded, setLoaded] = useState(false);
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -174,6 +175,8 @@ function ItemPage({ match }) {
       } else {
         setRatings(`0.0 (${data.data.reviews.length})`);
       }
+
+      setLoaded(true);
     }
   }
 
@@ -551,7 +554,7 @@ function ItemPage({ match }) {
   }, []);
 
   return (
-    <div id='ItemPage'>
+    <div id='ItemPage' style={{ display: loaded ? 'block' : 'none' }}>
       <div id='product-category'>
         <Typography style={{ marginLeft: '30px', marginTop: '10px' }}>
           {category}

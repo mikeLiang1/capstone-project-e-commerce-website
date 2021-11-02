@@ -1,61 +1,60 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
-import TextButton from "../buttons-and-sections/TextButton";
+import TextButton from '../buttons-and-sections/TextButton';
 import { Button } from '@material-ui/core';
 import Cookies from 'js-cookie';
-import SmallItemContainer from "../buttons-and-sections/SmallItemContainer";
-import { Link } from "react-router-dom";
+import SmallItemContainer from '../buttons-and-sections/SmallItemContainer';
+import { Link } from 'react-router-dom';
 
-import "./MysteryBoxPage.css";
-
+import './MysteryBoxPage.css';
 
 function BoxGroup({ boxName }) {
   // Dummy data
   let title = boxName.toUpperCase();
-  title = title.replace("_", " MYSTERY ");
-  const [price, setPrice] = useState("999.99");
-  const [img, setIMG] = useState("");
-  const [ID, setID] = useState("")
+  title = title.replace('_', ' MYSTERY ');
+  const [price, setPrice] = useState('999.99');
+  const [img, setIMG] = useState('');
+  const [ID, setID] = useState('');
   const [products, setProducts] = useState([
     {
-      itemName: "",
-      imageUrl: "",
-      price: "99.99",
-      routeId: "",
+      itemName: '',
+      imageUrl: '',
+      price: '99.99',
+      routeId: '',
       chance: 20,
-      background: "rgba(36, 62, 206, 0.6)",
+      background: 'rgba(36, 62, 206, 0.6)',
     },
     {
-      itemName: "",
-      imageUrl: "",
-      price: "99.99",
-      routeId: "",
+      itemName: '',
+      imageUrl: '',
+      price: '99.99',
+      routeId: '',
       chance: 20,
-      background: "rgba(36, 62, 206, 0.6)",
+      background: 'rgba(36, 62, 206, 0.6)',
     },
     {
-      itemName: "",
-      imageUrl: "",
-      price: "99.99",
-      routeId: "",
+      itemName: '',
+      imageUrl: '',
+      price: '99.99',
+      routeId: '',
       chance: 20,
-      background: "rgba(36, 62, 206, 0.6)",
+      background: 'rgba(36, 62, 206, 0.6)',
     },
     {
-      itemName: "",
-      imageUrl: "",
-      price: "99.99",
-      routeId: "",
+      itemName: '',
+      imageUrl: '',
+      price: '99.99',
+      routeId: '',
       chance: 20,
-      background: "rgba(36, 62, 206, 0.6)",
+      background: 'rgba(36, 62, 206, 0.6)',
     },
     {
-      itemName: "",
-      imageUrl: "",
-      price: "99.99",
-      routeId: "",
+      itemName: '',
+      imageUrl: '',
+      price: '99.99',
+      routeId: '',
       chance: 20,
-      background: "rgba(36, 62, 206, 0.6)",
+      background: 'rgba(36, 62, 206, 0.6)',
     },
   ]);
 
@@ -63,20 +62,20 @@ function BoxGroup({ boxName }) {
   async function boxRequest() {
     // Send request to the backend
     const requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
     };
 
-    const response = await fetch("/mystery_box/" + boxName, requestOptions);
+    const response = await fetch('/mystery_box/' + boxName, requestOptions);
 
     if (response.status !== 200) {
-      console.log("Not Successful");
+      console.log('Not Successful');
     } else {
       const data = await response.json();
-      console.log("Successful");
+      console.log('Successful');
       console.log(data.box_data);
       setPrice(data.box_data.Price);
       setIMG(data.box_data.Image);
@@ -86,9 +85,9 @@ function BoxGroup({ boxName }) {
       for (var ID of Object.keys(data.box_data.Products)) {
         const chance = data.box_data.Products[ID];
         const productOptions = {
-          method: "GET",
+          method: 'GET',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
         };
 
@@ -96,13 +95,13 @@ function BoxGroup({ boxName }) {
 
         const productData = await productResponse.json();
 
-        let background = "rgba(36, 62, 206, 0.6)";
+        let background = 'rgba(36, 62, 206, 0.6)';
         if (chance < 10) {
-          background = "gold";
+          background = 'gold';
         } else if (chance < 30) {
-          background = "purple";
+          background = 'purple';
         } else if (chance < 50) {
-          background = "red";
+          background = 'red';
         }
 
         products.push({
@@ -130,10 +129,9 @@ function BoxGroup({ boxName }) {
       setProducts(products);
     }
   }
-  
+
   // Add Item to the User's Cart
   const addTocart = async () => {
-    console.log("CLICKED?")
     // const uid = Cookies.get('user');
     // const productId = match.params.itemId;
     // const productQuantity = quantity;
@@ -144,6 +142,7 @@ function BoxGroup({ boxName }) {
       productImage: img,
       productName: title,
       productPrice: price,
+      productCategory: 'Mystery Box',
     };
     console.log(addToCartBody);
     const requestOptions = {
@@ -156,8 +155,11 @@ function BoxGroup({ boxName }) {
     };
 
     const response = await fetch('/cart', requestOptions);
-    if (response.status != 200) {
+    if (response.status != 200 && response.status != 400) {
       alert('Failed to add to cart!');
+    } else if (response.status === 400) {
+      const data = await response.json();
+      alert(data.message);
     } else if (response.status === 200) {
       const data = await response.json();
       // TODO: Implement "Succefully Added to Cart" Pop-up
@@ -172,36 +174,33 @@ function BoxGroup({ boxName }) {
   // Need to route add to cart with product id
 
   return (
-    <div className="boxGroup">
-      <div className="centered">
-        <div className="outline">
+    <div className='boxGroup'>
+      <div className='centered'>
+        <div className='outline'>
           <b className>{title}</b>
           <br />
           <b>${price}</b>
         </div>
-        <img height="200" width="200" src={img} />
-        <TextButton
-          handleClick={addTocart}
-          buttonName="Add to Cart"
-        >
+        <img height='200' width='200' src={img} />
+        <TextButton handleClick={addTocart} buttonName='Add to Cart'>
           Add to cart
         </TextButton>
       </div>
-      <div className="boxContents">
+      <div className='boxContents'>
         Prize Pool:
-        <div style={{ display: "flex", overflow: "auto" }}>
+        <div style={{ display: 'flex', overflow: 'auto' }}>
           {products.map((item, id) => (
-            <div className="outline">
-              <div className="container">
+            <div className='outline'>
+              <div className='container'>
                 <SmallItemContainer
                   key={id}
                   itemName={item.itemName}
                   imageUrl={item.imageUrl}
                   productRouteId={item.routeId}
                 ></SmallItemContainer>
-                <Link to={"/product/" + item.routeId}>
+                <Link to={'/product/' + item.routeId}>
                   <div
-                    className="chance"
+                    className='chance'
                     style={{ background: item.background }}
                   >
                     <p>{item.chance}%</p>

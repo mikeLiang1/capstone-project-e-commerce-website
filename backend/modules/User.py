@@ -155,10 +155,19 @@ class User_cart(Resource):
             cart = doc.to_dict().get('cart')
             # Confirms that the product has been added/updated in the user's cart
             addConfirmed = False
+            # Checks if the user has a mystery box in their cart
+            containsMysteryBox = False
+            # Check if the user is trying to add another mystery box to their cart when they already have one
+            for item in cart:
+                if item.get("category") == "Mystery Box":
+                    containsMysteryBox = True
+            # Check if the product is a mystery box, if it is, return a 400 error, because a user can only have 
+            # ONE Mystery Box in their cart at a time.
+            if containsMysteryBox == True and args.productCategory == "Mystery Box":
+                return {"message": "Failed to add to cart! You already have a Mystery Box in your cart. Only one mystery box can be in the cart at a time"}, 400
             # Check if product exists in the user's cart
             for item in cart:
                 # If the product exists in the user's cart, update the quantity
-                if item.get("product") == args.productId:
                     # Add the new quantity to the existing quantity in the cart
                     # Since there is currently no way to update a single array element (let alone a field in a specific
                     # dictionary in an array of dictionaries - which in this case "cart" is an array of dictionaries),

@@ -42,7 +42,7 @@ class mystery_box_open(Resource):
             for item in info:
                 item_list.append(item)
                 weights.append(info[item])
-            return {"opened": random.choices(item_list, weights, k=1), "possible": item_list}
+            return {"opened": random.choices(item_list, weights, k=1), "possible": info}
             
         else:
             return {"error" : "box doesnt exist"}, 400

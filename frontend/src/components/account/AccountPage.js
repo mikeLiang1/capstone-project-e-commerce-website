@@ -8,6 +8,8 @@ import RecommendMeProductsSection from "../buttons-and-sections/RecommendMeProdu
 import RecommendedSection from "../buttons-and-sections/RecommendedSection";
 
 function AccountPage() {
+  const options = ['one', 'two', 'three'];
+  const defaultOption = options[0];
   return (
     <div className="AccountPage">
       <h2 style={{ fontSize: "24px" }}>MY ACCOUNT</h2>
@@ -21,6 +23,7 @@ function AccountPage() {
       <div className="AccountPage-recommended">
         <RecommendedSection />
       </div>
+      ;
     </div>
   );
 }

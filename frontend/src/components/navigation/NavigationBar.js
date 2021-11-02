@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Search from './Search';
 
 import { Link } from 'react-router-dom';
+import CustomDropdown from './CustomDropdown';
 import Cookies from 'js-cookie';
 import './NavigationBar.css';
 
@@ -69,11 +70,9 @@ function NavigationBar({ token, admin, setToken, setAdmin }) {
             <button className='NavigationBar-button' onClick = {() => setSearchOpen(!searchOpen)}>
                 <li style = {{ padding: '0px 10px' }}>SEARCH</li>
             </button>
-            <button className='NavigationBar-button'>
-              <Link to='/explore' className='NavigationBar-link'>
-                <li>EXPLORE</li>
-              </Link>
-            </button>
+
+            <CustomDropdown />
+
             <button className='NavigationBar-button'>
               <Link to='/mysterybox' className='NavigationBar-link'>
                 <li>MYSTERY BOX</li>

@@ -9,6 +9,10 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Cookies from 'js-cookie';
+import Stack from '@mui/material/Stack';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import TextButton from '../buttons-and-sections/TextButton.js';
 
 import { initializeApp } from 'firebase/app';
 import {
@@ -41,6 +45,10 @@ const firebaseApp = initializeApp(firebaseConfig);
 const storage = getStorage(firebaseApp);
 
 function ItemPage({ match }) {
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
+  });
+
   // pass in item id
   const productId = 'B0Si9HGHqL0IQ7EzItpK';
   const [category, setCategory] = useState('');
@@ -49,8 +57,10 @@ function ItemPage({ match }) {
   const [name, setName] = useState('');
   const [price, setPrice] = useState(0);
   const [tag, setTag] = useState('');
+  const [open, setOpen] = useState(false);
+  const [error, setError] = useState('');
   const [reviews, setReviews] = useState([]);
-  const [reviewsSort, setReviewsSort] = useState('default');
+  const [reviewsSort, setReviewsSort] = useState('date(newest)');
   const [reviewsShow, setReviewsShow] = useState([]);
   const [reviewsLen, setReviewsLen] = useState(10);
   const [units, setUnits] = useState(0);
@@ -83,10 +93,20 @@ function ItemPage({ match }) {
   const [modalOpen, setModalOpen] = useState(false);
   const list = ['1', '2', '3', '4', '5'];
   const [quantity, setQuantity] = useState('');
+  const [type, setType] = useState('');
   const [ratings, setRatings] = useState('');
   const [accordianName, setAccordianName] = useState('');
   const [onEdit, setOnEdit] = useState(false);
+  const [totalStars, setTotalStars] = useState(new Map());
   const fileInput = React.useRef(null);
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   // Get item data
   async function getItemData() {
@@ -109,7 +129,9 @@ function ItemPage({ match }) {
       requestOptionsPost
     );
     if (res.status === 400) {
-      alert('Product not found!');
+      setError('Product not found!');
+      setType('error');
+      setOpen(true);
     } else if (res.status === 200) {
       const data = await res.json();
       setCategory(data.data.category);
@@ -119,16 +141,24 @@ function ItemPage({ match }) {
       setPrice(data.data.price);
       setTag(data.data.tag);
       setReviews(data.data.reviews);
-      setReviewsShow(data.data.reviews.slice(-10).reverse());
+      setReviewsShow(data.data.reviews.reverse());
       setUnits(data.data.units_sold);
       setReviewIds(data.data.review_ids);
       setAccordianName(`Reviews (${data.data.reviews.length})`);
 
       // Calculate avg star ratings
+      // Set total stars
       var avg = 0;
-      for (var i = 0; i < data.data.reviews.length; i++) {
-        avg += data.data.reviews[i].star_rating;
+      const reviewsNum = data.data.reviews.length;
+      const star_map = new Map();
+      for (var i = 1; i <= 5; i++) star_map.set(i, 0);
+      for (var i = 0; i < reviewsNum; i++) {
+        const star_val = data.data.reviews[i].star_rating;
+        avg += star_val;
+        star_map.set(star_val, star_map.get(star_val) + 1);
       }
+      setTotalStars(star_map);
+
       if (avg !== 0 && data.data.reviews.length !== 0) {
         avg /= data.data.reviews.length;
         var rounded = Math.round(avg * 10) / 10;
@@ -176,13 +206,14 @@ function ItemPage({ match }) {
     console.log(errmsg);
 
     if (errmsg !== '') {
-      alert(`Please complete the following fields: ${errmsg}`);
+      setError(`Please complete the following fields: ${errmsg}`);
+      setType('error');
+      setOpen(true);
       return;
     }
 
     // Uploading image to retrieve link
     if (reviewNewImg instanceof Blob) {
-      //const storageRef = ref(storage, reviewNewImg.name);
       const storageRef = ref(storage, `Review_images/${reviewNewImg.name}`);
       let snapshot = await uploadBytes(storageRef, reviewNewImg);
       let url = await getDownloadURL(
@@ -263,9 +294,13 @@ function ItemPage({ match }) {
       try {
         const data = await response.json();
         if (onEdit) {
-          alert('Review successfully editted!');
+          setError('Review successfully editted!');
+          setType('success');
+          setOpen(true);
         } else {
-          alert('Review successfully posted!');
+          setError('Review successfully posted!');
+          setType('success');
+          setOpen(true);
         }
         console.log('response data', data);
         setModalOpen(false);
@@ -274,7 +309,9 @@ function ItemPage({ match }) {
         setReview(reviewInitialState);
         window.location.reload();
       } catch (error) {
-        alert('Review could not be posted', error);
+        setError('Review could not be posted', error);
+        setType('error');
+        setOpen(true);
         console.log('Error happened');
         console.error(error);
       }
@@ -284,7 +321,9 @@ function ItemPage({ match }) {
   // Update/Delete existing reviews
   async function updateReviews(review_id, command) {
     if (Cookies.get('user') === '') {
-      alert('Only logged in users can do this task!');
+      setError('Only logged in users can do this task!');
+      setType('error');
+      setOpen(true);
       return;
     }
 
@@ -296,18 +335,24 @@ function ItemPage({ match }) {
         // For delete and edit, make sure to check current user is the writer of the review
         if (command === 'delete') {
           if (reviews[i].user_id !== user.id) {
-            alert('You are not an original writer of this review!');
+            setError('You are not an original writer of this review!');
+            setType('error');
+            setOpen(true);
             return;
           }
           newArr.splice(i, 1);
-          alert('Successfully deleted the review!');
+          setError('Successfully deleted the review!');
+          setType('success');
+          setOpen(true);
           window.location.reload();
         }
 
         // For edit, simply open modal and return from the function
         else if (command === 'edit') {
           if (reviews[i].user_id !== user.id) {
-            alert('You are not an original writer of this review!');
+            setError('You are not an original writer of this review!');
+            setType('error');
+            setOpen(true);
             return;
           }
           setReview(reviews[i]);
@@ -381,26 +426,60 @@ function ItemPage({ match }) {
 
   const handleReviewButton = (e) => {
     if (Cookies.get('user') === '') {
-      alert('Only logged in users can write reviews!');
+      setError('Only logged in users can write reviews!');
+      setType('error');
+      setOpen(true);
     } else if (reviews.some((e) => e.user_id === user.id)) {
-      alert('You can write only one review for each product!');
+      setError('You can write only one review for each product!');
+      setType('error');
+      setOpen(true);
     } else {
       setModalOpen(true);
     }
   };
 
-  const handleSortButton = (e) => {
-    setReviewsSort('default');
+  // Sort reviews if user selects sorting method
+  const handleSortButton = (sortMethod) => {
+    setReviewsSort(sortMethod);
+
+    if (sortMethod === 'date(newest)') {
+      setReviewsShow(reviews);
+    } else if (sortMethod === 'date(oldest)') {
+      setReviewsShow(reviews.slice().reverse());
+    } else if (sortMethod === 'ratings(highest)') {
+      setReviewsShow(
+        reviews.slice().sort(function (a, b) {
+          var rev_a = a.star_rating;
+          var rev_b = b.star_rating;
+          if (rev_a > rev_b) return -1;
+          if (rev_a < rev_b) return 1;
+          return 0;
+        })
+      );
+    } else if (sortMethod === 'ratings(lowest)') {
+      setReviewsShow(
+        reviews.slice().sort(function (a, b) {
+          var rev_a = a.star_rating;
+          var rev_b = b.star_rating;
+          if (rev_a < rev_b) return -1;
+          if (rev_a > rev_b) return 1;
+          return 0;
+        })
+      );
+    } else if (sortMethod === 'likes received') {
+      setReviewsShow(
+        reviews.slice().sort(function (a, b) {
+          var rev_a = a.likes.length;
+          var rev_b = b.likes.length;
+          if (rev_a > rev_b) return -1;
+          if (rev_a < rev_b) return 1;
+          return 0;
+        })
+      );
+    }
   };
 
   const handleLoadButton = (e) => {
-    if (reviewsLen >= reviews.length) {
-      alert('No more reviews to be loaded!');
-      return;
-    }
-    if (reviewsSort === 'default') {
-      setReviewsShow(reviews.slice((reviewsLen + 10) * -1).reverse());
-    }
     setReviewsLen(reviewsLen + 10);
   };
 
@@ -429,11 +508,15 @@ function ItemPage({ match }) {
 
     const response = await fetch('/cart', requestOptions);
     if (response.status != 200) {
-      alert('Failed to add to cart!');
+      setError('Failed to add to cart!');
+      setType('error');
+      setOpen(true);
     } else if (response.status === 200) {
       const data = await response.json();
       // TODO: Implement "Succefully Added to Cart" Pop-up
-      alert('Added to Cart!');
+      setError('Added to Cart!');
+      setType('success');
+      setOpen(true);
     }
   };
 
@@ -510,7 +593,11 @@ function ItemPage({ match }) {
           <div id='review-section'>
             <ReviewAccordian
               title={accordianName}
-              content={reviewsShow.map((rev, id) => (
+              totalStars={totalStars}
+              totalReviewsNum={reviews.length}
+              currentReviewsNum={reviewsLen}
+              sortMethod={reviewsSort}
+              content={reviewsShow.slice(0, reviewsLen).map((rev, id) => (
                 <ReviewContainer
                   key={id}
                   first_name={rev.first_name}
@@ -684,6 +771,13 @@ function ItemPage({ match }) {
           </Modal>
         </div>
       </div>
+      <Stack spacing={2} sx={{ width: '100%' }}>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity={type} sx={{ width: '100%' }}>
+            {error}
+          </Alert>
+        </Snackbar>
+      </Stack>
     </div>
   );
 }

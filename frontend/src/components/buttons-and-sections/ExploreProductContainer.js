@@ -5,20 +5,12 @@ import { Link } from 'react-router-dom';
 
 import './ExploreProductContainer.css';
 
-function ExploreProductContainer({ image, name, price, reviews, id }) {
-	const reviewsNum = reviews.length;
-	var avgRating = 0;
+function ExploreProductContainer({ image, name, price, id, reviewsNum, avgRating }) {
 	var ratings = '';
 
-	// Calculate average rating
-	for (var i = 0; i < reviewsNum; i++) {
-		avgRating += reviews[i].star_rating;
-	}
-
-	if (avgRating !== 0 && reviewsNum !== 0) {
-		avgRating /= reviewsNum;
-		avgRating = Math.round(avgRating * 10) / 10;
-		ratings = `${avgRating} (${reviewsNum})`;
+	if (avgRating !== 0) {
+		const rating = Math.round(avgRating * 10) / 10;
+		ratings = `${rating} (${reviewsNum})`;
 	}
 	else {
 		ratings = `0.0 (${reviewsNum})`;

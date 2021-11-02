@@ -19,7 +19,7 @@ function MysteryBoxSpinner({ items, prize }) {
   useEffect(() => {
     setTimeout(() => {
       setDialogOpen(true);
-    }, 12000);
+    }, 14000);
   }, []);
 
   return (

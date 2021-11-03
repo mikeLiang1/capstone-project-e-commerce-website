@@ -271,6 +271,9 @@ class get_recommend(Resource):
 
         # for each in purchase history, add their category and id to dict {"charger": "asdn34234"}    
         for each in purchase_history:
+            # If the product is a mystery box, skip it, as it is not in the "products" collection
+            if each["category"] == "Mystery Box":
+                continue
             doc_ref = db.collection(u'products').document(each["product"])
             doc = doc_ref.get()      
             if doc.to_dict().get("category") not in categories:
@@ -304,7 +307,7 @@ class add_free_item(Resource):
             cart = doc.to_dict().get('cart')
 
             doc_ref.update({u"cart": firestore.ArrayUnion([{"product": args.productId, "quantity": 1,
-            "name": '[Mystery Box] ' + productInfo['name'], "image": productInfo['image'], "price": 0}])})
+            "name": '[Mystery Box] ' + productInfo['name'], "image": productInfo['image'], "price": 0, "category": productInfo["category"]}])})
             
             return {"message": "Added to Cart!"}
         else:

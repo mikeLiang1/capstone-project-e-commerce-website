@@ -6,17 +6,32 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import SmallItemContainer from '../buttons-and-sections/SmallItemContainer';
+import Cookies from 'js-cookie';
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
 function MysteryBoxSpinner({ items, prize }) {
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  useEffect(() => {
-    console.log('Mystery Box Items are: ', items);
-  }, [items]);
+  const addPrizeToCart = async () => {
+    const prizeInformation = {
+      uid: Cookies.get('user'),
+      productId: prize.productId,
+    };
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(prizeInformation),
+    };
+
+    const response = await fetch('/cart/add_free', requestOptions);
+  };
 
   useEffect(() => {
+    addPrizeToCart();
     setTimeout(() => {
       setDialogOpen(true);
     }, 14000);

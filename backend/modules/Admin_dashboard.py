@@ -24,3 +24,22 @@ class Total_revenue(Resource):
             revenue += current
 
         return {"total_revenue": revenue}
+
+class add_to_units_sold(Resource):
+    def post(self, productID, quantity):
+        docs = db.collection(u'products').stream()
+        for doc in docs:
+            if doc.id == productID:
+                previous = doc.get("units_sold")
+        previous += quantity
+
+        doc_ref = db.collection(u'products').document(productID)
+        doc = doc_ref.get()
+        if doc.exists:
+            doc_ref.update({u'units_sold': previous})
+
+            return {"message": previous}
+
+        else:
+            return {"message": "product id doesnt exist"}, 400
+

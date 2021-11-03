@@ -103,6 +103,7 @@ api.add_resource(add_free_item, "/cart/add_free")
 api.add_resource(Explore, '/explore/<string:tag>')
 api.add_resource(remove_cart, "/remove_cart")
 api.add_resource(get_recommend_product, "/recommended_product/<string:productID>")
+api.add_resource(add_to_units_sold, "/add_unit_sold/<string:productID>/<int:quantity>")
 
 if __name__ == "__main__":
     app.run(debug=True)

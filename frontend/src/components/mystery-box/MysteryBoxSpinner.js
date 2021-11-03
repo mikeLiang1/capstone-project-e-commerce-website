@@ -6,11 +6,16 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import SmallItemContainer from '../buttons-and-sections/SmallItemContainer';
+import useSound from 'use-sound';
+import boopSfx from './legendary.mp3';
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
 function MysteryBoxSpinner({ items, prize }) {
   const [dialogOpen, setDialogOpen] = useState(false);
+
+  const [play] = useSound(boopSfx);
 
   useEffect(() => {
     console.log('Mystery Box Items are: ', items);
@@ -19,6 +24,7 @@ function MysteryBoxSpinner({ items, prize }) {
   useEffect(() => {
     setTimeout(() => {
       setDialogOpen(true);
+      play();
     }, 12000);
   }, []);
 
@@ -38,6 +44,7 @@ function MysteryBoxSpinner({ items, prize }) {
         aria-describedby='alert-dialog-slide-description'
       >
         <div className='dialogContent'>
+          <button onClick={play}>Boop!</button>
           <DialogTitle>{'Congratulations!'}</DialogTitle>
           <p>You won...</p>
           <SmallItemContainer itemName={prize.name} imageUrl={prize.image} />

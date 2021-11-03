@@ -99,11 +99,11 @@ function App() {
           <Route path='/mysterybox' exact component={MysteryBoxPage} />
           <Route path='/account' exact component={AccountPage} />
           <Route path='/explore/:tag' exact component={ExplorePage} />
-          <Route
+          {/* <Route
             path='/mysterybox/open/:boxName'
             exact
             component={MysteryBoxOpen}
-          />
+          /> */}
           <Route
             path='/mysterybox/opening/:boxName'
             exact

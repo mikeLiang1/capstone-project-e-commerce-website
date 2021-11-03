@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './MysteryBoxSpinner.css';
 import Button from '@mui/material/Button';
+import Cookies from 'js-cookie';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -20,12 +21,29 @@ function MysteryBoxSpinner({ items, prize }) {
   useEffect(() => {
     console.log('Mystery Box Items are: ', items);
   }, [items]);
+  const addPrizeToCart = async () => {
+    const prizeInformation = {
+      uid: Cookies.get('user'),
+      productId: prize.productId,
+    };
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(prizeInformation),
+    };
+
+    const response = await fetch('/cart/add_free', requestOptions);
+  };
 
   useEffect(() => {
+    addPrizeToCart();
     setTimeout(() => {
       setDialogOpen(true);
       play();
-    }, 12000);
+    }, 14000);
   }, []);
 
   return (

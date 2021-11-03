@@ -43,3 +43,10 @@ Week 6
 Our group worked on completing our tasks for Sprint 2. I was assigned with implementing both the frontend and backend for the “Cart” 
 functionality – which allows users to add items to their cart and purchase them. Additionally, I also
 tidied up styling for the frontend for various pages. 
+
+Week 7
+Our group finalised our tasks for Sprint 2 and started out tasks for Sprint 3. I finished the implementation of the "Cart" functionality
+on both the frontend and backend, so now users are able to add and remove items from their cart. For sprint 3, my task was to
+implement the "Mystery Box Opening Spin Animation", where upon a user purchasing a Mystery Box, an animation will play
+that reveals what item the user receives. 
+

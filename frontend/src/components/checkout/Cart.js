@@ -77,7 +77,9 @@ function Cart({ cartItems, handleQuantity, handleRemove }) {
                 <p>{item.itemName}</p>
               </div>
               <div className='CartItem-quantity'>
-                {item.itemCategory === 'Mystery Box' ? (
+                {/* If the item is a mystery box or a mystery box prize, do not let the user
+                change the quantity */}
+                {item.itemCategory === 'Mystery Box' || item.itemPrice === 0 ? (
                   <div>1</div>
                 ) : (
                   <FormControl fullWidth>

@@ -62,7 +62,6 @@ function MysteryBoxSpinner({ items, prize }) {
         aria-describedby='alert-dialog-slide-description'
       >
         <div className='dialogContent'>
-          <button onClick={play}>Boop!</button>
           <DialogTitle>{'Congratulations!'}</DialogTitle>
           <p>You won...</p>
           <SmallItemContainer itemName={prize.name} imageUrl={prize.image} />

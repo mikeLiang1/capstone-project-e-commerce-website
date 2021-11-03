@@ -53,8 +53,10 @@ function MysteryBoxAnimation({ match }) {
       console.log('PrizeData: ', prizeData);
       var prizeInformation = {
         productId: mysteryBoxData.opened[0],
+        name: prizeData.data.name,
         image: prizeData.data.image,
         price: prizeData.data.price,
+        category: prizeData.data.category,
       };
       setPrize(prizeInformation);
 

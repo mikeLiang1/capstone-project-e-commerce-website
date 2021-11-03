@@ -149,7 +149,6 @@ function BoxGroup({ boxName }) {
 
   // Add Item to the User's Cart
   const addTocart = async () => {
-    console.log('CLICKED?');
     // const uid = Cookies.get('user');
     // const productId = match.params.itemId;
     // const productQuantity = quantity;
@@ -160,6 +159,7 @@ function BoxGroup({ boxName }) {
       productImage: img,
       productName: title,
       productPrice: price,
+      productCategory: 'Mystery Box',
     };
     console.log(addToCartBody);
     const requestOptions = {
@@ -172,10 +172,13 @@ function BoxGroup({ boxName }) {
     };
 
     const response = await fetch('/cart', requestOptions);
-    if (response.status != 200) {
-      setError('Failed to add to cart!');
+    if (response.status != 200 && response.status != 400) {
+      alert('Failed to add to cart!');
       setType('error');
       setOpen(true);
+    } else if (response.status === 400) {
+      const data = await response.json();
+      alert(data.message);
     } else if (response.status === 200) {
       const data = await response.json();
       setError('Added to Cart!');

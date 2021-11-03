@@ -155,6 +155,16 @@ class User_cart(Resource):
             cart = doc.to_dict().get('cart')
             # Confirms that the product has been added/updated in the user's cart
             addConfirmed = False
+            # Checks if the user has a mystery box in their cart
+            containsMysteryBox = False
+            # Check if the user is trying to add another mystery box to their cart when they already have one
+            for item in cart:
+                if item.get("category") == "Mystery Box":
+                    containsMysteryBox = True
+            # Check if the product is a mystery box, if it is, return a 400 error, because a user can only have 
+            # ONE Mystery Box in their cart at a time.
+            if containsMysteryBox == True and args.productCategory == "Mystery Box":
+                return {"message": "Failed to add to cart! You already have a Mystery Box in your cart. Only one mystery box can be in the cart at a time"}, 400
             # Check if product exists in the user's cart
             for item in cart:
                 # If the product exists in the user's cart, update the quantity
@@ -261,6 +271,9 @@ class get_recommend(Resource):
 
         # for each in purchase history, add their category and id to dict {"charger": "asdn34234"}    
         for each in purchase_history:
+            # If the product is a mystery box, skip it, as it is not in the "products" collection
+            if each["category"] == "Mystery Box":
+                continue
             doc_ref = db.collection(u'products').document(each["product"])
             doc = doc_ref.get()      
             if doc.to_dict().get("category") not in categories:
@@ -294,7 +307,7 @@ class add_free_item(Resource):
             cart = doc.to_dict().get('cart')
 
             doc_ref.update({u"cart": firestore.ArrayUnion([{"product": args.productId, "quantity": 1,
-            "name": '[Mystery Box] ' + productInfo['name'], "image": productInfo['image'], "price": 0}])})
+            "name": '[Mystery Box] ' + productInfo['name'], "image": productInfo['image'], "price": 0, "category": productInfo["category"]}])})
             
             return {"message": "Added to Cart!"}
         else:

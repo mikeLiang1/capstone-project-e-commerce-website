@@ -236,7 +236,7 @@ function SurveyPage() {
             severity='success'
             sx={{ width: '100%' }}
           >
-            {error}
+            Added to Cart!
           </Alert>
         </Snackbar>
       </Stack>

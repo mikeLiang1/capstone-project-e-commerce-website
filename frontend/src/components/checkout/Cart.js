@@ -114,14 +114,18 @@ function Cart({ cartItems, handleQuantity, handleRemove }) {
               <div className='CartItem-price'>
                 ${item.itemPrice}
                 <div className='CartItem-remove'>
-                  <IconButton
-                    onClick={() => {
-                      handleRemove(item.id);
-                    }}
-                    size='small'
-                  >
-                    <DeleteIcon />
-                  </IconButton>
+                  {item.itemPrice !== 0 ? (
+                    <IconButton
+                      onClick={() => {
+                        handleRemove(item.id);
+                      }}
+                      size='small'
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  ) : (
+                    <div></div>
+                  )}
                 </div>
               </div>
             </Card>

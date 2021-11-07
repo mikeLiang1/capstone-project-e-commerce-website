@@ -89,6 +89,7 @@ function ItemPage({ match }) {
       first: "",
       last: "",
       address: "",
+      purchase_history: [],
     },
   });
   const [modalOpen, setModalOpen] = useState(false);
@@ -445,6 +446,10 @@ function ItemPage({ match }) {
       setError("You can write only one review for each product!");
       setType("error");
       setOpen(true);
+    } else if (user.content.purchase_history.filter(e => e.product === match.params.itemId).length <= 0) {
+      setError("You have not purchased this product!");
+      setType("error");
+      setOpen(true);
     } else {
       setModalOpen(true);
     }
@@ -542,7 +547,6 @@ function ItemPage({ match }) {
       setOpen(true);
     } else if (response.status === 200) {
       const data = await response.json();
-      // TODO: Implement "Succefully Added to Cart" Pop-up
       setError("Added to Cart!");
       setType("success");
       setOpen(true);
@@ -552,7 +556,8 @@ function ItemPage({ match }) {
   useEffect(() => {
     getItemData();
     getUserData();
-  }, []);
+    window.scrollTo(0, 0);
+  }, [match.params.itemId]);
 
   return (
     <div id='ItemPage' style={{ display: loaded ? 'block' : 'none' }}>

@@ -64,7 +64,11 @@ function MysteryBoxSpinner({ items, prize }) {
         <div className='dialogContent'>
           <DialogTitle>{'Congratulations!'}</DialogTitle>
           <p>You won...</p>
-          <SmallItemContainer itemName={prize.name} imageUrl={prize.image} />
+          <SmallItemContainer
+            itemName={prize.name}
+            imageUrl={prize.image}
+            productRouteId={prize.productId}
+          />
           <b>RRP: ${prize.price}</b>
           <p>The prize will now be added to your cart, free of charge.</p>
           <DialogActions>

@@ -9,11 +9,18 @@ We formed a group of 5 (CGGDS). We assigned Colin Hon as the scrum master. We cr
 I wrote the user stories and acceptance criteria for the search functionality. We also had a standup meeting so that we could check each user story and acceptance criteria and give feedback to on another. We also came up with 3 other functionalities including the 2 novelties. We started to split up the project proposal and make a start in which l was responsible for writing the background and research about another company in the market and find their weaknesses.
 
 ## Week 3
-We were almost done with our project proposal and checked with Cristian if our 2 novelties were novel enough. I made some adjustments on the user stories and acceptance criteria after receiving feedback from my peers.
+We were almost done with our project proposal and checked with Cristian if our 2 novelties were novel enough. I made some adjustments on the user stories and acceptance criteria after receiving feedback from my peers. We also added our user stories onto Jira. I also was responsible for managing the sprint dates throughout the project.
 
 ## Week 4
+Our group finalised our project proposal by checking everything one last time. We went to the backlog and started to add user stories into sprint 1. We split up the work according to frontend and backend and focused on implementing the minimum viable product. Jeming and I were responsible on working on the frontend where l worked on the Explore Page, Products Page, and Edit Products Page.
 
 ## Week 5
+We were near completion for Sprint 1 and just needed to connect some pages to the react router. I also introduced Cookies onto the frontend which allowed us to access important information such as user tokens much easier and faster. 
+
 ## Week 6
+We added user stories into sprint 2 and split them up the same way as before. I was responsible for implementing the swipe survey for the frontend and backend as well as changing the alerts to popups so that the website would continue running when an error occured.
+
 ## Week 7
+I moved onto Sprint 3 since I finished my tasks in sprint 2. I worked on improving the frontend look for the swipe survey and improved the credit card which now does not let users complete their purchase if any of their details are wrong. (name, card number, cvc, expiry date)
+
 ## Week 8

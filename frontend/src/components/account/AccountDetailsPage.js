@@ -63,7 +63,7 @@ function AccountDetailsPage() {
       fname: firstName,
       lname: lastName,
       email: email,
-      adress: address,
+      address: address,
     };
 
     const requestOptions = {
@@ -177,7 +177,7 @@ function AccountDetailsPage() {
             <form className='AccountDetailsPage-change-details-form'>
               <BasicTextField
                 value={address}
-                handleChange={(e) => setFirstName(e.target.value)}
+                handleChange={(e) => setAddress(e.target.value)}
               />
               <br />
             </form>

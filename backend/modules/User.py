@@ -89,7 +89,7 @@ class User(Resource):
         
         if args.address != None:
             doc_ref.update({
-                u'adress' : args.address
+                u'address' : args.address
             })
     
         if args.purchaseHistory != None:

@@ -1,0 +1,19 @@
+.AccountDetailsPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 128px 0;
+}
+
+.AccountDetailsPage-account-details {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 600px;
+  padding: 32px 0;
+}
+
+.AccountDetailsPage-change-details-form {
+  padding: 8px 0;
+}

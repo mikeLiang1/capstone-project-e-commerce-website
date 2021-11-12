@@ -17,3 +17,8 @@
 .AccountDetailsPage-change-details-form {
   padding: 8px 0;
 }
+
+.AccountDetailsPage-change-details-options {
+  display: flex;
+  flex-direction: column;
+}

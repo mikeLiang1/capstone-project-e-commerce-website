@@ -8,17 +8,41 @@ import Snackbar from '@mui/material/Snackbar';
 import BasicTextField from '../buttons-and-sections/BasicTextField';
 import { Alert } from '@mui/material';
 
+import { initializeApp } from '@firebase/app';
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  updatePassword,
+} from 'firebase/auth';
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: 'AIzaSyAVOqrvODx6KS-xBGs5guJTrKBJjduEjRI',
+  authDomain: 'nocta-tech.firebaseapp.com',
+  projectId: 'nocta-tech',
+  storageBucket: 'nocta-tech.appspot.com',
+  messagingSenderId: '1002605988200',
+  appId: '1:1002605988200:web:e91efebc3765fd58b0eedd',
+  measurementId: 'G-5HBFEX2BNM',
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
 function AccountDetailsPage() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [address, setAddress] = useState('');
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
 
   const [editFirstName, setEditFirstName] = useState(false);
   const [editLastName, setEditLastName] = useState(false);
   const [editEmail, setEditEmail] = useState(false);
   const [editAddress, setEditAddress] = useState(false);
+  const [editPassword, setEditPassword] = useState(false);
 
   const [open, setOpen] = useState(false);
   const [error, setError] = useState('');
@@ -29,6 +53,29 @@ function AccountDetailsPage() {
     }
 
     setOpen(false);
+  };
+
+  const changePassword = async () => {
+    signInWithEmailAndPassword(auth, email, currentPassword)
+      .then((userCredential) => {
+        // Signed In
+        const user = userCredential.user;
+        // Change Password
+        updatePassword(user, newPassword)
+          .then(() => {
+            // Successful
+            alert('Password updated successfully!');
+          })
+          .catch((error) => {
+            alert('Error: ', error);
+          });
+      })
+      .catch((error) => {
+        alert('Incorrect Password. Try again');
+      });
+    // Clear the CurrentPassword and NewPassword for security
+    setCurrentPassword('');
+    setNewPassword('');
   };
 
   const getCustomerDetails = async () => {
@@ -113,14 +160,23 @@ function AccountDetailsPage() {
         </div>
         <div>
           {editFirstName ? (
-            <TextButton
-              buttonName='Save'
-              buttonType='submit'
-              handleClick={() => {
-                changeDetails();
-                setEditFirstName(false);
-              }}
-            />
+            <div className='AccountDetailsPage-change-details-options'>
+              <TextButton
+                buttonName='Save'
+                buttonType='submit'
+                handleClick={() => {
+                  changeDetails();
+                  setEditFirstName(false);
+                }}
+              />
+              <br></br>
+              <TextButton
+                buttonName='Cancel'
+                handleClick={() => {
+                  setEditFirstName(false);
+                }}
+              />
+            </div>
           ) : (
             <TextButton
               buttonName='Edit'
@@ -151,14 +207,23 @@ function AccountDetailsPage() {
         </div>
         <div>
           {editLastName ? (
-            <TextButton
-              buttonName='Save'
-              buttonType='submit'
-              handleClick={() => {
-                changeDetails();
-                setEditLastName(false);
-              }}
-            />
+            <div className='AccountDetailsPage-change-details-options'>
+              <TextButton
+                buttonName='Save'
+                buttonType='submit'
+                handleClick={() => {
+                  changeDetails();
+                  setEditLastName(false);
+                }}
+              />
+              <br></br>
+              <TextButton
+                buttonName='Cancel'
+                handleClick={() => {
+                  setEditLastName(false);
+                }}
+              />
+            </div>
           ) : (
             <TextButton
               buttonName='Edit'
@@ -173,6 +238,9 @@ function AccountDetailsPage() {
       <div className='AccountDetailsPage-account-details'>
         <div>
           <div>Address: </div>
+          <div style={{ fontStyle: 'italic' }}>
+            (Street, Suburb, State, Postcode, Country)
+          </div>
           {editAddress ? (
             <form className='AccountDetailsPage-change-details-form'>
               <BasicTextField
@@ -193,20 +261,86 @@ function AccountDetailsPage() {
         </div>
         <div>
           {editAddress ? (
-            <TextButton
-              buttonName='Save'
-              buttonType='submit'
-              handleClick={() => {
-                changeDetails();
-                setEditAddress(false);
-              }}
-            />
+            <div className='AccountDetailsPage-change-details-options'>
+              <TextButton
+                buttonName='Save'
+                buttonType='submit'
+                handleClick={() => {
+                  changeDetails();
+                  setEditAddress(false);
+                }}
+              />
+              <br></br>
+              <TextButton
+                buttonName='Cancel'
+                handleClick={() => {
+                  setEditAddress(false);
+                }}
+              />
+            </div>
           ) : (
             <TextButton
               buttonName='Edit'
               buttonType='button'
               handleClick={() => {
                 setEditAddress(true);
+              }}
+            />
+          )}
+        </div>
+      </div>
+      <div className='AccountDetailsPage-account-details'>
+        <div>
+          <div>Password: </div>
+          {editPassword ? (
+            <form className='AccountDetailsPage-change-details-form'>
+              <BasicTextField
+                value={currentPassword}
+                textName='Current Password'
+                id='outlined-password-input'
+                type='password'
+                handleChange={(e) => setCurrentPassword(e.target.value)}
+              />
+              <BasicTextField
+                value={newPassword}
+                textName='New Password'
+                id='outlined-password-input'
+                type='password'
+                handleChange={(e) => setNewPassword(e.target.value)}
+              />
+              <br />
+            </form>
+          ) : (
+            <div style={{ padding: '36px 0', fontWeight: '700' }}>
+              *********
+            </div>
+          )}
+        </div>
+        <div>
+          {editPassword ? (
+            <div className='AccountDetailsPage-change-details-options'>
+              <TextButton
+                buttonName='Save'
+                buttonType='submit'
+                handleClick={() => {
+                  changePassword();
+                  setEditPassword(false);
+                }}
+              />
+              <br></br>
+              <TextButton
+                buttonName='Cancel'
+                handleClick={() => {
+                  setEditPassword(false);
+                }}
+              />
+            </div>
+          ) : (
+            <TextButton
+              buttonName='Edit'
+              buttonType='button'
+              handleClick={() => {
+                setEditPassword(true);
               }}
             />
           )}

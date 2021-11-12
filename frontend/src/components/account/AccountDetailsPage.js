@@ -390,7 +390,7 @@ function AccountDetailsPage() {
           {editEmail ? (
             <form className='AccountDetailsPage-change-details-form'>
               <BasicTextField
-                value={currentEmail}
+                value={currentPassword}
                 textName='Current Password'
                 id='outlined-password-input'
                 type='password'

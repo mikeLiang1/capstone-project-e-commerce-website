@@ -12,6 +12,7 @@ import { initializeApp } from '@firebase/app';
 import {
   getAuth,
   signInWithEmailAndPassword,
+  updateEmail,
   updatePassword,
 } from 'firebase/auth';
 
@@ -33,7 +34,8 @@ const auth = getAuth(app);
 function AccountDetailsPage() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
+  const [currentEmail, setCurrentEmail] = useState('');
+  const [newEmail, setNewEmail] = useState('');
   const [address, setAddress] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -55,16 +57,86 @@ function AccountDetailsPage() {
     setOpen(false);
   };
 
+  const changeEmail = async () => {
+    signInWithEmailAndPassword(auth, currentEmail, currentPassword)
+      .then((userCredential) => {
+        // Signed In
+        const user = userCredential.user;
+        // Change Email
+        updateEmail(user, newEmail)
+          .then(async () => {
+            // Successful
+            alert('Email updated successfully!');
+            // Update User's Email on Frontend
+            setCurrentEmail(newEmail);
+            // Update User's Email in the Database
+            updateUserDatabaseProfile();
+            // Log the user in through their new email (so their current session is preserved)
+            const loginDetails = { email: newEmail, password: currentPassword };
+            console.log('Login Details: ', loginDetails);
+            // Send request to backend
+            const requestOptions = {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+              },
+              body: JSON.stringify(loginDetails),
+            };
+
+            const response = await fetch('/auth/signin', requestOptions);
+
+            if (response.status === 400) {
+              setOpen(true);
+            } else if (response.status === 200) {
+              const data = await response.json();
+              Cookies.set('user', data.idToken);
+              window.location.reload(false);
+            }
+          })
+          .catch((error) => {
+            alert('Error: ', error);
+          });
+      })
+      .catch((error) => {
+        alert('Incorrect Password. Try again');
+      });
+  };
+
   const changePassword = async () => {
-    signInWithEmailAndPassword(auth, email, currentPassword)
+    signInWithEmailAndPassword(auth, currentEmail, currentPassword)
       .then((userCredential) => {
         // Signed In
         const user = userCredential.user;
         // Change Password
         updatePassword(user, newPassword)
-          .then(() => {
+          .then(async () => {
             // Successful
             alert('Password updated successfully!');
+            // Update the User's Password on the Frontend TEMPORARILY (for login purposes only)
+            setCurrentPassword(newPassword);
+            // Log the user in through their new password (so their current session is preserved)
+            const loginDetails = { email: currentEmail, password: newPassword };
+            console.log('Login Details: ', loginDetails);
+            // Send request to backend
+            const requestOptions = {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+              },
+              body: JSON.stringify(loginDetails),
+            };
+
+            const response = await fetch('/auth/signin', requestOptions);
+
+            if (response.status === 400) {
+              setOpen(true);
+            } else if (response.status === 200) {
+              const data = await response.json();
+              Cookies.set('user', data.idToken);
+              window.location.reload(false);
+            }
           })
           .catch((error) => {
             alert('Error: ', error);
@@ -76,6 +148,30 @@ function AccountDetailsPage() {
     // Clear the CurrentPassword and NewPassword for security
     setCurrentPassword('');
     setNewPassword('');
+  };
+
+  const updateUserDatabaseProfile = async () => {
+    const emailDetails = {
+      uid: Cookies.get('user'),
+      currentEmail: currentEmail,
+      newEmail: newEmail,
+    };
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(emailDetails),
+    };
+    const response = await fetch('/auth/user/emailupdate', requestOptions);
+    if (response.status !== 200) {
+      setError('Failed to Update Email');
+      setOpen(true);
+    } else if (response.status === 200) {
+      const data = await response.json();
+      alert('Email updated successfully!');
+    }
   };
 
   const getCustomerDetails = async () => {
@@ -99,7 +195,7 @@ function AccountDetailsPage() {
       console.log(data);
       setFirstName(data.content.first);
       setLastName(data.content.last);
-      setEmail(data.id);
+      setCurrentEmail(data.id);
       setAddress(data.content.address);
     }
   };
@@ -109,7 +205,6 @@ function AccountDetailsPage() {
       uid: Cookies.get('user'),
       fname: firstName,
       lname: lastName,
-      email: email,
       address: address,
     };
 
@@ -284,6 +379,61 @@ function AccountDetailsPage() {
               buttonType='button'
               handleClick={() => {
                 setEditAddress(true);
+              }}
+            />
+          )}
+        </div>
+      </div>
+      <div className='AccountDetailsPage-account-details'>
+        <div>
+          <div>Email: </div>
+          {editEmail ? (
+            <form className='AccountDetailsPage-change-details-form'>
+              <BasicTextField
+                value={currentEmail}
+                textName='Current Password'
+                id='outlined-password-input'
+                type='password'
+                handleChange={(e) => setCurrentPassword(e.target.value)}
+              />
+              <BasicTextField
+                value={newEmail}
+                textName='New Email'
+                handleChange={(e) => setNewEmail(e.target.value)}
+              />
+              <br />
+            </form>
+          ) : (
+            <div style={{ padding: '36px 0', fontWeight: '700' }}>
+              {currentEmail}
+            </div>
+          )}
+        </div>
+        <div>
+          {editEmail ? (
+            <div className='AccountDetailsPage-change-details-options'>
+              <TextButton
+                buttonName='Save'
+                buttonType='submit'
+                handleClick={() => {
+                  changeEmail();
+                  setEditEmail(false);
+                }}
+              />
+              <br></br>
+              <TextButton
+                buttonName='Cancel'
+                handleClick={() => {
+                  setEditEmail(false);
+                }}
+              />
+            </div>
+          ) : (
+            <TextButton
+              buttonName='Edit'
+              buttonType='button'
+              handleClick={() => {
+                setEditEmail(true);
               }}
             />
           )}

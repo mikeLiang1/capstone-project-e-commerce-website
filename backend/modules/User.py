@@ -27,6 +27,8 @@ parser.add_argument('productPrice', type=int)
 parser.add_argument('productCategory', type=str)
 parser.add_argument('orderPlaced', type=str)
 parser.add_argument('deliveryInfo', type=str)
+parser.add_argument('currentEmail', type=str)
+parser.add_argument('newEmail', type=str)
 
 # Pyrebase
 config = {
@@ -329,3 +331,16 @@ class remove_cart(Resource):
             doc_ref.update({u'cart': []})
 
             return {"message": "cart successfully removed"}
+
+class update_email(Resource):
+    def post(self):
+        args = parser.parse_args()
+        # Get the user's data from their current email
+        doc_ref = db.collection(u'users').document(args.currentEmail)
+        doc = doc_ref.get()
+        # Create a new document with their new email as the primary key, and put the data
+        # from their current email into this
+        doc_ref = db.collection(u'users').document(args.newEmail)
+        doc_ref.set(doc.to_dict())
+        # Delete the old email's data
+        db.collection(u"users").document(args.currentEmail).delete()

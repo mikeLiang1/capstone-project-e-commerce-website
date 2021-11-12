@@ -42,7 +42,7 @@ implemented were very basic as they were part of our “Minimum Viable Product�
 Week 6 
 Our group worked on completing our tasks for Sprint 2. I was assigned with implementing both the frontend and backend for the “Cart” 
 functionality – which allows users to add items to their cart and purchase them. Additionally, I also
-tidied up styling for the frontend for various pages. 
+tidied up styling for the frontend for various pages. Our group also had a meeting to go through Retrospective A.
 
 Week 7
 Our group finalised our tasks for Sprint 2 and started out tasks for Sprint 3. I finished the implementation of the "Cart" functionality
@@ -50,3 +50,11 @@ on both the frontend and backend, so now users are able to add and remove items 
 implement the "Mystery Box Opening Spin Animation", where upon a user purchasing a Mystery Box, an animation will play
 that reveals what item the user receives. 
 
+Week 8
+This week I finished the frontend and backend implementation of the "Mystery Box Opening Spin Animation". Our group also had a meeting 
+before the Progressive Demo B to do a dry run of our demonstration and decide what to present. We went through all the user stories
+in Sprint 2 and Sprint 3 and checked that all of them have been completed.
+
+Week 9
+Our group had a meeting for Retrospective B. We also allocated tasks that needed to be completed for Sprint 4, as well as tasks
+that needed to be done for the final Project Report. 

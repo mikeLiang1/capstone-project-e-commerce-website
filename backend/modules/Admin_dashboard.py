@@ -1,7 +1,7 @@
 from flask_restful import Resource, reqparse
 from firebase_admin import credentials, firestore, initialize_app
 from functools import cmp_to_key
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # Initialize Firestore DB
 cred = credentials.Certificate('key.json')
@@ -61,12 +61,24 @@ class Total_sales(Resource):
 
         # create dictionary {'date': total_sales, ...}
         data = {}
+        prev = datetime.strptime(arr[0]['orderPlaced'], "%d %B %Y")
         for order in arr:
             placed = order['orderPlaced']
+            placed_date = datetime.strptime(placed, "%d %B %Y")
             price = order['price']
+            quantity = order['quantity']
+            diff = placed_date - prev
+
+            if diff > timedelta(days=1):
+                while prev != placed_date:
+                    print(placed_date)
+                    prev += timedelta(days=1)
+                    string = prev.strftime("%d %B %Y")
+                    data[string] = 0
+
             if placed in data:
-                data[placed] += price
+                data[placed] += price * quantity
             else:
-                data[placed] = price
+                data[placed] = price * quantity
 
         return {'data': data }

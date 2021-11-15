@@ -31,50 +31,62 @@ from sklearn.metrics.pairwise import cosine_similarity
         return top 10
 """
 
-productID = '0bzHi6JvQHKpC1Ty3VC3'
-
 # Initialize Firestore DB
 cred = credentials.Certificate('key.json')
 default_app = initialize_app(cred, name='recommend')
 db = firestore.client(default_app)
 
-# Read info from firebase
-productList = []
-
-values = db.collection('products').stream()
-
-for doc in values:
-    d = doc.to_dict()
-    d[id] = doc.id
-    productList.append(d)
-
-# Place data into dataframe
-df = pd.DataFrame(productList)
-
-print(df)
-
-def combinedFeatures(row):
-    return row['category']+ " " + row['tag']
-
-df["combined_features"] = df.apply(combinedFeatures, axis=1)
-
-cv = CountVectorizer()
-count_matrix = cv.fit_transform(df["combined_features"])
-
-cosine_sim = cosine_similarity(count_matrix)
-
-print("Count Matrix:", count_matrix.toarray())
-
-def get_index_from_title(id):
-    for i in range(0, len(df)):
-        if df[i]['id'] == productID:
-            return i 
-
-movie_index = get_index_from_title("Anker PowerCore 10000 10000mAh Black External Battery Portable Charger")
-
-similar_products = list(enumerate(cosine_sim[movie_index]))
-
-
 class Recommendation(Resource):
+    
+    # Returns a list of the most similar 15 product IDs
     def get(self, productID):
-        return
+        # Read info from firebase
+        productList = []
+        
+        values = db.collection('products').stream()
+        
+        for doc in values:
+            d = doc.to_dict()
+            d['id'] = doc.id
+            productList.append(d)
+        
+        # Place data into dataframe
+        df = pd.DataFrame(productList)
+        
+        print(df)
+        
+        def combinedFeatures(row):
+            return row['category']+ " " + row['tag']
+        
+        df["combined_features"] = df.apply(combinedFeatures, axis=1)
+        
+        cv = CountVectorizer()
+        count_matrix = cv.fit_transform(df["combined_features"])
+        
+        cosine_sim = cosine_similarity(count_matrix)
+        
+        print("Count Matrix:", count_matrix.toarray())
+        
+        def get_index_from_title(id):
+            columns = list(df)
+            
+            for i,j in df.iterrows():
+                print(j['id'])
+                if j['id'] == id:
+                    return i
+        
+        movie_index = get_index_from_title("0bzHi6JvQHKpC1Ty3VC3")
+        
+        similar_products = list(enumerate(cosine_sim[movie_index]))
+        
+        sorted_similar_products = sorted(similar_products, key=lambda x:x[1], reverse=True)
+        
+        i = 0
+        for product in sorted_similar_products:
+            
+            print(df.iloc[product[0]]['id'])
+                    
+            i += 1
+            if i > 15:
+                break
+

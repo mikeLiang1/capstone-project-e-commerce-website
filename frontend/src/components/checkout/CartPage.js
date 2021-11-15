@@ -18,13 +18,10 @@ function CartPage({ token }) {
     return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
   });
   const [cartItems, setCartItems] = useState([]);
-<<<<<<< HEAD
   const [containsBox, setContainsBox] = useState(false);
 
-=======
   const [open, setOpen] = useState(false);
   const [error, setError] = useState('');
->>>>>>> main
   const [customerDetails, setCustomerDetails] = useState({
     id: '',
     content: {

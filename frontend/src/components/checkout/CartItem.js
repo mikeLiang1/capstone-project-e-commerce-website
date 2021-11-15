@@ -57,34 +57,45 @@ function CartItem({ item, handleRemove, handleQuantity }) {
           {item.itemCategory === 'Mystery Box' || item.itemPrice === 0 ? (
             <div>1</div>
           ) : (
-            <FormControl fullWidth>
-              <InputLabel
-                id='demo-controlled-open-select-label'
-                variant='standard'
-              >
-                Quantity
-              </InputLabel>
-              <Select
-                labelId='demo-controlled-open-select-label'
-                onChange={changeQuantity}
-                value={quantity}
-                defaultValue={item.itemQuantity}
-                onClick={() => {
-                  setProductId(item.id);
-                }}
-              >
-                <MenuItem value={1}>1</MenuItem>
-                <MenuItem value={2}>2</MenuItem>
-                <MenuItem value={3}>3</MenuItem>
-                <MenuItem value={4}>4</MenuItem>
-                <MenuItem value={5}>5</MenuItem>
-                <MenuItem value={6}>6</MenuItem>
-                <MenuItem value={7}>7</MenuItem>
-                <MenuItem value={8}>8</MenuItem>
-                <MenuItem value={9}>9</MenuItem>
-                <MenuItem value={10}>10</MenuItem>
-              </Select>
-            </FormControl>
+            <div>
+              {quantity > 10 ? (
+                <div className='CartItem-quantity-exceed-ten'>
+                  <p style={{ fontSize: '16px', fontWeight: '700' }}>
+                    Quantity
+                  </p>
+                  <p>{quantity}</p>
+                </div>
+              ) : (
+                <FormControl fullWidth>
+                  <InputLabel
+                    id='demo-controlled-open-select-label'
+                    variant='standard'
+                  >
+                    Quantity
+                  </InputLabel>
+                  <Select
+                    labelId='demo-controlled-open-select-label'
+                    onChange={changeQuantity}
+                    value={quantity}
+                    defaultValue={item.itemQuantity}
+                    onClick={() => {
+                      setProductId(item.id);
+                    }}
+                  >
+                    <MenuItem value={1}>1</MenuItem>
+                    <MenuItem value={2}>2</MenuItem>
+                    <MenuItem value={3}>3</MenuItem>
+                    <MenuItem value={4}>4</MenuItem>
+                    <MenuItem value={5}>5</MenuItem>
+                    <MenuItem value={6}>6</MenuItem>
+                    <MenuItem value={7}>7</MenuItem>
+                    <MenuItem value={8}>8</MenuItem>
+                    <MenuItem value={9}>9</MenuItem>
+                    <MenuItem value={10}>10</MenuItem>
+                  </Select>
+                </FormControl>
+              )}
+            </div>
           )}
         </div>
         <div className='CartItem-price'>

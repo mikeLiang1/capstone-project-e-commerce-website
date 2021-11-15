@@ -36,6 +36,10 @@
   width: 64px;
 }
 
+.CartItem-quantity-exceed-ten {
+  text-align: left;
+}
+
 .CartItem-price {
   font-weight: 700;
   width: 50px;

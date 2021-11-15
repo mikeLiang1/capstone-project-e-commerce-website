@@ -105,6 +105,7 @@ api.add_resource(remove_cart, "/remove_cart")
 api.add_resource(get_recommend_product, "/recommended_product/<string:productID>")
 api.add_resource(add_to_units_sold, "/add_unit_sold/<string:productID>/<int:quantity>")
 api.add_resource(update_email, "/auth/user/emailupdate")
+api.add_resource(Total_sales, "/total_sales")
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,5 +1,7 @@
 from flask_restful import Resource, reqparse
 from firebase_admin import credentials, firestore, initialize_app
+from functools import cmp_to_key
+from datetime import datetime
 
 # Initialize Firestore DB
 cred = credentials.Certificate('key.json')
@@ -43,3 +45,28 @@ class add_to_units_sold(Resource):
         else:
             return {"message": "product id doesnt exist"}, 400
 
+class Total_sales(Resource):
+    def get(self):
+        docs = db.collection(u'users').stream()
+        arr = []
+        for doc in docs:
+            orders = doc.get(u'purchase_history')
+            for order in orders:
+                arr.append(order)
+                print(order['orderPlaced'])
+        
+        # sort by order placed
+        arr.sort(key=lambda r: datetime.strptime(r['orderPlaced'], "%d %B %Y"))
+        print(arr)
+
+        # create dictionary {'date': total_sales, ...}
+        data = {}
+        for order in arr:
+            placed = order['orderPlaced']
+            price = order['price']
+            if placed in data:
+                data[placed] += price
+            else:
+                data[placed] = price
+
+        return {'data': data }

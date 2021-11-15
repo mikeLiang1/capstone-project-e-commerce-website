@@ -57,7 +57,6 @@ function CartPage({ token }) {
       setOpen(true);
     } else if (response.status === 200) {
       const cartData = await response.json();
-      console.log('Fetch cart: ', cartData);
       let items = [];
       for (var i = 0; i < cartData.cart.length; i++) {
         items.push({
@@ -70,7 +69,6 @@ function CartPage({ token }) {
         });
 
         if (cartData.cart[i].name.includes('MYSTERY BOX')) {
-          console.log('mysterybox FOUND');
           let boxName = cartData.cart[i].name;
           // Parse boxname here
           setContainsBox(cartData.cart[i].product);
@@ -105,8 +103,9 @@ function CartPage({ token }) {
     getCustomerDetails();
   }, []);
 
+  useEffect(() => {}, [cartItems]);
+
   const handleQuantity = async (productToChangeQuantityId, newQuantity) => {
-    console.log('handleQuantity run...');
     // Frontend Change Item Quantity
     if (productToChangeQuantityId === null) {
       return;

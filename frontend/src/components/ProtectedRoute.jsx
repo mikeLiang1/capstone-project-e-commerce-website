@@ -11,6 +11,8 @@ const ProtectedRoute = ({ component: Component, admin, ...rest }) => {
         if (Cookies.get('admin')) {
           console.log(admin);
           return <Component {...rest} {...props} admin={admin} />;
+        } else if (Cookies.get('user')) {
+          return <Component {...rest} {...props} admin={admin} />;
         } else {
           return (
             <Redirect

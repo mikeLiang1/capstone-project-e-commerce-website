@@ -103,7 +103,12 @@ function App() {
           />
           <Route path='/previousorders' exact component={PreviousOrders} />
           <Route path='/mysterybox' exact component={MysteryBoxPage} />
-          <Route path='/account' exact component={AccountPage} />
+          <ProtectedRoute
+            path='/account'
+            user={admin}
+            setUser={setAdmin}
+            component={AccountPage}
+          ></ProtectedRoute>
           <Route path='/accountdetails' exact component={AccountDetailsPage} />
           <Route path='/explore/:tag' exact component={ExplorePage} />
           {/* <Route

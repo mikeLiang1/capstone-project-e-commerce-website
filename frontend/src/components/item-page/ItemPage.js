@@ -25,7 +25,6 @@ import {
 } from "firebase/storage";
 
 import ReviewContainer from "../buttons-and-sections/ReviewContainer.js";
-import Accordian from "../buttons-and-sections/Accordian.js";
 import ReviewAccordian from "../buttons-and-sections/ReviewAccordian.js";
 import "./ItemPage.css";
 

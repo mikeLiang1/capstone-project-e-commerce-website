@@ -53,13 +53,6 @@ class add_to_units_sold(Resource):
         else:
             return {"message": "product id doesnt exist"}, 400
 
-def week_of_month(dt):
-    first_day = dt.replace(day=1)
-    dom = dt.day
-    adjusted_dom = dom + first_day.weekday()
-
-    return int(ceil(adjusted_dom/7.0))
-
 class Total_sales(Resource):
     def get(self):
         docs = db.collection(u'users').stream()

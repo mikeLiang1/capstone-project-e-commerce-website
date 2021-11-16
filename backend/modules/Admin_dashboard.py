@@ -2,6 +2,9 @@ from flask_restful import Resource, reqparse
 from firebase_admin import credentials, firestore, initialize_app
 from functools import cmp_to_key
 from datetime import datetime, timedelta
+from math import ceil
+
+import calendar
 
 # Initialize Firestore DB
 cred = credentials.Certificate('key.json')
@@ -25,6 +28,11 @@ class Total_revenue(Resource):
             current = doc.get("units_sold") * doc.get("price")
             revenue += current
 
+        docs = db.collection(u'mystery_box').stream()
+        for doc in docs:
+            current = doc.get("units_sold") * doc.get("Price")
+            revenue += current
+
         return {"total_revenue": revenue}
 
 class add_to_units_sold(Resource):
@@ -45,6 +53,13 @@ class add_to_units_sold(Resource):
         else:
             return {"message": "product id doesnt exist"}, 400
 
+def week_of_month(dt):
+    first_day = dt.replace(day=1)
+    dom = dt.day
+    adjusted_dom = dom + first_day.weekday()
+
+    return int(ceil(adjusted_dom/7.0))
+
 class Total_sales(Resource):
     def get(self):
         docs = db.collection(u'users').stream()
@@ -53,32 +68,29 @@ class Total_sales(Resource):
             orders = doc.get(u'purchase_history')
             for order in orders:
                 arr.append(order)
-                print(order['orderPlaced'])
         
         # sort by order placed
         arr.sort(key=lambda r: datetime.strptime(r['orderPlaced'], "%d %B %Y"))
-        print(arr)
 
-        # create dictionary {'date': total_sales, ...}
-        data = {}
-        prev = datetime.strptime(arr[0]['orderPlaced'], "%d %B %Y")
+        # create dictionary: {'2021': {'January': {'1': number, ...}, ...}, ...}, ...}
+        available = {}
         for order in arr:
             placed = order['orderPlaced']
-            placed_date = datetime.strptime(placed, "%d %B %Y")
+            dt = datetime.strptime(placed, "%d %B %Y")
             price = order['price']
             quantity = order['quantity']
-            diff = placed_date - prev
+            
+            if dt.year not in available:
+                available[dt.year] = {}
+                for i in range(1, datetime.now().month + 1):
+                    available[dt.year][calendar.month_name[i]] = {}
+                    end_date = calendar.monthrange(dt.year, i)[1] + 1
+                    if i == datetime.now().month:
+                        end_date = datetime.now().day + 1
 
-            if diff > timedelta(days=1):
-                while prev != placed_date:
-                    print(placed_date)
-                    prev += timedelta(days=1)
-                    string = prev.strftime("%d %B %Y")
-                    data[string] = 0
-
-            if placed in data:
-                data[placed] += price * quantity
+                    for j in range(1, end_date):
+                        available[dt.year][calendar.month_name[i]][j] = 0
             else:
-                data[placed] = price * quantity
+                available[dt.year][calendar.month_name[dt.month]][dt.day] += price * quantity
 
-        return {'data': data }
+        return { 'data': available }

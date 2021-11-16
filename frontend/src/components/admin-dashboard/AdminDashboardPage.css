@@ -21,6 +21,14 @@
   margin-top: 30px;
 }
 
+.AdminDashboardPage-sales-dropdown {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
 .AdminDashboardPage-sales-text {
   display: flex;
   flex-direction: row;

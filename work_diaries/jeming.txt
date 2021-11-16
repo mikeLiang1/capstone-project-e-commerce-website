@@ -57,4 +57,8 @@ in Sprint 2 and Sprint 3 and checked that all of them have been completed.
 
 Week 9
 Our group had a meeting for Retrospective B. We also allocated tasks that needed to be completed for Sprint 4, as well as tasks
-that needed to be done for the final Project Report. 
+that needed to be done for the final Project Report.
+
+Week 10
+This week our group worked on finalising our final Project Report, as well as stress testing and fixing any potential bugs in our code.
+We also worked on cleaning up our code to be more readable.

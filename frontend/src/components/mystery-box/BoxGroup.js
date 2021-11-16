@@ -173,12 +173,14 @@ function BoxGroup({ boxName }) {
 
     const response = await fetch('/cart', requestOptions);
     if (response.status != 200 && response.status != 400) {
-      alert('Failed to add to cart!');
+      setError('Failed to add to cart!');
       setType('error');
       setOpen(true);
     } else if (response.status === 400) {
       const data = await response.json();
-      alert(data.message);
+      setError(data.message);
+      setType('error');
+      setOpen(true);
     } else if (response.status === 200) {
       const data = await response.json();
       setError('Added to Cart!');

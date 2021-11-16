@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from "react";
-import Cookies from "js-cookie";
-import "./AccountPage.css";
+import React, { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
+import './AccountPage.css';
 
-import PreviousOrderitem from "../buttons-and-sections/PreviousOrderItems.js";
+import PreviousOrderitem from '../buttons-and-sections/PreviousOrderItems.js';
 
 function PreviousOrders() {
   const [previousItems, setPreviousItems] = useState([]);
 
   const getPurchaseHistory = async () => {
     const requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
     };
 
     const response = await fetch(
-      `/purchase_history/${Cookies.get("user")}`,
+      `/purchase_history/${Cookies.get('user')}`,
       requestOptions
     );
     if (response.status != 200) {
-      alert("Failed to get Purchase_history!");
+      alert('Failed to get Purchase_history!');
     } else if (response.status === 200) {
       const data = await response.json();
       let items = [];
@@ -59,11 +59,15 @@ function PreviousOrders() {
   }, []);
 
   return (
-    <div className="CartPage">
-      <h2 style={{ fontSize: "24px" }}>MY ORDERS</h2>
-      {previousItems.map((item) => (
-        <div>{item.content}</div>
-      ))}
+    <div className='CartPage'>
+      <h2 style={{ fontSize: '24px' }}>MY ORDERS</h2>
+      {previousItems.length === 0 ? (
+        <p style={{ paddingTop: '128px' }}>
+          You have <span style={{ color: '#FF7A00' }}>no previous orders</span>
+        </p>
+      ) : (
+        previousItems.map((item) => <div>{item.content}</div>)
+      )}
     </div>
   );
 }

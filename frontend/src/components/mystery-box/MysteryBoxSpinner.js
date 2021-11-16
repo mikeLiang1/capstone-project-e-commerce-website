@@ -8,7 +8,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import SmallItemContainer from '../buttons-and-sections/SmallItemContainer';
 import useSound from 'use-sound';
-import boopSfx from './legendary.mp3';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;

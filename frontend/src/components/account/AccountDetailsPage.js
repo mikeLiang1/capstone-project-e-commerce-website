@@ -47,7 +47,8 @@ function AccountDetailsPage() {
   const [editPassword, setEditPassword] = useState(false);
 
   const [open, setOpen] = useState(false);
-  const [error, setError] = useState('');
+  const [popUp, setPopUp] = useState('');
+  const [alertType, setAlertType] = useState('error');
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -65,8 +66,6 @@ function AccountDetailsPage() {
         // Change Email
         updateEmail(user, newEmail)
           .then(async () => {
-            // Successful
-            alert('Email updated successfully!');
             // Update User's Email on Frontend
             setCurrentEmail(newEmail);
             // Update User's Email in the Database
@@ -91,6 +90,10 @@ function AccountDetailsPage() {
             } else if (response.status === 200) {
               const data = await response.json();
               Cookies.set('user', data.idToken);
+              // Success
+              setPopUp('Email updated successfully!');
+              setAlertType('success');
+              setOpen(true);
               window.location.reload(false);
             }
           })
@@ -99,7 +102,9 @@ function AccountDetailsPage() {
           });
       })
       .catch((error) => {
-        alert('Incorrect Password. Try again');
+        setPopUp('Incorrect Password. Try again');
+        setAlertType('error');
+        setOpen(true);
       });
   };
 
@@ -111,8 +116,6 @@ function AccountDetailsPage() {
         // Change Password
         updatePassword(user, newPassword)
           .then(async () => {
-            // Successful
-            alert('Password updated successfully!');
             // Update the User's Password on the Frontend TEMPORARILY (for login purposes only)
             setCurrentPassword(newPassword);
             // Log the user in through their new password (so their current session is preserved)
@@ -136,6 +139,10 @@ function AccountDetailsPage() {
               const data = await response.json();
               Cookies.set('user', data.idToken);
               window.location.reload(false);
+              // Success
+              setPopUp('Passsword updated successfully!');
+              setAlertType('success');
+              setOpen(true);
             }
           })
           .catch((error) => {
@@ -143,7 +150,9 @@ function AccountDetailsPage() {
           });
       })
       .catch((error) => {
-        alert('Incorrect Password. Try again');
+        setPopUp('Incorrect Password. Try again');
+        setAlertType('error');
+        setOpen(true);
       });
     // Clear the CurrentPassword and NewPassword for security
     setCurrentPassword('');
@@ -166,11 +175,10 @@ function AccountDetailsPage() {
     };
     const response = await fetch('/auth/user/emailupdate', requestOptions);
     if (response.status !== 200) {
-      setError('Failed to Update Email');
+      setPopUp('Failed to Update Email');
       setOpen(true);
     } else if (response.status === 200) {
       const data = await response.json();
-      alert('Email updated successfully!');
     }
   };
 
@@ -188,7 +196,7 @@ function AccountDetailsPage() {
       requestOptions
     );
     if (response.status !== 200) {
-      setError('Failed to get Customer Details!');
+      setPopUp('Failed to get Details!');
       setOpen(true);
     } else if (response.status === 200) {
       const data = await response.json();
@@ -499,8 +507,12 @@ function AccountDetailsPage() {
 
       <Stack spacing={2} sx={{ width: '100%' }}>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-          <Alert onClose={handleClose} severity='error' sx={{ width: '100%' }}>
-            {error}
+          <Alert
+            onClose={handleClose}
+            severity={alertType}
+            sx={{ width: '100%' }}
+          >
+            {popUp}
           </Alert>
         </Snackbar>
       </Stack>

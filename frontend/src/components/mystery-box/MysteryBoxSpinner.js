@@ -15,8 +15,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 function MysteryBoxSpinner({ items, prize }) {
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const [play] = useSound(boopSfx);
-
   useEffect(() => {
     console.log('Mystery Box Items are: ', items);
   }, [items]);
@@ -39,10 +37,6 @@ function MysteryBoxSpinner({ items, prize }) {
 
   useEffect(() => {
     addPrizeToCart();
-    setTimeout(() => {
-      setDialogOpen(true);
-      play();
-    }, 14000);
   }, []);
 
   return (

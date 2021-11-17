@@ -124,7 +124,7 @@ function SurveyPage() {
       } else if (response.status === 200) {
         const data = await response.json();
         let items = [];
-        console.log(data);
+
         for (var i = 0; i < data.products.length; i++) {
           items.push({
             name: data.products[i].content.name,
@@ -153,7 +153,6 @@ function SurveyPage() {
 
       if (!down && trigger) {
         if (dir === 1) {
-          console.log('swiped right');
           loved.push(list[it]);
         }
         if (dir === -1) {

@@ -6,22 +6,39 @@ import Button from '@material-ui/core/Button';
 import TextButton from '../buttons-and-sections/TextButton';
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 import Tick from '../../images/Tick.png';
 
 import './CheckoutPage.css';
 
 function CheckoutPage({ cartData, customerDetails, mysteryBox }) {
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
+  });
   const [open, setOpen] = useState('box closed');
+  const [openA, setOpenA] = React.useState(false);
   const [dialogOpen, setDialog] = useState(false);
   const [cardValid, setCardValid] = useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenA(false);
+  };
 
   useEffect(() => {
     console.log(cardValid);
   }, [cardValid]);
 
   const handleClick = async () => {
-    console.log(cardValid);
+    if (cardValid === false) {
+      setOpenA(true);
+    }
     if (cardValid === true) {
       setOpen('box open');
       setDialog(true);
@@ -44,7 +61,6 @@ function CheckoutPage({ cartData, customerDetails, mysteryBox }) {
           deliveryInfo: customerDetails.content.address,
           productCategory: cartData[i].itemCategory,
         };
-        console.log(newBody);
         const requestOptions = {
           method: 'POST',
           headers: {
@@ -89,12 +105,6 @@ function CheckoutPage({ cartData, customerDetails, mysteryBox }) {
       }
     }
   };
-
-  // if (mysteryBox) {
-  //   console.log('Name: ', mysteryBox);
-  //   mysteryBox = mysteryBox.replace(' MYSTERY ', '_');
-  //   mysteryBox = mysteryBox.toLowerCase();
-  // }
 
   return (
     <div style={{ minHeight: '650px' }}>
@@ -158,6 +168,14 @@ function CheckoutPage({ cartData, customerDetails, mysteryBox }) {
           </DialogActions>
         </div>
       </Dialog>
+
+      <Stack spacing={2} sx={{ width: '100%' }}>
+        <Snackbar open={openA} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity='error' sx={{ width: '100%' }}>
+            Card Details Invalid!
+          </Alert>
+        </Snackbar>
+      </Stack>
     </div>
   );
 }

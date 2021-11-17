@@ -15,9 +15,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 function MysteryBoxSpinner({ items, prize }) {
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  useEffect(() => {
-    console.log('Mystery Box Items are: ', items);
-  }, [items]);
   const addPrizeToCart = async () => {
     const prizeInformation = {
       uid: Cookies.get('user'),
@@ -37,6 +34,9 @@ function MysteryBoxSpinner({ items, prize }) {
 
   useEffect(() => {
     addPrizeToCart();
+    setTimeout(() => {
+      setDialogOpen(true);
+    }, 13000);
   }, []);
 
   return (
@@ -62,6 +62,7 @@ function MysteryBoxSpinner({ items, prize }) {
             imageUrl={prize.image}
             productRouteId={prize.productId}
           />
+          <br></br>
           <b>RRP: ${prize.price}</b>
           <p>The prize will now be added to your cart, free of charge.</p>
           <DialogActions>

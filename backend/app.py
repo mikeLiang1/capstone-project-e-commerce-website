@@ -106,6 +106,7 @@ api.add_resource(get_recommend_product, "/recommended_product/<string:productID>
 api.add_resource(add_to_units_sold, "/add_unit_sold/<string:productID>/<int:quantity>")
 api.add_resource(update_email, "/auth/user/emailupdate")
 api.add_resource(Total_sales, "/total_sales")
+api.add_resource(mystery_add_units_sold, "/mystery_add_units_sold/<string:mysteryID>")
 
 if __name__ == "__main__":
     app.run(debug=True)

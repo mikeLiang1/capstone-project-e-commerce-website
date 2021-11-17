@@ -23,16 +23,12 @@ function NavigationBar({ token, admin, setToken, setAdmin }) {
       {admin === 'true' ? (
         <div className='NavigationBar'>
           <ul className='NavigationBar-links-left'>
-            <button className='NavigationBar-button'>
-              <Link to='/search' className='NavigationBar-link'>
-                <li>SEARCH</li>
-              </Link>
+            <button className='NavigationBar-button' onClick = {() => setSearchOpen(!searchOpen)}>
+                <li style = {{ padding: '0px 10px' }}>SEARCH</li>
             </button>
-            <button className='NavigationBar-button'>
-              <Link to='/explore' className='NavigationBar-link'>
-                <li>EXPLORE</li>
-              </Link>
-            </button>
+
+            <CustomDropdown />
+
             <button className='NavigationBar-button'>
               <Link to='/mysterybox' className='NavigationBar-link'>
                 <li>MYSTERY BOX</li>

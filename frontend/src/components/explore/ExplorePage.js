@@ -42,9 +42,9 @@ function ExplorePage({ match }) {
 
   const handlePage = (e, value) => {
     setPage(value);
-    setProductStart(value * 12 - 12);
+    // setProductStart(value * 12 - 12);
     // for now im only showing 4 products coz we have only a few
-    // setProductStart(value * 4 - 4);
+    setProductStart(value * 10 - 10);
   };
 
   async function getItems() {
@@ -89,7 +89,8 @@ function ExplorePage({ match }) {
 
       setAvgRatings(newMap);
 
-      setPageNum(Math.ceil(data.products.length / 12));
+      // setPageNum(Math.ceil(data.products.length / 12));
+      setPageNum(Math.ceil(data.products.length / 10));
       setLoaded(true);
     }
   }
@@ -210,7 +211,7 @@ function ExplorePage({ match }) {
       <div id='ExplorePage-items-section'>
         {
           productShow
-          .slice(productStart, productStart + 12)
+          .slice(productStart, productStart + 10)
           .map((prod, i) => {
             return (
               <ExploreProductContainer

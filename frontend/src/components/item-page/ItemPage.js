@@ -88,6 +88,7 @@ function ItemPage({ match }) {
       first: "",
       last: "",
       address: "",
+      admin: false,
       purchase_history: [],
     },
   });
@@ -136,6 +137,7 @@ function ItemPage({ match }) {
       setOpen(true);
     } else if (res.status === 200) {
       const data = await res.json();
+      console.log(data);
       setCategory(data.data.category);
       setDesc(data.data.description);
       setImg(data.data.image);

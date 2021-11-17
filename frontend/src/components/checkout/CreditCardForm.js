@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useForm from '../../useForm';
 import { Button, Form, Alert, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -6,8 +6,16 @@ import './CreditCardForm.css';
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 
-const CreditCardForm = () => {
+const CreditCardForm = ({ setCardValid }) => {
   const { handleChange, handleFocus, handleSubmit, values, errors } = useForm();
+  function checkCard() {
+    if (errors.variant === 'danger') {
+      setCardValid(false);
+    }
+    if (errors.variant === 'success') {
+      setCardValid(true);
+    }
+  }
   return (
     <div className='container'>
       <div className='box justify-content-center align-items-center'>
@@ -85,6 +93,7 @@ const CreditCardForm = () => {
               </Col>
             </Row>
             <Button
+              onClick={checkCard}
               size={'block'}
               data-testid='validateButton'
               id='validateButton'

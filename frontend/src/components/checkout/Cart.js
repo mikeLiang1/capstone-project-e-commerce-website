@@ -77,45 +77,55 @@ function Cart({ cartItems, handleQuantity, handleRemove }) {
                 <p>{item.itemName}</p>
               </div>
               <div className='CartItem-quantity'>
-                <FormControl fullWidth>
-                  <InputLabel
-                    id='demo-controlled-open-select-label'
-                    variant='standard'
-                  >
-                    Quantity
-                  </InputLabel>
-                  <Select
-                    labelId='demo-controlled-open-select-label'
-                    onChange={changeQuantity}
-                    defaultValue={item.itemQuantity}
-                    onClick={() => {
-                      handleClick(item.id);
-                    }}
-                  >
-                    <MenuItem value={1}>1</MenuItem>
-                    <MenuItem value={2}>2</MenuItem>
-                    <MenuItem value={3}>3</MenuItem>
-                    <MenuItem value={4}>4</MenuItem>
-                    <MenuItem value={5}>5</MenuItem>
-                    <MenuItem value={6}>6</MenuItem>
-                    <MenuItem value={7}>7</MenuItem>
-                    <MenuItem value={8}>8</MenuItem>
-                    <MenuItem value={9}>9</MenuItem>
-                    <MenuItem value={10}>10</MenuItem>
-                  </Select>
-                </FormControl>
+                {/* If the item is a mystery box or a mystery box prize, do not let the user
+                change the quantity */}
+                {item.itemCategory === 'Mystery Box' || item.itemPrice === 0 ? (
+                  <div>1</div>
+                ) : (
+                  <FormControl fullWidth>
+                    <InputLabel
+                      id='demo-controlled-open-select-label'
+                      variant='standard'
+                    >
+                      Quantity
+                    </InputLabel>
+                    <Select
+                      labelId='demo-controlled-open-select-label'
+                      onChange={changeQuantity}
+                      defaultValue={item.itemQuantity}
+                      onClick={() => {
+                        handleClick(item.id);
+                      }}
+                    >
+                      <MenuItem value={1}>1</MenuItem>
+                      <MenuItem value={2}>2</MenuItem>
+                      <MenuItem value={3}>3</MenuItem>
+                      <MenuItem value={4}>4</MenuItem>
+                      <MenuItem value={5}>5</MenuItem>
+                      <MenuItem value={6}>6</MenuItem>
+                      <MenuItem value={7}>7</MenuItem>
+                      <MenuItem value={8}>8</MenuItem>
+                      <MenuItem value={9}>9</MenuItem>
+                      <MenuItem value={10}>10</MenuItem>
+                    </Select>
+                  </FormControl>
+                )}
               </div>
               <div className='CartItem-price'>
                 ${item.itemPrice}
                 <div className='CartItem-remove'>
-                  <IconButton
-                    onClick={() => {
-                      handleRemove(item.id);
-                    }}
-                    size='small'
-                  >
-                    <DeleteIcon />
-                  </IconButton>
+                  {item.itemPrice !== 0 ? (
+                    <IconButton
+                      onClick={() => {
+                        handleRemove(item.id);
+                      }}
+                      size='small'
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  ) : (
+                    <div></div>
+                  )}
                 </div>
               </div>
             </Card>

@@ -25,6 +25,15 @@ function PreviousOrders() {
     } else if (response.status === 200) {
       const data = await response.json();
       let items = [];
+      data.purchase_history.sort(function (a, b) {
+        let rev_a = a.orderPlaced;
+        let rev_b = b.orderPlaced;
+        var d1 = Date.parse(rev_a);
+        var d2 = Date.parse(rev_b);
+        if (d1 > d2) return -1;
+        if (d2 > d1) return 1;
+        return 0;
+      });
       for (var i = 0; i < data.purchase_history.length; i++) {
         items.push({
           id: data.purchase_history[i].product,

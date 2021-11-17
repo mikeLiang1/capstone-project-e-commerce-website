@@ -66,13 +66,14 @@ function CartPage({ token }) {
           imageUrl: cartData.cart[i].image,
           itemQuantity: cartData.cart[i].quantity,
           itemPrice: cartData.cart[i].price,
+          itemCategory: cartData.cart[i].category,
         });
-        
-        if (cartData.cart[i].name.includes("MYSTERY BOX")) {
-          console.log('mysterybox FOUND')
-          let boxName = cartData.cart[i].name
+
+        if (cartData.cart[i].name.includes('MYSTERY BOX')) {
+          console.log('mysterybox FOUND');
+          let boxName = cartData.cart[i].name;
           // Parse boxname here
-          setContainsBox(cartData.cart[i].name)
+          setContainsBox(cartData.cart[i].product);
         }
       }
       setCartItems([...items]);
@@ -180,93 +181,6 @@ function CartPage({ token }) {
     } else if (response.status === 200) {
       const data = await response.json();
     }
-  };
-
-  // Given a productId, add to the quantity of the item in the user's cart
-  const incrementQuantity = async (productId) => {
-    if (productId === null) {
-      return;
-    }
-    // Update Product Quantity on the Frontend
-    const itemExists = cartItems.find((item) => item.id === productId);
-    if (itemExists != null) {
-      // Check that the item's quantity is not more than 100 (maximum product limit)
-      if (itemExists.itemQuantity > 99) {
-        setError(
-          'Unable to increase the quantity further! You have reached the maximum purchase quantity!'
-        );
-        setOpen(true);
-        return;
-      }
-      // Increment the quantity of the item in the user's cart
-      setCartItems(
-        cartItems.map((item) =>
-          item.id === productId
-            ? { ...itemExists, itemQuantity: itemExists.itemQuantity + 1 }
-            : item
-        )
-      );
-    }
-  };
-
-  // Given a productId, subtract from the quantity of the item in the user's cart
-  const decrementQuantity = (productId) => {
-    if (productId === null) {
-      return;
-    }
-    const itemExists = cartItems.find((item) => item.id === productId);
-    if (itemExists != null) {
-      // Check that the item's quantity is not less than 1
-      if (itemExists.itemQuantity < 2) {
-        setError(
-          'Unable to decrease the quantity further! If you wish to remove this item from your cart, please use the remove button'
-        );
-        setOpen(true);
-        return;
-      }
-      // Decrement the quantity of the item in the user's cart
-      setCartItems(
-        cartItems.map((item) =>
-          item.id === productId
-            ? { ...itemExists, itemQuantity: itemExists.itemQuantity - 1 }
-            : item
-        )
-      );
-    }
-  };
-
-  // Updates the quantities of each product in the user's cart in the backend.
-  // This function is run when the user opens up the "Payment" Section in the Cart Page,
-  // as well as when the Cart Page first renders
-  const updateCartItemQuantities = async () => {
-    // Update Product Quantites on the Backend
-    cartItems.map(async (item) => {
-      const productDetails = {
-        uid: Cookies.get('user'),
-        productId: item.id,
-        productQuantity: 1,
-        productImage: item.imageUrl,
-        productName: item.itemName,
-        productPrice: item.itemPrice,
-      };
-      const requestOptions = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify(productDetails),
-      };
-      const response = await fetch('/cart', requestOptions);
-      if (response.status === 500) {
-        alert('Error 500');
-      } else if (response.status === 400) {
-        alert('Failed to update product quantity! Error 400');
-      } else if (response.status === 200) {
-        const data = await response.json();
-        console.log('Updated quantity: ', data);
-      }
-    });
   };
 
   return (

@@ -32,3 +32,48 @@
   box-shadow: 0 12.5px 100px -10px rgba(50, 50, 73, 0.4),
     0 10px 10px -10px rgba(50, 50, 73, 0.3);
 }
+
+
+#ExplorePage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+#ExplorePage-tag {
+  width: 100%;
+  border-top-style: solid;
+  border-width: 1px;
+}
+
+#ExplorePage-sort-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap:wrap;
+  width: 300px;
+  margin-right: auto;
+  margin-left: 21.3%;
+  margin-top: 50px;
+}
+
+#ExplorePage-items-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  flex-basis: 80%;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 80%;
+  margin-left: 20%;
+}
+
+#ExplorePage-empty-text {
+  position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%);
+}

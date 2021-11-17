@@ -62,7 +62,7 @@
 #ExplorePage-items-section {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
   flex-basis: 80%;
   flex-grow: 0;

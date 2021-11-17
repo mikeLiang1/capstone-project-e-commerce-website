@@ -154,11 +154,6 @@ function AdminDashboardPage() {
       <div className="AdminDashboardPage-top">
         <Typography variant='h6'>Administrator Dashboard</Typography>
       </div>
-      <div className="AdminDashboardPage-box">
-        <Link to="/addproduct" style={{ textDecoration: "none" }}>
-          <TextButton buttonName="Add Product" buttonType="button" />
-        </Link>
-      </div>
       <div className="AdminDashboardPage-sales-report">
         <Typography style={{ marginBottom: '10px' }}>Total Sales Report: {salesYear}, {salesMonth}</Typography>
         <Typography style={{ marginBottom: '30px' }}>Revenue in Range: ${salesInRange}</Typography>
@@ -199,8 +194,6 @@ function AdminDashboardPage() {
           <Typography>Total Revenue: ${revenue}</Typography>
         </div>
       </div>
-      
-      <div className="AdminDashboardPage-box">Recent Reviews</div>
     </div>
   );
 }

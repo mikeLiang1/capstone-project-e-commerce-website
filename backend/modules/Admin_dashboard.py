@@ -17,6 +17,10 @@ class Units_sold(Resource):
         units_sold = 0
         for doc in docs:
             units_sold += doc.get("units_sold")
+        
+        docs = db.collection(u'mystery_box').stream()
+        for doc in docs:
+            units_sold += doc.get('units_sold')
 
         return {"units_sold": units_sold}
 

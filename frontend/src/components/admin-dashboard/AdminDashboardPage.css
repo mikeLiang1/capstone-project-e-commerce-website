@@ -6,7 +6,7 @@
 }
 
 .AdminDashboardPage-top {
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 .AdminDashboardPage-box {
@@ -18,7 +18,8 @@
   flex-direction: column;
   align-items: center;
   width: 85%;
-  margin-top: 30px;
+  margin-top: 50px;
+  margin-bottom: 70px;
 }
 
 .AdminDashboardPage-sales-dropdown {

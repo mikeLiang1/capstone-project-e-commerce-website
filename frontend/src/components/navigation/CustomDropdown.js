@@ -24,7 +24,7 @@ function CustomDropdown() {
           <Col xs='12' md='6' className='text-left'>
             <Dropdown.Header>
               {'  '}
-              Phones
+              Brand
             </Dropdown.Header>
             <Dropdown.Item>
               <Link to='/explore/apple' className='NavigationBar-link'>

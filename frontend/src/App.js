@@ -20,6 +20,8 @@ import Cookies from 'js-cookie';
 import MysteryBoxAnimation from './components/mystery-box/MysteryBoxAnimation';
 import ExplorePage from './components/explore/ExplorePage';
 import 'tailwindcss/tailwind.css';
+import ProtectedRoute from './components/ProtectedRoute';
+import Unauthorized from './components/authorization/Unauthorized';
 
 function App() {
   const [admin, setAdmin] = useState(Cookies.get('admin'));
@@ -68,7 +70,12 @@ function App() {
           <Route path='/checkout' exact component={CheckoutPage} />
           <Route path='/product/:itemId' exact component={ItemPage} />
           <Route path='/adminhome' exact component={AdminHomePage} />
-          <Route path='/addproduct' exact component={AddProductPage} />
+          <ProtectedRoute
+            path='/addproduct'
+            user={admin}
+            setUser={setAdmin}
+            component={AddProductPage}
+          ></ProtectedRoute>
           <Route path='/admindash' exact component={AdminDashboardPage} />
           <Route path='/survey' exact component={SurveyPage} />
           <Route
@@ -109,6 +116,7 @@ function App() {
             exact
             component={MysteryBoxAnimation}
           />
+          <Route path='/unauthorized' component={Unauthorized}></Route>
         </Switch>
         {/* <Footer /> */}
         {/* <NavigationBarUser /> */}

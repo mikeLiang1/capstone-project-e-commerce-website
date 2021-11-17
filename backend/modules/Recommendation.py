@@ -11,26 +11,6 @@ from sklearn.metrics.pairwise import cosine_similarity
 # Refer to https://towardsdatascience.com/using-cosine-similarity-to-build-a-movie-recommendation-system-ae7f20842599
 # https://stackoverflow.com/questions/55529775/uploading-json-to-firebase-from-dataframe
 
-"""
-    Home page recommendation system
-    Point system
-        Products similar to
-            User purchased 10
-            User view 3
-            Collaborative filtering -> star rating 1
-    
-    To judge which products are similar according to purchase history, use cosin similarity
-
-    Display the top 10 highest points
-
-    Plan:
-        Complete product specific recommendation
-        For all products in purchase history, view use product recommendation and assign points
-        Assign points with collab filter
-
-        return top 10
-"""
-
 # Initialize Firestore DB
 cred = credentials.Certificate('key.json')
 default_app = initialize_app(cred, name='recommend')
@@ -75,18 +55,31 @@ class Recommendation(Resource):
                 if j['id'] == id:
                     return i
         
-        movie_index = get_index_from_title("0bzHi6JvQHKpC1Ty3VC3")
+        movie_index = get_index_from_title(productID)
         
         similar_products = list(enumerate(cosine_sim[movie_index]))
         
         sorted_similar_products = sorted(similar_products, key=lambda x:x[1], reverse=True)
         
+        recommended = []
+
         i = 0
         for product in sorted_similar_products:
             
             print(df.iloc[product[0]]['id'])
+            currentID = df.iloc[product[0]]['id']
+
+            doc_ref = db.collection(u'products').document(currentID)
+            doc = doc_ref.get()
+            if doc.exists and doc.id != productID:
+                print(doc.to_dict())
+                recommended.append({"content": doc.to_dict(), "id": doc.id})
                     
             i += 1
-            if i > 15:
+            if i > 11:
                 break
+
+        return {"recommended_items": recommended}
+
+        
 

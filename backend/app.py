@@ -9,6 +9,7 @@ from modules.mystery_box import *
 from modules.Product import *
 from modules.Admin_dashboard import *
 from modules.Explore import *
+from modules.Recommendation import *
 
 app = Flask(__name__)
 api = Api(app)
@@ -102,9 +103,11 @@ api.add_resource(get_recommend, "/recommended/<string:uid>")
 api.add_resource(add_free_item, "/cart/add_free")
 api.add_resource(Explore, '/explore/<string:tag>')
 api.add_resource(remove_cart, "/remove_cart")
+api.add_resource(Recommendation, '/recommendation/<string:productID>')
 api.add_resource(get_recommend_product, "/recommended_product/<string:productID>")
 api.add_resource(add_to_units_sold, "/add_unit_sold/<string:productID>/<int:quantity>")
 api.add_resource(update_email, "/auth/user/emailupdate")
+api.add_resource(Total_sales, "/total_sales")
 
 if __name__ == "__main__":
     app.run(debug=True)

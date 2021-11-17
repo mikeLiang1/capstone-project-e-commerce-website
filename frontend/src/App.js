@@ -116,11 +116,12 @@ function App() {
             exact
             component={MysteryBoxOpen}
           /> */}
-          <Route
+          <ProtectedRoute
             path='/mysterybox/opening/:boxName'
-            exact
+            user={admin}
+            setUser={setAdmin}
             component={MysteryBoxAnimation}
-          />
+          ></ProtectedRoute>
           <Route path='/unauthorized' component={Unauthorized}></Route>
         </Switch>
         {/* <Footer /> */}

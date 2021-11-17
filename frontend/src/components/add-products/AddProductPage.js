@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState } from "react";
 import { Button } from "@material-ui/core";
 import Box from "@mui/material/Box";
@@ -7,6 +8,20 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
+=======
+import React, { useState } from 'react';
+import { Button } from '@material-ui/core';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import Typography from '@mui/material/Typography';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
+>>>>>>> 2ac6959ee3c4dbaccc4d898c6ebdb3eba168e16c
 
 import "./AddProductPage.css";
 
@@ -33,7 +48,14 @@ const firebaseApp = initializeApp(firebaseConfig);
 const storage = getStorage(firebaseApp);
 
 function AddProductPage() {
+<<<<<<< HEAD
   const [addPhoto, setAddPhoto] = useState("block");
+=======
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
+  });
+  const [addPhoto, setAddPhoto] = useState('block');
+>>>>>>> 2ac6959ee3c4dbaccc4d898c6ebdb3eba168e16c
   const [image, setImage] = useState(null);
   const [details, setDetails] = useState({
     category: "",
@@ -44,6 +66,14 @@ function AddProductPage() {
     description: "",
   });
   const fileInput = React.useRef(null);
+  const [open, setOpen] = React.useState(false);
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   async function submitData() {
     // Uploading image to retrieve link
@@ -68,6 +98,7 @@ function AddProductPage() {
     if (res.status === 200) {
       const data = await res.json();
       console.log(details);
+      setOpen(true);
     }
   }
 
@@ -281,6 +312,17 @@ function AddProductPage() {
           </div>
         </Box>
       </Box>
+      <Stack spacing={2} sx={{ width: '100%' }}>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert
+            onClose={handleClose}
+            severity='success'
+            sx={{ width: '100%' }}
+          >
+            Uploaded Product!
+          </Alert>
+        </Snackbar>
+      </Stack>
     </div>
   );
 }

@@ -52,6 +52,24 @@ class add_to_units_sold(Resource):
 
         else:
             return {"message": "product id doesnt exist"}, 400
+            
+class mystery_add_units_sold(Resource):
+    def post(self, mysteryID):
+        docs = db.collection(u'mystery_box').stream()
+        for doc in docs:
+            if doc.id == mysteryID:
+                previous = doc.get("units_sold")
+        previous += 1
+
+        doc_ref = db.collection(u'mystery_box').document(mysteryID)
+        doc = doc_ref.get()
+        if doc.exists:
+            doc_ref.update({u'units_sold': previous})
+
+            return {"message": previous}
+
+        else:
+            return {"message": "mystery id doesnt exist"}, 400
 
 class Total_sales(Resource):
     def get(self):

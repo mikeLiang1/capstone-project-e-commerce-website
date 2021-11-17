@@ -81,7 +81,7 @@ function App() {
           <Route
             path='/'
             exact
-            component={() => <HomePageGuest token={token} />}
+            component={() => <HomePageGuest token={token} admin={admin} />}
           />
           <Route
             path='/login'

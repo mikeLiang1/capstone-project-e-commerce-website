@@ -27,8 +27,14 @@ function SurveyPage() {
   function ran(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
-
+  const product = {
+    id: '2M7Dc2wIqqDvELa6EtmK',
+    img: 'https://firebasestorage.googleapis.com/v0/b/nocta-tech.appspot.com/o/logitech_mX_master_3.png?alt=media&token=b1506ec6-a684-40f7-b427-68912d1fec32',
+    name: 'Logitech MX Master 3 Advanced Wireless Mouse (Graphite)',
+    price: 149,
+  };
   const resu = ran(0, 9);
+  const [ok, setOk] = useState(false);
   const [dialogOpen, setDialog] = useState(false);
   const [error, setError] = useState('');
   const [open, setOpen] = React.useState(false);
@@ -62,8 +68,12 @@ function SurveyPage() {
   const addToCart = async () => {
     const addToCartBody = {
       uid: Cookies.get('user'),
-      productId: products[0].id,
+      productId: product.id,
       productQuantity: 1,
+      productImage: product.img,
+      productName: product.name,
+      productPrice: product.price,
+      productCategory: 'mouse',
     };
     const requestOptions = {
       method: 'POST',
@@ -75,7 +85,7 @@ function SurveyPage() {
     };
 
     const response = await fetch('/cart', requestOptions);
-    if (response.status != 200) {
+    if (response.status !== 200) {
       setError('Failed to add to cart!');
       setOpen(true);
     } else if (response.status === 200) {
@@ -130,7 +140,7 @@ function SurveyPage() {
             name: data.products[i].content.name,
             img: data.products[i].content.image,
             price: data.products[i].content.price,
-            id: data.products[i].content.id,
+            id: data.products[i].id,
           });
         }
         setProducts(items);
@@ -182,6 +192,8 @@ function SurveyPage() {
 
       if (!down && gone.size === cards.length) {
         console.log(loved);
+        console.log(product);
+        setOk(true);
         setDialog(true);
       }
     }
@@ -213,10 +225,11 @@ function SurveyPage() {
         <div className='dialogContent'>
           <DialogTitle>{'RECOMMENDED PRODUCT!'}</DialogTitle>
           <SmallItemContainer
-            itemName={products[resu].name}
-            imageUrl={products[resu].img}
+            itemName={product.name}
+            imageUrl={product.img}
+            productRouteId={product.id}
           />
-          <b>RRP: ${products[resu].price}</b>
+          <b>RRP: ${product.price}</b>
           <DialogActions>
             <Button onClick={() => addToCart()}>Add to Cart</Button>
           </DialogActions>

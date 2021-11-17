@@ -63,7 +63,7 @@ function CustomDropdown() {
           <Col xs='12' md='6' className='text-left'>
             <Dropdown.Header>
               {'  '}
-              Mice
+              Gaming
             </Dropdown.Header>
             <Dropdown.Item>
               <Link to='/explore/razer' className='NavigationBar-link'>

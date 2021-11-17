@@ -142,7 +142,7 @@ function CheckoutPage({ cartData, customerDetails, mysteryBox }) {
                 <TextButton buttonName='Open Mystery Box'></TextButton>
               </Link>
             ) : (
-              <div>
+              <div className='CheckoutPage-order-confirmation'>
                 <Link
                   to='/previousorders'
                   boxName='hello'

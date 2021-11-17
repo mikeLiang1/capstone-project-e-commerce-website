@@ -1,5 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Button, LinearProgress, Grid, Typography, Menu, MenuItem, Fade, ListItemText } from '@material-ui/core';
+import {
+  Button,
+  LinearProgress,
+  Grid,
+  Typography,
+  Menu,
+  MenuItem,
+  Fade,
+  ListItemText,
+} from '@material-ui/core';
 import { linearProgressClasses } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
@@ -17,13 +26,21 @@ import './ReviewAccordian.css';
 
 */
 
-function ReviewAccordian
-({ title, totalStars, totalReviewsNum, currentReviewsNum, sortMethod, content, writeFunc, sortFunc, loadFunc }) {
+function ReviewAccordian({
+  title,
+  totalStars,
+  totalReviewsNum,
+  currentReviewsNum,
+  sortMethod,
+  content,
+  writeFunc,
+  sortFunc,
+  loadFunc,
+}) {
   const [toggle, setToggle] = useState(false);
   const [height, setHeight] = useState();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-
 
   // Prevent division by zero
   var reviewsNum;
@@ -68,7 +85,9 @@ function ReviewAccordian
   return (
     <div className='Accordian'>
       <button onClick={toggleState} className='Accordian-visible'>
-        <Typography className='Accordian-title' variant='h5'>{title}</Typography>
+        <Typography className='Accordian-title' variant='h5'>
+          {title}
+        </Typography>
         <img className={toggle && 'active'} src={Arrow} />
       </button>
       <div
@@ -76,7 +95,10 @@ function ReviewAccordian
         style={{ height: toggle ? `${height}` : '0px' }}
         ref={refHeight}
       >
-        <div className='Accordian-top-misc' style={{ display: toggle===true ? 'block' : 'none' }}>
+        <div
+          className='Accordian-top-misc'
+          style={{ display: toggle === true ? 'block' : 'none' }}
+        >
           <div className='Accordian-buttons-top'>
             <Button
               onClick={handleMenu}
@@ -96,25 +118,60 @@ function ReviewAccordian
               open={open}
               onClose={handleMenuClose}
               MenuListProps={{
-                'aria-labelledby': 'basic-button'
+                'aria-labelledby': 'basic-button',
               }}
               TransitionComponent={Fade}
               style={{ marginTop: '50px' }}
             >
-              <MenuItem onClick={() => {handleMenuSelect('date(newest)')}} style={{ width: '300px' }}>
-                <ListItemText style={{ textAlign: 'center' }}>Date(Newest)</ListItemText>
+              <MenuItem
+                onClick={() => {
+                  handleMenuSelect('date(newest)');
+                }}
+                style={{ width: '300px' }}
+              >
+                <ListItemText style={{ textAlign: 'center' }}>
+                  Date(Newest)
+                </ListItemText>
               </MenuItem>
-              <MenuItem onClick={() => {handleMenuSelect('date(oldest)')}} style={{ width: '300px' }}>
-                <ListItemText style={{ textAlign: 'center' }}>Date(Oldest)</ListItemText>
+              <MenuItem
+                onClick={() => {
+                  handleMenuSelect('date(oldest)');
+                }}
+                style={{ width: '300px' }}
+              >
+                <ListItemText style={{ textAlign: 'center' }}>
+                  Date(Oldest)
+                </ListItemText>
               </MenuItem>
-              <MenuItem onClick={() => {handleMenuSelect('ratings(highest)')}} style={{ width: '300px' }}>
-                <ListItemText style={{ textAlign: 'center' }}>Ratings(Highest)</ListItemText>
+              <MenuItem
+                onClick={() => {
+                  handleMenuSelect('ratings(highest)');
+                }}
+                style={{ width: '300px' }}
+              >
+                <ListItemText style={{ textAlign: 'center' }}>
+                  Ratings(Highest)
+                </ListItemText>
               </MenuItem>
-              <MenuItem onClick={() => {handleMenuSelect('ratings(lowest)')}} style={{ width: '300px' }}>
-                <ListItemText style={{ textAlign: 'center' }}>Ratings(Lowest)</ListItemText>
+              <MenuItem
+                onClick={() => {
+                  handleMenuSelect('ratings(lowest)');
+                }}
+                style={{ width: '300px' }}
+              >
+                <ListItemText style={{ textAlign: 'center' }}>
+                  Ratings(Lowest)
+                </ListItemText>
               </MenuItem>
-              <MenuItem onClick={() => {handleMenuSelect('likes received')}} style={{ width: '300px' }}>
-                <ListItemText style={{ textAlign: 'center' }}>Likes Received</ListItemText>
+              <MenuItem
+                onClick={() => {
+                  handleMenuSelect('likes received');
+                }}
+                style={{ width: '300px' }}
+              >
+                <ListItemText style={{ textAlign: 'center' }}>
+                  Likes Received
+                </ListItemText>
               </MenuItem>
             </Menu>
             <Button
@@ -142,7 +199,9 @@ function ReviewAccordian
             style={{ marginTop: '-40px', width: '50%' }}
           >
             <Grid item>
-              <Typography variant='h6' style={{ marginLeft: '30px' }}>Rating Snapshot</Typography>
+              <Typography variant='h6' style={{ marginLeft: '30px' }}>
+                Rating Snapshot
+              </Typography>
             </Grid>
             <Grid
               item
@@ -157,7 +216,10 @@ function ReviewAccordian
                 <Typography>1★</Typography>
               </Grid>
               <Grid item xs={8}>
-                <RatingDistributionBar variant='determinate' value={totalStars.get(1) / reviewsNum * 100}/>
+                <RatingDistributionBar
+                  variant='determinate'
+                  value={(totalStars.get(1) / reviewsNum) * 100}
+                />
               </Grid>
               <Grid item xs={1}>
                 <Typography>{totalStars.get(1)}</Typography>
@@ -166,16 +228,22 @@ function ReviewAccordian
                 <Typography>2★</Typography>
               </Grid>
               <Grid item xs={8}>
-                <RatingDistributionBar variant='determinate' value={totalStars.get(2) / reviewsNum * 100}/>
+                <RatingDistributionBar
+                  variant='determinate'
+                  value={(totalStars.get(2) / reviewsNum) * 100}
+                />
               </Grid>
               <Grid item xs={1}>
                 <Typography>{totalStars.get(2)}</Typography>
               </Grid>
               <Grid item xs={2}>
-              <Typography>3★</Typography>
+                <Typography>3★</Typography>
               </Grid>
               <Grid item xs={8}>
-                <RatingDistributionBar variant='determinate' value={totalStars.get(3) / reviewsNum * 100}/>
+                <RatingDistributionBar
+                  variant='determinate'
+                  value={(totalStars.get(3) / reviewsNum) * 100}
+                />
               </Grid>
               <Grid item xs={1}>
                 <Typography>{totalStars.get(3)}</Typography>
@@ -184,7 +252,10 @@ function ReviewAccordian
                 <Typography>4★</Typography>
               </Grid>
               <Grid item xs={8}>
-                <RatingDistributionBar variant='determinate' value={totalStars.get(4) / reviewsNum * 100}/>
+                <RatingDistributionBar
+                  variant='determinate'
+                  value={(totalStars.get(4) / reviewsNum) * 100}
+                />
               </Grid>
               <Grid item xs={1}>
                 <Typography>{totalStars.get(4)}</Typography>
@@ -193,7 +264,10 @@ function ReviewAccordian
                 <Typography>5★</Typography>
               </Grid>
               <Grid item xs={8}>
-                <RatingDistributionBar variant='determinate' value={totalStars.get(5) / reviewsNum * 100}/>
+                <RatingDistributionBar
+                  variant='determinate'
+                  value={(totalStars.get(5) / reviewsNum) * 100}
+                />
               </Grid>
               <Grid item xs={1}>
                 <Typography>{totalStars.get(5)}</Typography>
@@ -203,13 +277,16 @@ function ReviewAccordian
         </div>
         <div
           className='Accordian-content'
-          style={{ display: toggle===true ? 'block' : 'none' }}
+          style={{ display: toggle === true ? 'block' : 'none' }}
         >
           {content}
         </div>
         <div
           className='Accordian-content'
-          style={{ display: toggle===true && totalReviewsNum === 0 ? 'block' : 'none' }}
+          style={{
+            display:
+              toggle === true && totalReviewsNum === 0 ? 'block' : 'none',
+          }}
         >
           <Typography
             variant='h4'
@@ -229,7 +306,10 @@ function ReviewAccordian
               borderRadius: '16px',
               width: '400px',
               marginBottom: '30px',
-              display: toggle===true && currentReviewsNum < totalReviewsNum ? 'block' : 'none'
+              display:
+                toggle === true && currentReviewsNum < totalReviewsNum
+                  ? 'block'
+                  : 'none',
             }}
             size='large'
             variant='contained'

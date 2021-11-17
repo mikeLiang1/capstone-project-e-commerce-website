@@ -10,3 +10,9 @@
   align-items: center;
   padding: 50px;
 }
+
+.CheckoutPage-order-confirmation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

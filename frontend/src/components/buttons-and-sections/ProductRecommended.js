@@ -16,7 +16,7 @@ function ProductRecommended({ productID }) {
     };
 
     const response = await fetch(
-      `/recommended_product/${productID}`,
+      `/recommendation/${productID}`,
       requestOptions
     );
 

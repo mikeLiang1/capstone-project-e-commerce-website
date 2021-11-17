@@ -67,11 +67,13 @@ function CartPage({ token }) {
           itemPrice: cartData.cart[i].price,
           itemCategory: cartData.cart[i].category,
         });
-
-        if (cartData.cart[i].name.includes('MYSTERY BOX')) {
-          let boxName = cartData.cart[i].name;
-          // Parse boxname here
-          setContainsBox(cartData.cart[i].product);
+        
+        if ('name' in cartData.cart[i]) {
+          if (cartData.cart[i].name.includes('MYSTERY BOX')) {
+            let boxName = cartData.cart[i].name;
+            // Parse boxname here
+            setContainsBox(cartData.cart[i].product);
+          }
         }
       }
       setCartItems([...items]);

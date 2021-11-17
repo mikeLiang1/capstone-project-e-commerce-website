@@ -157,8 +157,8 @@ function AddProductPage() {
         </Box>
       </Box>
       <Box sx={{ display: "flex", marginTop: "40px", height: "80%" }}>
-        <Box id="file-upload-wrapper">
-          <Box id="file-upload-section">
+        <Box className="file-upload-wrapper">
+          <Box className="file-upload-section">
             <img
               style={{
                 maxWidth: "100%",
@@ -169,7 +169,7 @@ function AddProductPage() {
               alt={image ? image.name : null}
             />
           </Box>
-          <Box id="file-upload-buttons">
+          <Box className="file-upload-buttons">
             <Button
               onClick={() => {
                 handleClick();
@@ -185,7 +185,7 @@ function AddProductPage() {
               Upload Photo
             </Button>
             <input
-              id="file-upload"
+              className="file-upload"
               ref={fileInput}
               onChange={handleChange}
               type="file"
@@ -206,7 +206,7 @@ function AddProductPage() {
             </Button>
           </Box>
         </Box>
-        <Box id="inputs-section">
+        <Box className="inputs-section">
           <div>
             <Box
               component="form"

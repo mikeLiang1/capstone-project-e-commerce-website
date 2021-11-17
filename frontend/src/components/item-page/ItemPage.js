@@ -663,10 +663,12 @@ function ItemPage({ match }) {
               zIndex: 1,
               overlay: { backgroundColor: "rgba(0,0,0, 0.5)" },
               content: {
-                top: "50px",
-                left: "250px",
-                right: "250px",
-                bottom: "50px",
+                top: "50%",
+                left: "50%",
+                right: "auto",
+                bottom: "auto",
+                marginRight: "-50%",
+                transform: "translate(-50%, -50%)",
               },
             }}
           >

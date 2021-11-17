@@ -162,7 +162,7 @@ function AddProductPage() {
             <img
               style={{
                 maxWidth: "100%",
-                maxHeight: "400px",
+                maxHeight: "100%",
                 objectFit: "contain",
               }}
               src={image ? URL.createObjectURL(image) : null}

@@ -91,17 +91,20 @@ function CheckoutPage({ cartData, customerDetails, mysteryBox }) {
         };
         const response2 = await fetch('/remove_cart', requestOptionsDelete);
 
-        const requestUnitSold = {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-          },
-        };
-        await fetch(
-          `/add_unit_sold/${cartData[i].id}/${cartData[i].itemQuantity}`,
-          requestUnitSold
-        );
+        // if item is not obtained from mystery box, then add to unit sold
+        if (!cartData[i].itemName.startsWith('[Mystery Box]')) {
+          const requestUnitSold = {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
+            },
+          };
+          await fetch(
+            `/add_unit_sold/${cartData[i].id}/${cartData[i].itemQuantity}`,
+            requestUnitSold
+          );
+        }
       }
     }
   };

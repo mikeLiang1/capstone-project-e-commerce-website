@@ -1,34 +1,34 @@
-import React, { useState } from 'react';
-import { Button } from '@material-ui/core';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import Typography from '@mui/material/Typography';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
+import React, { useState } from "react";
+import { Button } from "@material-ui/core";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import Typography from "@mui/material/Typography";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
 
-import './AddProductPage.css';
+import "./AddProductPage.css";
 
 // Import the functions you need from the SDKs you need
-import { initializeApp } from 'firebase/app';
-import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import { initializeApp } from "firebase/app";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: 'AIzaSyAVOqrvODx6KS-xBGs5guJTrKBJjduEjRI',
-  authDomain: 'nocta-tech.firebaseapp.com',
-  projectId: 'nocta-tech',
-  storageBucket: 'nocta-tech.appspot.com',
-  messagingSenderId: '1002605988200',
-  appId: '1:1002605988200:web:e91efebc3765fd58b0eedd',
-  measurementId: 'G-5HBFEX2BNM',
+  apiKey: "AIzaSyAVOqrvODx6KS-xBGs5guJTrKBJjduEjRI",
+  authDomain: "nocta-tech.firebaseapp.com",
+  projectId: "nocta-tech",
+  storageBucket: "nocta-tech.appspot.com",
+  messagingSenderId: "1002605988200",
+  appId: "1:1002605988200:web:e91efebc3765fd58b0eedd",
+  measurementId: "G-5HBFEX2BNM",
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
@@ -37,22 +37,22 @@ const storage = getStorage(firebaseApp);
 
 function AddProductPage() {
   const Alert = React.forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
-  const [addPhoto, setAddPhoto] = useState('block');
+  const [addPhoto, setAddPhoto] = useState("block");
   const [image, setImage] = useState(null);
   const [details, setDetails] = useState({
-    category: '',
-    name: '',
-    image: '',
-    price: '',
-    tag: '',
-    description: '',
+    category: "",
+    name: "",
+    image: "",
+    price: "",
+    tag: "",
+    description: "",
   });
   const fileInput = React.useRef(null);
   const [open, setOpen] = React.useState(false);
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
@@ -69,10 +69,10 @@ function AddProductPage() {
 
     details.image = url;
     const requestOptions = {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
       body: JSON.stringify(details),
     };
@@ -91,173 +91,158 @@ function AddProductPage() {
   };
 
   const handleRemove = (e) => {
-    setImage('');
+    setImage("");
     fileInput.current.value = null;
-    setAddPhoto('block');
+    setAddPhoto("block");
   };
 
   const handleChange = (e) => {
     if (e.target.files[0]) {
       setImage(e.target.files[0]);
-      setAddPhoto('none');
+      setAddPhoto("none");
     }
   };
 
   //now
 
   return (
-    <div id='AddProductPage'>
-      <Box sx={{ maxWidth: '50%' }}>
-        <Typography variant='body1'>
+    <div id="AddProductPage">
+      <Box sx={{ maxWidth: "50%" }}>
+        <Typography variant="body1">
           Select the Category that this product belongs to:
         </Typography>
-        <Typography variant='body1'>
+        <Typography variant="body1">
           (leave it as None if it does not belong to any Category)
         </Typography>
         <Box
           sx={{
-            display: 'flex',
-            marginTop: '20px',
-            justifyContent: 'space-between',
-            alignItems: 'center',
+            display: "flex",
+            marginTop: "20px",
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
           <Typography>Category (if applicable):</Typography>
-          <FormControl
-            sx={{
-              width: '350px',
-              height: '53px',
-              marginLeft: '30px',
-              backgroundColor: '#000000',
-              borderRadius: '15px',
-              textAlign: 'center',
-              marginRight: '20px',
-            }}
-          >
-            <InputLabel sx={{ color: '#FFFFFF' }}>Category</InputLabel>
-            <Select
-              value={details.category}
-              label='category'
-              sx={{ color: '#FFFFFF' }}
-              onChange={(e) =>
-                setDetails({ ...details, category: e.target.value })
-              }
-            >
-              <MenuItem value='none'>None</MenuItem>
-              <MenuItem value='phone'>Phone</MenuItem>
-              <MenuItem value='computer'>Computer</MenuItem>
-              <MenuItem value='pheripheral'>Pheripheral</MenuItem>
-            </Select>
-          </FormControl>
+
+          <TextField
+            label="Category"
+            multiline
+            maxRows={8}
+            value={details.category}
+            onChange={(e) =>
+              setDetails({ ...details, category: e.target.value })
+            }
+            style={{ width: "400px" }}
+          />
         </Box>
       </Box>
-      <Box sx={{ display: 'flex', marginTop: '40px', height: '80%' }}>
-        <Box id='file-upload-wrapper'>
-          <Box id='file-upload-section'>
+      <Box sx={{ display: "flex", marginTop: "40px", height: "80%" }}>
+        <Box id="file-upload-wrapper">
+          <Box id="file-upload-section">
             <img
               style={{
-                maxWidth: '100%',
-                maxHeight: '400px',
-                objectFit: 'contain',
+                maxWidth: "100%",
+                maxHeight: "400px",
+                objectFit: "contain",
               }}
               src={image ? URL.createObjectURL(image) : null}
               alt={image ? image.name : null}
             />
           </Box>
-          <Box id='file-upload-buttons'>
+          <Box id="file-upload-buttons">
             <Button
               onClick={() => {
                 handleClick();
               }}
               style={{
-                backgroundColor: '#000000',
-                color: '#FFFFFF',
-                borderRadius: '16px',
+                backgroundColor: "#000000",
+                color: "#FFFFFF",
+                borderRadius: "16px",
               }}
-              size='large'
-              variant='contained'
+              size="large"
+              variant="contained"
             >
               Upload Photo
             </Button>
             <input
-              id='file-upload'
+              id="file-upload"
               ref={fileInput}
               onChange={handleChange}
-              type='file'
+              type="file"
             />
             <Button
               onClick={() => {
                 handleRemove();
               }}
               style={{
-                backgroundColor: '#000000',
-                color: '#FFFFFF',
-                borderRadius: '16px',
+                backgroundColor: "#000000",
+                color: "#FFFFFF",
+                borderRadius: "16px",
               }}
-              size='large'
-              variant='contained'
+              size="large"
+              variant="contained"
             >
               Remove Photo
             </Button>
           </Box>
         </Box>
-        <Box id='inputs-section'>
+        <Box id="inputs-section">
           <div>
             <Box
-              component='form'
+              component="form"
               sx={{
-                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                "& .MuiTextField-root": { m: 1, width: "25ch" },
               }}
               noValidate
-              autoComplete='off'
-              style={{ width: '400px' }}
+              autoComplete="off"
+              style={{ width: "400px" }}
             >
               <TextField
-                label='Product Name'
+                label="Product Name"
                 multiline
                 maxRows={8}
                 value={details.name}
                 onChange={(e) =>
                   setDetails({ ...details, name: e.target.value })
                 }
-                style={{ width: '400px' }}
+                style={{ width: "400px" }}
               />
             </Box>
           </div>
           <div>
             <Box
-              component='form'
+              component="form"
               sx={{
-                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                "& .MuiTextField-root": { m: 1, width: "25ch" },
               }}
               noValidate
-              autoComplete='off'
-              style={{ width: '400px' }}
+              autoComplete="off"
+              style={{ width: "400px" }}
             >
               <TextField
-                label='Price'
+                label="Price"
                 multiline
                 maxRows={8}
                 value={details.price}
                 onChange={(e) =>
                   setDetails({ ...details, price: e.target.value })
                 }
-                style={{ width: '400px' }}
+                style={{ width: "400px" }}
               />
             </Box>
           </div>
           <div>
             <Box
-              component='form'
+              component="form"
               sx={{
-                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                "& .MuiTextField-root": { m: 1, width: "25ch" },
               }}
               noValidate
-              autoComplete='off'
-              className='formWidth'
+              autoComplete="off"
+              className="formWidth"
             >
               <TextField
-                label='Tag'
+                label="Tag"
                 multiline
                 maxRows={8}
                 value={details.tag}
@@ -265,22 +250,22 @@ function AddProductPage() {
                   setDetails({ ...details, tag: e.target.value })
                 }
                 fullWidth
-                style={{ width: '400px' }}
+                style={{ width: "400px" }}
               />
             </Box>
           </div>
           <div>
             <Box
-              component='form'
+              component="form"
               sx={{
-                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                "& .MuiTextField-root": { m: 1, width: "25ch" },
               }}
               noValidate
-              autoComplete='off'
-              style={{ width: '400px' }}
+              autoComplete="off"
+              style={{ width: "400px" }}
             >
               <TextField
-                label='Description'
+                label="Description"
                 multiline
                 maxRows={8}
                 value={details.description}
@@ -288,7 +273,7 @@ function AddProductPage() {
                   setDetails({ ...details, description: e.target.value })
                 }
                 minRows={5}
-                style={{ width: '400px' }}
+                style={{ width: "400px" }}
               />
             </Box>
           </div>
@@ -297,26 +282,26 @@ function AddProductPage() {
               onClick={() => {
                 submitData();
               }}
-              type='submit'
+              type="submit"
               style={{
-                backgroundColor: '#000000',
-                color: '#FFFFFF',
-                borderRadius: '16px',
+                backgroundColor: "#000000",
+                color: "#FFFFFF",
+                borderRadius: "16px",
               }}
-              size='large'
-              variant='contained'
+              size="large"
+              variant="contained"
             >
               Upload Product
             </Button>
           </div>
         </Box>
       </Box>
-      <Stack spacing={2} sx={{ width: '100%' }}>
+      <Stack spacing={2} sx={{ width: "100%" }}>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
           <Alert
             onClose={handleClose}
-            severity='success'
-            sx={{ width: '100%' }}
+            severity="success"
+            sx={{ width: "100%" }}
           >
             Uploaded Product!
           </Alert>

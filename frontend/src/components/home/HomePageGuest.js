@@ -8,11 +8,12 @@ import RecommendedSection from "../buttons-and-sections/RecommendedSection";
 import RecommendMeProductsSection from "../buttons-and-sections/RecommendMeProductsSection";
 import Cookies from "js-cookie";
 
-function HomePageGuest({ token }) {
+function HomePageGuest({ token, admin }) {
   let recommendedProductsSection = <div></div>;
   let recommendMeProductsSection = <div></div>;
   // If the user is logged in, display their recommended section
-  if (token === Cookies.get("user") && Cookies.get("user") != "") {
+
+  if (token === Cookies.get("user") && Cookies.get("user") !== "" && admin !== 'true') {
     recommendedProductsSection = <RecommendedSection />;
     recommendMeProductsSection = <RecommendMeProductsSection />;
   }

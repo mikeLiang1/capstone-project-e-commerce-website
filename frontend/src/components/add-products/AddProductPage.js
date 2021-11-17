@@ -51,6 +51,8 @@ function AddProductPage() {
   });
   const fileInput = React.useRef(null);
   const [open, setOpen] = React.useState(false);
+  const [error, setError] = React.useState("");
+  const [type, setType] = React.useState("");
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -60,6 +62,24 @@ function AddProductPage() {
   };
 
   async function submitData() {
+    // Check all fields are filled in
+    var allFilledIn = true;
+    const arr = Object.values(details);
+    const arr2 = Object.keys(details);
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i] === '' && arr2[i] !== 'image') {
+        console.log(arr2[i]);
+        allFilledIn = false;
+      }
+    }
+
+    if (!allFilledIn || !(image instanceof Blob)) {
+      setError('Fill in all fields to upload the product!');
+      setType('error');
+      setOpen(true);
+      return;
+    }
+
     // Uploading image to retrieve link
     const storageRef = ref(storage, image.name);
 
@@ -82,6 +102,8 @@ function AddProductPage() {
     if (res.status === 200) {
       const data = await res.json();
       console.log(details);
+      setError('Uploaded Product!');
+      setType('success');
       setOpen(true);
     }
   }
@@ -102,8 +124,6 @@ function AddProductPage() {
       setAddPhoto("none");
     }
   };
-
-  //now
 
   return (
     <div id="AddProductPage">
@@ -137,19 +157,19 @@ function AddProductPage() {
         </Box>
       </Box>
       <Box sx={{ display: "flex", marginTop: "40px", height: "80%" }}>
-        <Box id="file-upload-wrapper">
-          <Box id="file-upload-section">
+        <Box className="file-upload-wrapper">
+          <Box className="file-upload-section">
             <img
               style={{
                 maxWidth: "100%",
-                maxHeight: "400px",
+                maxHeight: "100%",
                 objectFit: "contain",
               }}
               src={image ? URL.createObjectURL(image) : null}
               alt={image ? image.name : null}
             />
           </Box>
-          <Box id="file-upload-buttons">
+          <Box className="file-upload-buttons">
             <Button
               onClick={() => {
                 handleClick();
@@ -165,7 +185,7 @@ function AddProductPage() {
               Upload Photo
             </Button>
             <input
-              id="file-upload"
+              className="file-upload"
               ref={fileInput}
               onChange={handleChange}
               type="file"
@@ -186,7 +206,7 @@ function AddProductPage() {
             </Button>
           </Box>
         </Box>
-        <Box id="inputs-section">
+        <Box className="inputs-section">
           <div>
             <Box
               component="form"
@@ -300,10 +320,10 @@ function AddProductPage() {
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
           <Alert
             onClose={handleClose}
-            severity="success"
+            severity={type}
             sx={{ width: "100%" }}
           >
-            Uploaded Product!
+            {error}
           </Alert>
         </Snackbar>
       </Stack>

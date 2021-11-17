@@ -88,6 +88,7 @@ function ItemPage({ match }) {
       first: "",
       last: "",
       address: "",
+      admin: false,
       purchase_history: [],
     },
   });
@@ -136,6 +137,7 @@ function ItemPage({ match }) {
       setOpen(true);
     } else if (res.status === 200) {
       const data = await res.json();
+      console.log(data);
       setCategory(data.data.category);
       setDesc(data.data.description);
       setImg(data.data.image);
@@ -661,10 +663,12 @@ function ItemPage({ match }) {
               zIndex: 1,
               overlay: { backgroundColor: "rgba(0,0,0, 0.5)" },
               content: {
-                top: "50px",
-                left: "250px",
-                right: "250px",
-                bottom: "50px",
+                top: "50%",
+                left: "50%",
+                right: "auto",
+                bottom: "auto",
+                marginRight: "-50%",
+                transform: "translate(-50%, -50%)",
               },
             }}
           >

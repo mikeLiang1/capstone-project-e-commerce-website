@@ -24,3 +24,11 @@ We added user stories into sprint 2 and split them up the same way as before. I 
 I moved onto Sprint 3 since I finished my tasks in sprint 2. I worked on improving the frontend look for the swipe survey and improved the credit card which now does not let users complete their purchase if any of their details are wrong. (name, card number, cvc, expiry date) We had another meeting where we did a dry run together to see if we could find any bugs and errors.
 
 ## Week 8
+I added protected routes so that when the user tried to add products by adding /addprodut to the route, there would be an authorisation error.
+
+## Week 9
+Our group had a meeting for Retrospective B. We also allocated tasks that needed to be completed for Sprint 4, as well as tasks
+that needed to be done for the final project report. I fixed some more bugs on the frontend.
+
+## Week 10
+We worked on finalising our demo, our project, and ensuring our software quality was up to standards.

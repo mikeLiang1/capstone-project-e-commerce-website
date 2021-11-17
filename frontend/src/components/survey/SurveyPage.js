@@ -24,12 +24,11 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 function SurveyPage() {
   const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  function randomIntFromInterval(min, max) {
-    // min and max included
+  function ran(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
-  const rndInt = randomIntFromInterval(0, 9);
+  const resu = ran(0, 9);
   const [dialogOpen, setDialog] = useState(false);
   const [error, setError] = useState('');
   const [open, setOpen] = React.useState(false);
@@ -66,7 +65,6 @@ function SurveyPage() {
       productId: products[0].id,
       productQuantity: 1,
     };
-    console.log(addToCartBody);
     const requestOptions = {
       method: 'POST',
       headers: {
@@ -216,10 +214,10 @@ function SurveyPage() {
         <div className='dialogContent'>
           <DialogTitle>{'RECOMMENDED PRODUCT!'}</DialogTitle>
           <SmallItemContainer
-            itemName={products[rndInt].name}
-            imageUrl={products[rndInt].img}
+            itemName={products[resu].name}
+            imageUrl={products[resu].img}
           />
-          <b>RRP: ${products[rndInt].price}</b>
+          <b>RRP: ${products[resu].price}</b>
           <DialogActions>
             <Button onClick={() => addToCart()}>Add to Cart</Button>
           </DialogActions>
@@ -236,7 +234,7 @@ function SurveyPage() {
             severity='success'
             sx={{ width: '100%' }}
           >
-            {error}
+            Added to Cart!
           </Alert>
         </Snackbar>
       </Stack>

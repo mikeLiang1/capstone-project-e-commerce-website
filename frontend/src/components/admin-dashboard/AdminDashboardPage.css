@@ -5,6 +5,26 @@
   margin: 50px;
 }
 
+.AdminDashboardPage-top {
+  margin-top: 40px;
+}
+
 .AdminDashboardPage-box {
   margin: 50px;
+}
+
+.AdminDashboardPage-sales-report {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 85%;
+  margin-top: 30px;
+}
+
+.AdminDashboardPage-sales-text {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-top: 50px;
+  width: 100%;
 }

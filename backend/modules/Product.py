@@ -189,6 +189,30 @@ class Get_product_visited(Resource):
             doc_ref = db.collection(u'products').document(doc)
             doc_ref.update({u'visited': 0})
 
+class get_recommend_product(Resource):
+    #get users purchase history and return list of products with same tags/categories
+    def get(self, productID): 
+        
+        recommended = []
+        categories = {}
+
+        # for product, add category and id to dict {"charger": "asdn34234"}    
+       
+        doc_ref = db.collection(u'products').document(productID)
+        doc = doc_ref.get()      
+        if doc.to_dict().get("category") not in categories:
+            categories[doc.to_dict().get("category")] = []
+        categories[doc.to_dict().get("category")].append(doc.id)
+        
+        # for every product, check if product is same category as categories, and doesnt already exist
+        docs = db.collection(u'products').stream()
+        for doc in docs:
+            # we found a product with same catefgory add to array
+            if doc.get("category") in categories and doc.id not in categories[doc.get("category")]:
+                recommended.append({"content": doc.to_dict(), "id": doc.id})
+            
+        print(recommended)
+        return {"recommended_items": recommended}
 class Product_all(Resource):
     def get(self):
         product_list = []

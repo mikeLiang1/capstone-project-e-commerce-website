@@ -15,12 +15,13 @@ import CartPage from './components/checkout/CartPage';
 import AccountPage from './components/account/AccountPage';
 import SurveyPage from './components/survey/SurveyPage';
 import PreviousOrders from './components/account/PreviousOrders';
+import AccountDetailsPage from './components/account/AccountDetailsPage';
 import Cookies from 'js-cookie';
-import { render } from '@testing-library/react';
-import MysteryBoxOpen from './components/mystery-box/MysteryBoxOpen';
 import MysteryBoxAnimation from './components/mystery-box/MysteryBoxAnimation';
 import ExplorePage from './components/explore/ExplorePage';
 import 'tailwindcss/tailwind.css';
+import ProtectedRoute from './components/ProtectedRoute';
+import Unauthorized from './components/authorization/Unauthorized';
 
 function App() {
   const [admin, setAdmin] = useState(Cookies.get('admin'));
@@ -69,7 +70,12 @@ function App() {
           <Route path='/checkout' exact component={CheckoutPage} />
           <Route path='/product/:itemId' exact component={ItemPage} />
           <Route path='/adminhome' exact component={AdminHomePage} />
-          <Route path='/addproduct' exact component={AddProductPage} />
+          <ProtectedRoute
+            path='/addproduct'
+            user={admin}
+            setUser={setAdmin}
+            component={AddProductPage}
+          ></ProtectedRoute>
           <Route path='/admindash' exact component={AdminDashboardPage} />
           <Route path='/survey' exact component={SurveyPage} />
           <Route
@@ -98,17 +104,19 @@ function App() {
           <Route path='/previousorders' exact component={PreviousOrders} />
           <Route path='/mysterybox' exact component={MysteryBoxPage} />
           <Route path='/account' exact component={AccountPage} />
+          <Route path='/accountdetails' exact component={AccountDetailsPage} />
           <Route path='/explore/:tag' exact component={ExplorePage} />
-          <Route
+          {/* <Route
             path='/mysterybox/open/:boxName'
             exact
             component={MysteryBoxOpen}
-          />
+          /> */}
           <Route
-            path='/mysterybox/opening'
+            path='/mysterybox/opening/:boxName'
             exact
             component={MysteryBoxAnimation}
           />
+          <Route path='/unauthorized' component={Unauthorized}></Route>
         </Switch>
         {/* <Footer /> */}
         {/* <NavigationBarUser /> */}

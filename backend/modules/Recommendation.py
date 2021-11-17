@@ -81,12 +81,24 @@ class Recommendation(Resource):
         
         sorted_similar_products = sorted(similar_products, key=lambda x:x[1], reverse=True)
         
+        recommended = []
+
         i = 0
         for product in sorted_similar_products:
             
             print(df.iloc[product[0]]['id'])
+            currentID = df.iloc[product[0]]['id']
+
+            doc_ref = db.collection(u'products').document(currentID)
+            doc = doc_ref.get()
+            if doc.exists and doc.id != productID:
+                recommended.append({"content": doc.to_dict(), "id": doc.id})
                     
             i += 1
-            if i > 15:
+            if i > 11:
                 break
+
+        return {"recommended_items": recommended}
+
+        
 

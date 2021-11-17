@@ -17,6 +17,10 @@ class Units_sold(Resource):
         units_sold = 0
         for doc in docs:
             units_sold += doc.get("units_sold")
+        
+        docs = db.collection(u'mystery_box').stream()
+        for doc in docs:
+            units_sold += doc.get('units_sold')
 
         return {"units_sold": units_sold}
 
@@ -52,24 +56,6 @@ class add_to_units_sold(Resource):
 
         else:
             return {"message": "product id doesnt exist"}, 400
-            
-class mystery_add_units_sold(Resource):
-    def post(self, mysteryID):
-        docs = db.collection(u'mystery_box').stream()
-        for doc in docs:
-            if doc.id == mysteryID:
-                previous = doc.get("units_sold")
-        previous += 1
-
-        doc_ref = db.collection(u'mystery_box').document(mysteryID)
-        doc = doc_ref.get()
-        if doc.exists:
-            doc_ref.update({u'units_sold': previous})
-
-            return {"message": previous}
-
-        else:
-            return {"message": "mystery id doesnt exist"}, 400
 
 class Total_sales(Resource):
     def get(self):
@@ -93,15 +79,38 @@ class Total_sales(Resource):
             
             if dt.year not in available:
                 available[dt.year] = {}
-                for i in range(1, datetime.now().month + 1):
+                last_month = 13
+
+                if dt.year == datetime.now().year:
+                    last_month = datetime.now().month + 1
+
+                for i in range(1, last_month):
                     available[dt.year][calendar.month_name[i]] = {}
                     end_date = calendar.monthrange(dt.year, i)[1] + 1
-                    if i == datetime.now().month:
+                    if i == datetime.now().month and dt.year == datetime.now().year:
                         end_date = datetime.now().day + 1
 
                     for j in range(1, end_date):
                         available[dt.year][calendar.month_name[i]][j] = 0
-            else:
-                available[dt.year][calendar.month_name[dt.month]][dt.day] += price * quantity
+
+            available[dt.year][calendar.month_name[dt.month]][dt.day] += price * quantity
 
         return { 'data': available }
+
+class mystery_add_units_sold(Resource):
+    def post(self, mysteryID):
+        docs = db.collection(u'mystery_box').stream()
+        for doc in docs:
+            if doc.id == mysteryID:
+                previous = doc.get("units_sold")
+        previous += 1
+
+        doc_ref = db.collection(u'mystery_box').document(mysteryID)
+        doc = doc_ref.get()
+        if doc.exists:
+            doc_ref.update({u'units_sold': previous})
+
+            return {"message": previous}
+
+        else:
+            return {"message": "mystery id doesnt exist"}, 400

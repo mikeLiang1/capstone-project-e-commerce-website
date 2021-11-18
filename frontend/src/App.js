@@ -44,16 +44,12 @@ function App() {
   };
 
   const handleLogout = () => {
-    // TO DO: Check that the token in the Cookie belongs to the user
-    // TO DO: Logout a user from firebase
     setToken('');
     Cookies.remove('user');
   };
 
   return (
     <div>
-      {/* <button onClick={makeAdmin}>Make Admin</button>
-      <button onClick={removeAdmin}>Remove Admin</button> */}
       <Router>
         <NavigationBar
           admin={admin}
@@ -111,11 +107,6 @@ function App() {
           ></ProtectedRoute>
           <Route path='/accountdetails' exact component={AccountDetailsPage} />
           <Route path='/explore/:tag' exact component={ExplorePage} />
-          {/* <Route
-            path='/mysterybox/open/:boxName'
-            exact
-            component={MysteryBoxOpen}
-          /> */}
           <ProtectedRoute
             path='/mysterybox/opening/:boxName'
             user={admin}
@@ -124,8 +115,6 @@ function App() {
           ></ProtectedRoute>
           <Route path='/unauthorized' component={Unauthorized}></Route>
         </Switch>
-        {/* <Footer /> */}
-        {/* <NavigationBarUser /> */}
       </Router>
     </div>
   );

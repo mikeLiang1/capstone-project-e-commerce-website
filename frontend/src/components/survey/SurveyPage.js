@@ -27,12 +27,6 @@ function SurveyPage() {
   function ran(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
-  const product = {
-    id: '2M7Dc2wIqqDvELa6EtmK',
-    img: 'https://firebasestorage.googleapis.com/v0/b/nocta-tech.appspot.com/o/logitech_mX_master_3.png?alt=media&token=b1506ec6-a684-40f7-b427-68912d1fec32',
-    name: 'Logitech MX Master 3 Advanced Wireless Mouse (Graphite)',
-    price: 149,
-  };
   const resu = ran(0, 9);
   const [ok, setOk] = useState(false);
   const [dialogOpen, setDialog] = useState(false);
@@ -51,6 +45,12 @@ function SurveyPage() {
     { name: 'Loading', img: 'Loading' },
     { name: 'Loading', img: 'Loading' },
   ]);
+  const product = {
+    id: '2M7Dc2wIqqDvELa6EtmK',
+    img: 'https://firebasestorage.googleapis.com/v0/b/nocta-tech.appspot.com/o/logitech_mX_master_3.png?alt=media&token=b1506ec6-a684-40f7-b427-68912d1fec32',
+    name: 'Logitech MX Master 3 Advanced Wireless Mouse (Graphite)',
+    price: 149,
+  };
 
   let it = 9;
   let loved = [];
@@ -225,9 +225,9 @@ function SurveyPage() {
         <div className='dialogContent'>
           <DialogTitle>{'RECOMMENDED PRODUCT!'}</DialogTitle>
           <SmallItemContainer
-            itemName={product.name}
-            imageUrl={product.img}
-            productRouteId={product.id}
+            itemName={products[resu].name}
+            imageUrl={products[resu].img}
+            productRouteId={products[resu].id}
           />
           <b>RRP: ${product.price}</b>
           <DialogActions>

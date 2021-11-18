@@ -16,3 +16,15 @@ I worked together with Mike and Yeji to draft up a plan for the backend includin
 
 ## Week 5
 As the frontend portion of our Sprint 1 made up a significant part of the workload, I took on the mystery box frontend and completed it with help from Mike and Yeji. As I had used Firebase, I handled the image upload functionality for adding products. 
+
+## Week 6
+Started the next sprint and handled the drafting of the mystery box opening animation. Talked it through with Jeming and Jeffery to see what types of animation would look best. 
+
+## Week 7
+Started work on improving the recommendation system, using the cosine similarity formula. Did research on the types of backend packages that will help us with the recommendation. 
+
+## Week 8 
+Worked on fixing up some bugs with our implememntation and connected the recommendation system to the frontend
+
+## Week 9
+Finished our implementation and worked together to organise our final demo and report!

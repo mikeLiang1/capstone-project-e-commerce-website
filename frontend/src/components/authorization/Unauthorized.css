@@ -3,13 +3,13 @@
 @keyframes floating {
   to {
     top: 1.5rem;
- }
+  }
 }
 .container {
   background-color: #fff;
   color: #000;
   text-align: center;
-  font-family: "Open Sans";
+  font-family: 'Pontano Sans', sans-serif;
   font-size: 1.3rem;
 }
 .container h1 {
@@ -31,7 +31,7 @@
   position: absolute;
 }
 .gandalf::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
@@ -58,7 +58,7 @@
   filter: drop-shadow(0 0 6px #d4d4d4);
 }
 .gandalf .skirt::before {
-  content: "";
+  content: '';
   position: absolute;
   background-color: #ededed;
   width: 100px;
@@ -69,7 +69,7 @@
   border-bottom-left-radius: 100%;
 }
 .gandalf .skirt::after {
-  content: "";
+  content: '';
   position: absolute;
   background-color: #ededed;
   width: 100px;
@@ -79,8 +79,9 @@
   border-bottom-right-radius: 80%;
   border-bottom-left-radius: 180%;
 }
-.gandalf .sleeves::before, .gandalf .sleeves::after {
-  content: "";
+.gandalf .sleeves::before,
+.gandalf .sleeves::after {
+  content: '';
   position: absolute;
   border-bottom: 70px solid #ededed;
   filter: drop-shadow(0 0 6px #d4d4d4);
@@ -119,7 +120,7 @@
   transform: rotate(-20deg);
 }
 .gandalf .shoulders .left::after {
-  content: "";
+  content: '';
   position: absolute;
   background-color: #e6e6e6;
   width: 126px;
@@ -135,7 +136,7 @@
   transform: rotate(20deg);
 }
 .gandalf .shoulders .right::after {
-  content: "";
+  content: '';
   position: absolute;
   background-color: #bf5507;
   width: 250px;
@@ -154,8 +155,9 @@
   background-color: #ffd8ad;
   border-radius: 50%;
 }
-.gandalf .head::before, .gandalf .head::after {
-  content: "";
+.gandalf .head::before,
+.gandalf .head::after {
+  content: '';
   position: absolute;
   background-color: #000;
 }
@@ -183,8 +185,9 @@
   top: 0px;
   left: 5px;
 }
-.gandalf .head .hair::before, .gandalf .head .hair::after {
-  content: "";
+.gandalf .head .hair::before,
+.gandalf .head .hair::after {
+  content: '';
   position: absolute;
   background-color: #c2beb5;
   filter: drop-shadow(2px 5px 0 #aba599);
@@ -221,7 +224,7 @@
   filter: drop-shadow(2px 5px 0 #aba599);
 }
 .gandalf .head .beard::before {
-  content: "";
+  content: '';
   position: absolute;
   background-color: pink;
   width: 20px;

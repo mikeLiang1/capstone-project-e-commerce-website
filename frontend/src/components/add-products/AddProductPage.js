@@ -2,10 +2,6 @@ import React, { useState } from "react";
 import { Button } from "@material-ui/core";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
@@ -16,8 +12,6 @@ import "./AddProductPage.css";
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -39,7 +33,7 @@ function AddProductPage() {
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
-  const [addPhoto, setAddPhoto] = useState("block");
+  // details of the product to be uploaded
   const [image, setImage] = useState(null);
   const [details, setDetails] = useState({
     category: "",
@@ -50,6 +44,8 @@ function AddProductPage() {
     description: "",
   });
   const fileInput = React.useRef(null);
+
+  // states and function for alert
   const [open, setOpen] = React.useState(false);
   const [error, setError] = React.useState("");
   const [type, setType] = React.useState("");
@@ -73,6 +69,7 @@ function AddProductPage() {
       }
     }
 
+    // Open error popup if any of fields is left empty
     if (!allFilledIn || !(image instanceof Blob)) {
       setError('Fill in all fields to upload the product!');
       setType('error');
@@ -108,20 +105,21 @@ function AddProductPage() {
     }
   }
 
+  // helper function to upload image
   const handleClick = (e) => {
     fileInput.current.click();
   };
 
+  // remove image
   const handleRemove = (e) => {
     setImage("");
     fileInput.current.value = null;
-    setAddPhoto("block");
   };
 
+  // set image
   const handleChange = (e) => {
     if (e.target.files[0]) {
       setImage(e.target.files[0]);
-      setAddPhoto("none");
     }
   };
 

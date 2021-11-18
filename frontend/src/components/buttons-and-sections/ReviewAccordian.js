@@ -19,10 +19,15 @@ import './ReviewAccordian.css';
 /* Documentation */
 /*
   title: The "title"/text that will always be visible when the accordian is expanded or hidden
+  totalStars: 5 star ratings of the product
+  totalReviewsNum: Number of reviews posted
+  currentReviewsNum: Number of reviews shown (default: 10)
+  sortMethod: Method to sort the reviews, decides which sorting method to be used for sortFunc
   content: The content that will be displayed when the accordian is expanded. The content should be a component or an
-  array of components. e.g. For an "Accordian" used in the Shopping Cart page, the content is an array of "CartItem.js"
-  components, i.e. content = [<CartItem itemName="Airpods"/>, <CartItem itemName="Macbook"/>, <CartItem itemName="iPhone" />]
-
+  array of components.
+  writeFunc: Function to open write a review modal window
+  sortFunc: Function to sort the reviews
+  loadFunc: Loads more reviews (i.e. increment currentReviewsNum by 10)
 
 */
 

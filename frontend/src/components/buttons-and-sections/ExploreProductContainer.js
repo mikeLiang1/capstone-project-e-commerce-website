@@ -5,9 +5,20 @@ import { Link } from 'react-router-dom';
 
 import './ExploreProductContainer.css';
 
+/* Documentation */
+/*
+  image: image of the product
+  name: name of the product
+  price: price of the product
+  id: product id
+  reviewsNum: number of reviews posted for the product
+  avgRating: average star ratings of the product
+*/
+
 function ExploreProductContainer({ image, name, price, id, reviewsNum, avgRating }) {
 	var ratings = '';
 
+	// Set ratings (text being shown)
 	if (avgRating !== 0) {
 		const rating = Math.round(avgRating * 10) / 10;
 		ratings = `${rating} (${reviewsNum})`;
@@ -15,8 +26,6 @@ function ExploreProductContainer({ image, name, price, id, reviewsNum, avgRating
 	else {
 		ratings = `0.0 (${reviewsNum})`;
 	}
-
-	// should add onclick function for add cart button
 
   return (
 		<div className='ExploreProductContainer'>

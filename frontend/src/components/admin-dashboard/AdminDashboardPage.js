@@ -1,5 +1,3 @@
-import TextButton from "../buttons-and-sections/TextButton.js";
-import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { Line } from 'react-chartjs-2';
 import { Typography } from "@material-ui/core";
@@ -8,23 +6,34 @@ import "./AdminDashboardPage.css";
 import BasicSelect from "../buttons-and-sections/BasicSelect.js";
 
 function AdminDashboardPage() {
-  // starting now
+  // Total units sold and total revenue
   const [unitsSold, setUnitsSold] = useState(0);
   const [revenue, setRevenue] = useState(0);
 
   // variables for dashboard sales data graph
+
+  // raw data received from backend
   const [totalSales, setTotalSales] = useState({});
+  // data to be presented on the x axis of the graph
   const [totalSalesLabels, setTotalSalesLabels] = useState([]);
+  // data to be presented on the y axis of the graph
   const [totalSalesData, setTotalSalesData] = useState([]);
+  // helper array to convert month
   const months = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"];
+  // sales year to show on the graph; default is current year
   const [salesYear, setSalesYear] = useState(String(new Date().getFullYear()));
+  // sales month to show on the graph; default is current month
   const [salesMonth, setSalesMonth] = useState(months[new Date().getMonth()]);
+  // ranges of years that can be selected
   const [salesSelectYears, setSelectSalesYears] = useState([]);
+  // ranges of months of the current sales year that can be selected
   const [salesSelectMonths, setSelectSalesMonths] = useState([]);
+  // total revenue in sales year, sales month
   const [salesInRange, setSalesInRange] = useState(0);
 
-  async function letsGo() {
+  // get sales data from backend, set states
+  async function getSales() {
     // Send request to the backend
     const requestOptions = {
       method: "GET",
@@ -67,9 +76,10 @@ function AdminDashboardPage() {
     }
   }
   useEffect(() => {
-    letsGo();
+    getSales();
   }, []);
 
+  // change totalSalesLabels, totalSalesData, salesInRange according to the given year and month
   function adjustGraphData(y, m) {
     const sLabels = [];
     const sData = [];
@@ -113,6 +123,7 @@ function AdminDashboardPage() {
     setSalesInRange(sData.reduce((partialSum, a) => partialSum + a, 0));
   }
 
+  // If sales year changes, call adjustGraphData function and set extra states
   const changeSalesYear = (e) => {
     // Chose all years
     if (e.target.value == 'All years') {
@@ -135,6 +146,7 @@ function AdminDashboardPage() {
     }
   };
 
+  // If sales month changes, call adjustGraphData function and set extra states
   const changeSalesMonth = (e) => {
     if (e.target.value == 'All months') {
       setSalesMonth('All months');

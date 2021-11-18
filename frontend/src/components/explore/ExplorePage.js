@@ -13,8 +13,11 @@ function ExplorePage({ match }) {
     return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
   });
   const tag = match.params.tag;
+  // alert popup open state
   const [open, setOpen] = useState(false);
+  // list of products that matches tag
   const [productList, setProductList] = useState([]);
+  // map of average star ratings. Key is the product id and value is the average rating
   const [avgRatings, setAvgRatings] = useState(new Map());
   // determines sorting method
   const [sortMethod, setSortMethod] = useState('price(high-low)');
@@ -22,16 +25,17 @@ function ExplorePage({ match }) {
   const [productShow, setProductShow] = useState([]);
   // for pagination, determines the range of products
   const [productStart, setProductStart] = useState(0);
-
+  // make page visible after everything is loaded
   const [loaded, setLoaded] = useState(false);
-
+  // current page in pagination
   const [page, setPage] = useState(1);
   // total page numbers
   const [pageNum, setPageNum] = useState(1);
-
+  // states for dropdown menu
   const [anchorEl, setAnchorEl] = useState(null);
   const openMenu = Boolean(anchorEl);
 
+  // close the alert
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -40,13 +44,13 @@ function ExplorePage({ match }) {
     setOpen(false);
   };
 
+  // change pagination and the range of products
   const handlePage = (e, value) => {
     setPage(value);
-    // setProductStart(value * 12 - 12);
-    // for now im only showing 4 products coz we have only a few
     setProductStart(value * 10 - 10);
   };
 
+  // get items matching the tag
   async function getItems() {
     const requestOptions = {
       method: 'GET',
@@ -54,12 +58,16 @@ function ExplorePage({ match }) {
         'Content-Type': 'application/json',
       },
     };
+
     const res = await fetch(`/explore/${tag}`, requestOptions);
+
+    // Error message pop up if failed
     if (res.status !== 200) {
       setOpen(true);
     } else if (res.status === 200) {
       const data = await res.json();
       setProductList(data.products);
+      // generate productShow
       const newArr = data.products.slice().sort(function (a, b) {
         var prod_a = a.content.price;
         var prod_b = b.content.price;
@@ -89,7 +97,6 @@ function ExplorePage({ match }) {
 
       setAvgRatings(newMap);
 
-      // setPageNum(Math.ceil(data.products.length / 12));
       setPageNum(Math.ceil(data.products.length / 10));
       setLoaded(true);
     }
@@ -99,13 +106,20 @@ function ExplorePage({ match }) {
     getItems();
   }, [tag]);
 
+  // helper function for dropdown menu
   const handleMenu = (e) => {
     setAnchorEl(e.currentTarget);
   };
 
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  // sort products when the sorting method is chosen from the dropdown menu
   const handleMenuSelect = (selectedSort) => {
     setSortMethod(selectedSort);
 
+    // sort by price
     if (selectedSort.startsWith('price')) {
       const newArr = productList.slice().sort(function (a, b) {
         var prod_a = a.content.price;
@@ -121,7 +135,7 @@ function ExplorePage({ match }) {
       }
     }
     else if (selectedSort.startsWith('ratings')) {
-      // Sort productList
+      // sort by ratings
       const newArr = productList.slice().sort(function (a, b) {
         var prod_a = avgRatings.get(a.id);
         var prod_b = avgRatings.get(b.id);
@@ -136,6 +150,7 @@ function ExplorePage({ match }) {
       }
     }
     else if (selectedSort.startsWith('number of reviews')) {
+      // sort by number of reviews
       const newArr = productList.slice().sort(function (a, b) {
         var prod_a = a.content.reviews.length;
         var prod_b = b.content.reviews.length;
@@ -151,10 +166,6 @@ function ExplorePage({ match }) {
     }
 
     handleMenuClose();
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
   };
 
   return (

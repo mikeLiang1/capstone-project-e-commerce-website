@@ -12,7 +12,6 @@ import Cookies from "js-cookie";
 import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import TextButton from "../buttons-and-sections/TextButton.js";
 import ProductRecommended from "../buttons-and-sections/ProductRecommended.js";
 
 import { initializeApp } from "firebase/app";
@@ -21,7 +20,6 @@ import {
   getStorage,
   ref,
   uploadBytes,
-  deleteObject,
 } from "firebase/storage";
 
 import ReviewContainer from "../buttons-and-sections/ReviewContainer.js";
@@ -49,25 +47,30 @@ function ItemPage({ match }) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
-  // pass in item id
-  const productId = "B0Si9HGHqL0IQ7EzItpK";
+  // details of the product
   const [category, setCategory] = useState("");
   const [desc, setDesc] = useState("");
   const [img, setImg] = useState("");
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
   const [tag, setTag] = useState("");
-  const [open, setOpen] = useState(false);
-  const [error, setError] = useState("");
   const [reviews, setReviews] = useState([]);
+
+  // states for reviews
+  // sorting method for reviews
   const [reviewsSort, setReviewsSort] = useState("date(newest)");
+  // list of reviews currently being shown
   const [reviewsShow, setReviewsShow] = useState([]);
+  // number of reviews currently being shown; default is 10, to be incremented by 10 when load more button is clicked
   const [reviewsLen, setReviewsLen] = useState(10);
   const [units, setUnits] = useState(0);
   const [reviewIds, setReviewIds] = useState(0);
+  // initial image; 1 pixel transparent image
   const reviewNewImgInitialState =
     "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+  // image to be posted with new review
   const [reviewNewImg, setReviewNewImg] = useState(reviewNewImgInitialState);
+  const fileInput = React.useRef(null);
   const reviewInitialState = {
     product_id: match.params.itemId,
     user_id: "",
@@ -81,7 +84,16 @@ function ItemPage({ match }) {
     date_posted: "",
     review_id: 0,
   };
+  // details of review to be posted
   const [review, setReview] = useState(reviewInitialState);
+  // title for review section accordian
+  const [accordianName, setAccordianName] = useState("");
+  // is the review being edited
+  const [onEdit, setOnEdit] = useState(false);
+  // states for star rating distribution
+  const [totalStars, setTotalStars] = useState(new Map());
+
+  // detail of the currently logges in user
   const [user, setUser] = useState({
     id: "",
     content: {
@@ -92,17 +104,24 @@ function ItemPage({ match }) {
       purchase_history: [],
     },
   });
+
+  // state of modal
   const [modalOpen, setModalOpen] = useState(false);
+
+  // states for quantity dropdown
   const list = ["1", "2", "3", "4", "5"];
   const [quantity, setQuantity] = useState("");
-  const [type, setType] = useState("");
-  const [ratings, setRatings] = useState("");
-  const [accordianName, setAccordianName] = useState("");
-  const [onEdit, setOnEdit] = useState(false);
-  const [totalStars, setTotalStars] = useState(new Map());
-  const fileInput = React.useRef(null);
-  const [loaded, setLoaded] = useState(false);
 
+  // average rating of the product
+  const [ratings, setRatings] = useState("");
+
+  // load page if all data is completely fetched
+  const [loaded, setLoaded] = useState(false);
+  
+  // states and function for alert
+  const [open, setOpen] = useState(false);
+  const [error, setError] = useState("");
+  const [type, setType] = useState("");
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -132,10 +151,12 @@ function ItemPage({ match }) {
       requestOptionsPost
     );
     if (res.status === 400) {
+      // error alert
       setError("Product not found!");
       setType("error");
       setOpen(true);
     } else if (res.status === 200) {
+      // set states for the product
       const data = await res.json();
       console.log(data);
       setCategory(data.data.category);
@@ -219,6 +240,7 @@ function ItemPage({ match }) {
     errmsg = errmsg.replace(/, $/, "");
     console.log(errmsg);
 
+    // pop up error alert if error message has been generated
     if (errmsg !== "") {
       setError(`Please complete the following fields: ${errmsg}`);
       setType("error");
@@ -238,6 +260,7 @@ function ItemPage({ match }) {
 
     var newBody;
 
+    // If not on edit, post new review
     if (onEdit === false) {
       var today = new Date();
       today.setHours(today.getHours() + 9);
@@ -273,6 +296,7 @@ function ItemPage({ match }) {
 
       setReviewIds(reviewIds + 1);
     } else {
+      // if onEdit, edit the review
       // edit reviews array
       const idx = reviews.map((o) => o.user_id).indexOf(user.id);
       var newArr = reviews;
@@ -361,7 +385,7 @@ function ItemPage({ match }) {
           window.location.reload();
         }
 
-        // For edit, simply open modal and return from the function
+        // For edit, simply set onEdit to be true, open modal and return from the function
         else if (command === "edit") {
           if (reviews[i].user_id !== user.id) {
             setError("You are not an original writer of this review!");
@@ -423,21 +447,31 @@ function ItemPage({ match }) {
     });
   }
 
+  // remove review image
   const handleRemove = (e) => {
     fileInput.current.value = null;
     setReviewNewImg(reviewNewImgInitialState);
   };
 
+  // helper function to upload image
   const handleClick = (e) => {
     fileInput.current.click();
   };
 
+  // set image
   const handleChange = (e) => {
     if (e.target.files[0]) {
       setReviewNewImg(e.target.files[0]);
     }
   };
 
+  // load 10 more reviews
+  const handleLoadButton = (e) => {
+    setReviewsLen(reviewsLen + 10);
+  };
+
+  // handles errors when user clicks write a review button
+  // opens review modal when no error detected
   const handleReviewButton = (e) => {
     if (Cookies.get("user") === "") {
       setError("Only logged in users can write reviews!");
@@ -513,15 +547,8 @@ function ItemPage({ match }) {
     }
   };
 
-  const handleLoadButton = (e) => {
-    setReviewsLen(reviewsLen + 10);
-  };
-
   // Add Item to the User's Cart
   const addTocart = async () => {
-    // const uid = Cookies.get('user');
-    // const productId = match.params.itemId;
-    // const productQuantity = quantity;
     const addToCartBody = {
       uid: Cookies.get("user"),
       productId: match.params.itemId,
@@ -663,10 +690,12 @@ function ItemPage({ match }) {
               zIndex: 1,
               overlay: { backgroundColor: "rgba(0,0,0, 0.5)" },
               content: {
-                top: "50px",
-                left: "250px",
-                right: "250px",
-                bottom: "50px",
+                top: "50%",
+                left: "50%",
+                right: "auto",
+                bottom: "auto",
+                marginRight: "-50%",
+                transform: "translate(-50%, -50%)",
               },
             }}
           >

@@ -7,6 +7,22 @@ import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 
 import './ReviewContainer.css';
 
+/* Documentation */
+/*
+  first_name: first name of the user posted the review
+  last_name: last name of the user posted the review
+  star_rating: star rating that the user has given
+  title: title of the review
+  content: content of the review
+  likes: number of likes the review has received
+  image: image of the review
+  date_posted: date the review was posted
+  is_original_poster: did the currently logged in user post the review
+  is_liked: did the currently logged in user lik the review
+  rev_id: id of the review
+  func: functions to trigger edit, delete and like
+*/
+
 function ReviewContainer({
     first_name,
     last_name,

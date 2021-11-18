@@ -31,3 +31,36 @@ Image field inside product's data got modified to store the download link of the
 Added number of actual products on the Firebase so that team members working on frontend could use them.
 Helped Jeffery by styling the add product page to look more similar to the one on Figma.
 After progressive demo, tasks for sprint2 were splitted. I would do backend and frontend for product reviews.
+
+Wk6
+Started working on the product reviews section.
+The reviews section was coded based on the Jeming's accordian components.
+Finished basic functionality to write a review.
+The group had a retrospective meeting.
+At the end of the week, I added some functionalities within the reviews section, including like others' reviews, edit/delete reviews posted by the current user.
+
+Wk7
+Worked more on the reviews section.
+Added star ratings snapshot, the sorting function, and the load more button to the reviews section.
+Fixed bugs with review images, and added code to check all fields in the write a review screen are filled in before posting a review.
+
+Wk8
+Worked on the frontend part of the Explore page. Also added the sorting function for the Explore page.
+Fixed some issues with the components I've done. Issues include:
+    - Users had to refresh the page when they transfer from one product page to one another.
+    - Users who have not purchased the product could still write the review for the product.
+Before the progressive demo B, we had a meeting to do a dryrun.
+
+Wk9
+We had a meeting for Retrospective. We compared current sprint and previous sprints to see how much we have improved.
+Tasks for the final report were assigned.
+My task was to write about some external libraries/APIs that we've used in the project.
+
+Wk10
+Finalised the project. Before finishing off, I worked on admin dashboard to show sales data on the line graph.
+It involved a lot of manual editing of the Firebase database,
+as previous database of mystery box did not include units_sold and items obtained from mystery box contributed to the units_sold,
+resulting in incorrect total revenue.
+It took me most of the time to address such issues with the Firebase database.
+I fixed few bugs and improved layout of few components, for example, image section of add product page.
+Finished my parts of the final report.

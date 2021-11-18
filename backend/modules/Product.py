@@ -10,7 +10,6 @@ productParser = reqparse.RequestParser()
 productParser.add_argument('product_id', type=str)
 productParser.add_argument('name', type=str, help='Product name required')
 productParser.add_argument('category', type=str)
-# productParser.add_argument('sub-category', type=str)
 productParser.add_argument('image', type=str)
 productParser.add_argument('price', type=float)
 productParser.add_argument('reviews', type=dict, action='append')
@@ -20,6 +19,7 @@ productParser.add_argument('tag', type=str)
 productParser.add_argument('units_sold', type=int)
 productParser.add_argument('review_ids', type=int)
 
+# Helper function to check all args
 def checkArgs(args):
     if args.name is None:
         return {'error': 'product name required'}
@@ -125,7 +125,6 @@ class Product(Resource):
         doc = doc_ref.get()
         if doc.exists:
             doc_ref.delete()
-            # also need to delete images
             return {'message': 'product deleted successfully'}
         else:
             return {'error': 'product doesn\'t exist'}, 400
@@ -213,6 +212,8 @@ class get_recommend_product(Resource):
             
         print(recommended)
         return {"recommended_items": recommended}
+
+# Get all products
 class Product_all(Resource):
     def get(self):
         product_list = []

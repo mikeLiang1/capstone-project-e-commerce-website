@@ -14,11 +14,11 @@ html, body {
   flex-direction: column;
 }
 
-#file-upload {
+.file-upload {
   display: none !important
 }
 
-#file-upload-wrapper {
+.file-upload-wrapper {
   display: flex;
   width: 50%;
   height: 100%;
@@ -29,7 +29,7 @@ html, body {
   background-color: #E8E8E8;
 }
 
-#file-upload-buttons {
+.file-upload-buttons {
   display: flex;
   background-color: #FFFFFF;
   width: 100%;
@@ -39,7 +39,7 @@ html, body {
   padding-top: 20px;
 }
 
-#file-upload-section {
+.file-upload-section {
   display: flex;
   min-width: 90%;
   min-height: 80%;
@@ -49,7 +49,7 @@ html, body {
   align-items: center;
 }
 
-#inputs-section {
+.inputs-section {
   display: flex;
   margin-left: 20px;
   flex-direction: column;
